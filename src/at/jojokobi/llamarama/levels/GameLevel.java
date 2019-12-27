@@ -3,6 +3,7 @@ package at.jojokobi.llamarama.levels;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +27,18 @@ import at.jojokobi.donatengine.level.LevelComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.rendering.ThreeDimensionalPerspective;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
+import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
+import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
+import at.jojokobi.llamarama.gamemode.GameMode;
 import at.jojokobi.llamarama.tiles.GrassTile;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -109,13 +115,17 @@ public class GameLevel extends Level{
 	public static class GameComponent implements LevelComponent {
 		
 		private Map<Long, CharacterType> characterChoices = new HashMap<>();
+		private List<Long> connectedClients = new ArrayList<>();
+		
+		private GameMode gameMode;
 		private Vector3D startPos;
 		private String startArea;
 		private double time;
 		private boolean running = false;
 
-		public GameComponent(Vector3D startPos, String startArea) {
+		public GameComponent(GameMode gameMode, Vector3D startPos, String startArea) {
 			super();
+			this.gameMode = gameMode;
 			this.startPos = startPos;
 			this.startArea = startArea;
 		}
@@ -123,7 +133,15 @@ public class GameLevel extends Level{
 		@Override
 		public void update(Level level, double delta) {
 			time += delta;
-			
+			if (running) {
+				gameMode.update(level, this, delta);
+				if (gameMode.canEndGame(level, this)) {
+					endMatch(level);
+				}
+			}
+			else if (gameMode.canStartGame(level, characterChoices, this)) {
+				startMatch(level);
+			}
 		}
 
 		@Override
@@ -139,19 +157,57 @@ public class GameLevel extends Level{
 		@Override
 		public void onConnectPlayer(Camera cam, Level level, long id) {
 			LevelComponent.super.onConnectPlayer(cam, level, id);
+			connectedClients.add(id);
 			characterChoices.put(id, CharacterTypeProvider.getCharacterTypes().get("Corporal"));
 		}
 		
 		private void startMatch (Level level) {
+			time = 0;
+			running = true;
+			gameMode.startGame(level, this);
 			for (var e : characterChoices.entrySet()) {
 				PlayerCharacter player = new PlayerCharacter(startPos.getX(), startPos.getY(), startPos.getZ(), startArea, e.getKey(), e.getValue());
 				level.spawn(player);
 			}
+			characterChoices.clear();
+		}
+		
+		private void endMatch (Level level) {
+			level.getComponent(ChatComponent.class).postMessage(gameMode.determineWinner(level, this).getName() + " won the game!");
+			gameMode.endGame(level, this);
+			init(level);
 		}
 
 		@Override
 		public List<ObservableProperty<?>> observableProperties() {
 			return Arrays.asList();
+		}
+
+		public double getTime() {
+			return time;
+		}
+
+		public boolean isRunning() {
+			return running;
+		}
+
+		@Override
+		public void init(Level level) {
+			characterChoices.clear();
+			for (Long id : connectedClients) {
+				characterChoices.put(id, CharacterTypeProvider.getCharacterTypes().get("Corporal"));
+			}
+			time = 0;
+			running = false;
+			
+			for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
+				obj.delete(level);
+			}
+			
+			level.spawn(new NonPlayerCharacter(128, 32, 128, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
+			level.spawn(new NonPlayerCharacter(512, 32, 256, startArea, CharacterTypeProvider.getCharacterTypes().get("Speedy")));
+			
+			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI);
 		}
 		
 	}
@@ -165,7 +221,7 @@ public class GameLevel extends Level{
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
-		addComponent(new GameComponent(new Vector3D(0, 32, 0), mainArea));
+		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 32, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		fact.registerGUI(SELECT_CHARACTER_GUI, () -> {
@@ -178,6 +234,7 @@ public class GameLevel extends Level{
 				button.setWidthDimension(new FixedDimension(200));
 				button.setHeightDimension(new FixedDimension(200));
 				button.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
+				button.addStyle(s -> s.isSelected(), new FixedStyle().setFill(Color.AQUA));
 				
 				button.setOnAction(() -> new SelectCharacterAction(getClientId(), e.getKey()));
 				box.addChild(button);
@@ -219,8 +276,6 @@ public class GameLevel extends Level{
 				spawn(new GrassTile(i * 32, 0, j * 32, mainArea));
 			}
 		}
-		
-		getGuiSystem().showGUI(SELECT_CHARACTER_GUI);
 	}
 	
 	@Override

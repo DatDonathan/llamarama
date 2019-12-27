@@ -9,6 +9,7 @@ import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
+import javafx.scene.canvas.GraphicsContext;
 
 public class PlayerCharacter extends CharacterInstance {
 
@@ -44,6 +45,13 @@ public class PlayerCharacter extends CharacterInstance {
 		super.clientUpdate(level, handler, camera, delta);
 		if (level.getClientId() == getComponent(PlayerComponent.class).getClient()) {
 			camera.setFollow(level.getId(this));
+		}
+	}
+	
+	@Override
+	public void render(GraphicsContext ctx, Camera cam, Level level) {
+		if (getComponent(CharacterComponent.class).isAlive() || getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
+			super.render(ctx, cam, level);
 		}
 	}
 

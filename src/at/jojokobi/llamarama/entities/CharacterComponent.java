@@ -71,9 +71,9 @@ public class CharacterComponent implements ObjectComponent {
 			setDirection(dir);
 		}
 		//Die
-		if (getHp() <= 0) {
-			object.delete(level);
-		}
+//		if (getHp() <= 0) {
+//			object.delete(level);
+//		}
 	}
 	
 	@Override
@@ -147,10 +147,18 @@ public class CharacterComponent implements ObjectComponent {
 	
 	public void attack (GameObject object, Level level) {
 		Pair<WeaponType, Weapon> weapon = getCurrentWeapon();
-		if (getCooldown() <= 0) {
+		if (getCooldown() <= 0 && isAlive()) {
 			weapon.getValue().setBullets(weapon.getValue().getBullets() - weapon.getKey().getFireBehavior().shoot(object, this, weapon.getKey(), weapon.getValue(), level));
 			setCooldown(weapon.getKey().getFireDelay());
 		}
+	}
+	
+	public boolean isAlive () {
+		return getHp() > 0;
+	}
+	
+	public String getName () {
+		return getCharacter().getName();
 	}
 	
 	public void swapWeapon () {

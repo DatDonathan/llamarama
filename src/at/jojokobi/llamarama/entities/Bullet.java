@@ -37,9 +37,9 @@ public class Bullet extends GameObject {
 		super.hostUpdate(level, handler, camera, delta);
 		for (GameObject collided : getCollided(level)) {
 			CharacterComponent comp = collided.getComponent(CharacterComponent.class);
-			if (comp != null && comp != shooter) {
+			if (comp != null && comp != shooter && comp.isAlive()) {
 				comp.setHp(comp.getHp() - damage);
-				if (comp.getHp() <= 0) {
+				if (!comp.isAlive()) {
 					shooter.setKills(shooter.getKills() + 1);
 				}
 				delete(level);
