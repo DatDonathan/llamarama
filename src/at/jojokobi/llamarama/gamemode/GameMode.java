@@ -12,8 +12,14 @@ public interface GameMode {
 	
 	public boolean canEndGame (Level level, GameComponent comp);
 	
-	public void update ();
+	public void startGame (Level level, GameComponent comp);
+	
+	public void update (Level level, GameComponent comp, double delta);
+	
+	public void endGame (Level level, GameComponent comp);
 	
 	public Winner determineWinner (Level level, GameComponent comp);
+	
+	public void addComponents(Level level);
 	
 }

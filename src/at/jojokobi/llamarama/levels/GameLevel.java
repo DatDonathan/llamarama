@@ -19,6 +19,7 @@ import at.jojokobi.donatengine.gui.nodes.HFlowBox;
 import at.jojokobi.donatengine.gui.style.FixedDimension;
 import at.jojokobi.donatengine.gui.style.FixedStyle;
 import at.jojokobi.donatengine.input.Input;
+import at.jojokobi.donatengine.level.ChatComponent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
 import at.jojokobi.donatengine.level.LevelComponent;
@@ -110,7 +111,8 @@ public class GameLevel extends Level{
 		private Map<Long, CharacterType> characterChoices = new HashMap<>();
 		private Vector3D startPos;
 		private String startArea;
-		
+		private double time;
+		private boolean running = false;
 
 		public GameComponent(Vector3D startPos, String startArea) {
 			super();
@@ -120,6 +122,7 @@ public class GameLevel extends Level{
 
 		@Override
 		public void update(Level level, double delta) {
+			time += delta;
 			
 		}
 
@@ -161,6 +164,7 @@ public class GameLevel extends Level{
 	public GameLevel(MultiplayerBehavior behavior) {
 		super(behavior, 0, 0, 0);
 		
+		addComponent(new ChatComponent());
 		addComponent(new GameComponent(new Vector3D(0, 32, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
