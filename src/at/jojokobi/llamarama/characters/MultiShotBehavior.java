@@ -21,7 +21,7 @@ public class MultiShotBehavior implements FireBehavior {
 		int used;
 		for (used = 0; used < Math.min(amount, weapon.getBullets()); used++) {
 			Vector3D motion = comp.getDirection().getMotion();
-			motion.add(Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2);
+			motion.add(Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2);
 			motion.normalize();
 			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX(), obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY(), obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ());
 			

@@ -19,7 +19,6 @@ import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
 import at.jojokobi.donatengine.gui.style.FixedDimension;
 import at.jojokobi.donatengine.gui.style.FixedStyle;
-import at.jojokobi.donatengine.input.Input;
 import at.jojokobi.donatengine.level.ChatComponent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
@@ -30,10 +29,8 @@ import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
-import at.jojokobi.donatengine.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
 import at.jojokobi.donatengine.util.Vector3D;
-import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
@@ -256,18 +253,6 @@ public class GameLevel extends Level{
 		initGuiSystem(new SimpleGUISystem(fact));
 	}
 
-	@Override
-	public void update(double delta, LevelHandler handler, Camera camera) {
-		super.update(delta, handler, camera);
-//		Input input = handler.getInput();
-//		if (input.getButton(ControlConstants.CAM_UP)) {
-//			camera.setRotationX(camera.getRotationX() + 60 * delta);
-//		}
-//		else if (input.getButton(ControlConstants.CAM_DOWN)) {
-//			camera.setRotationX(camera.getRotationX() - 60 * delta);
-//		}
-	}
-	
 	@Override
 	public void generate(Camera camera) {
 		addArea(mainArea, new LevelArea());

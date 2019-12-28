@@ -26,6 +26,10 @@ public class Bullet extends GameObject {
 		setxMotion(motion.getX());
 		setyMotion(motion.getY());
 		setzMotion(motion.getZ());
+		
+		setWidth(16);
+		setHeight(16);
+		setLength(16);
 	}
 	
 	public Bullet() {
@@ -42,6 +46,9 @@ public class Bullet extends GameObject {
 				if (!comp.isAlive()) {
 					shooter.setKills(shooter.getKills() + 1);
 				}
+				delete(level);
+			}
+			else if (comp == null && collided.isSolid()) {
 				delete(level);
 			}
 		}
