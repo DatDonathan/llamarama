@@ -1,4 +1,4 @@
-package at.jojokobi.llamarama.levels;
+package at.jojokobi.llamarama.gamemode;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -25,11 +25,12 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
 import at.jojokobi.donatengine.level.LevelComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
+import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
-import at.jojokobi.donatengine.rendering.ThreeDimensionalPerspective;
+import at.jojokobi.donatengine.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
@@ -37,9 +38,7 @@ import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
-import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
-import at.jojokobi.llamarama.gamemode.GameMode;
-import at.jojokobi.llamarama.tiles.GrassTile;
+import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -265,24 +264,21 @@ public class GameLevel extends Level{
 		}
 		else if (input.getButton(ControlConstants.CAM_DOWN)) {
 			camera.setRotationX(camera.getRotationX() - 60 * delta);
-		}		
+		}
 	}
 	
 	@Override
 	public void generate(Camera camera) {
 		addArea(mainArea, new LevelArea());
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				spawn(new GrassTile(i * 32, 0, j * 32, mainArea));
-			}
-		}
+		new CSVLoadedMap(TileMapParser.loadTilemap(getClass().getResourceAsStream("/assets/maps/online.csv"), 128)).generate(this, new Vector3D(), mainArea);
 	}
 	
 	@Override
 	public void start(Camera camera) {
 		super.start(camera);
-		camera.setPerspective(new ThreeDimensionalPerspective());
-		camera.setRotationX(30);
+		camera.setPerspective(new StretchYZPerspective());
+		camera.setRotationX(45);
+		camera.setRenderDistance(32 * 40);
 	}
 	
 }

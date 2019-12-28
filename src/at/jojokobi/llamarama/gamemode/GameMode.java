@@ -4,7 +4,7 @@ import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.llamarama.characters.CharacterType;
-import at.jojokobi.llamarama.levels.GameLevel.GameComponent;
+import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 
 public interface GameMode {
 

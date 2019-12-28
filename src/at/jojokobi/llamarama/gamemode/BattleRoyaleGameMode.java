@@ -6,7 +6,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.entities.CharacterComponent;
-import at.jojokobi.llamarama.levels.GameLevel.GameComponent;
+import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 
 public class BattleRoyaleGameMode implements GameMode {
 	

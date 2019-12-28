@@ -21,7 +21,7 @@ import at.jojokobi.donatengine.net.HostBehavior;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
-import at.jojokobi.llamarama.levels.GameLevel;
+import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
 import at.jojokobi.netutil.client.Client;

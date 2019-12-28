@@ -12,6 +12,7 @@ import at.jojokobi.donatengine.input.ButtonAxis;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.ressources.IRessourceHandler;
 import at.jojokobi.donatengine.ressources.RessourceHandler;
 import at.jojokobi.donatengine.serialization.BinarySerialization;
@@ -37,6 +38,8 @@ public class LlamaramaApplication extends Application {
 		new Thread(() -> {
 			Level level = new MainMenuLevel(new SingleplayerBehavior());
 			Camera cam = new Camera(0, 0, 0, 1280, 768);
+			cam.setRenderDistance(40*32);
+			cam.setPerspective(new StretchYZPerspective());
 			IRessourceHandler ressourceHandler = new RessourceHandler();
 			Map<String, KeyCode> keyBindings = new HashMap<>();
 			keyBindings.put(ControlConstants.LEFT, KeyCode.A);
