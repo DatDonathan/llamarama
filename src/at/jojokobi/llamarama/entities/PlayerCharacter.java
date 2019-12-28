@@ -6,12 +6,10 @@ import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.util.Vector2D;
-import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class PlayerCharacter extends CharacterInstance {
 
@@ -54,9 +52,6 @@ public class PlayerCharacter extends CharacterInstance {
 	public void render(GraphicsContext ctx, Camera cam, Level level) {
 		if (getComponent(CharacterComponent.class).isAlive() || getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
 			super.render(ctx, cam, level);
-			ctx.setStroke(Color.RED);
-			Vector2D pos = cam.toScreenPosition(new Vector3D(getX(), getY(), getZ()));
-			ctx.strokeRect(pos.getX(), pos.getY(), getWidth(), getHeight());
 		}
 	}
 
