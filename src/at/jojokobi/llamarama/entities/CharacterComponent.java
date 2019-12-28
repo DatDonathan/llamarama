@@ -50,6 +50,12 @@ public class CharacterComponent implements ObjectComponent {
 				weapons.get().add(new Weapon(type.getMaxBullets()));
 			}
 		}
+		object.setWidth(getCharacter().getWidth());
+		object.setHeight(getCharacter().getHeight());
+		object.setLength(getCharacter().getLength());
+		object.setxOffset(getCharacter().getxOffset());
+		object.setyOffset(getCharacter().getyOffset());
+		object.setzOffset(getCharacter().getzOffset());
 	}
 
 	@Override
@@ -83,6 +89,7 @@ public class CharacterComponent implements ObjectComponent {
 		if (cooldown <= 0) {
 			cooldown = 0;
 		}
+		
 		this.cooldown.setUnchanged(cooldown);
 	}
 
@@ -102,8 +109,8 @@ public class CharacterComponent implements ObjectComponent {
 //		if (isUsingAbility() && getTemplate().getAbility() != null) {
 //			getTemplate().getAbility().render(this, ctx, cam);
 //		}
-		Vector2D topLeft = cam.toScreenPosition(new Vector3D(object.getX() - object.getxOffset(), object.getY() - object.getxOffset() + object.getRenderModel().getHeight(), object.getZ() - object.getzOffset() + object.getRenderModel().getLength()));
-		Vector2D topRight = cam.toScreenPosition(new Vector3D(object.getX() + object.getRenderModel().getWidth() - object.getxOffset(), object.getY() - object.getxOffset() + object.getRenderModel().getHeight(), object.getZ() - object.getzOffset() + object.getRenderModel().getLength()));
+		Vector2D topLeft = cam.toScreenPosition(new Vector3D(object.getX() - object.getxOffset(), object.getY() - object.getxOffset() + object.getRenderModel().getHeight(), object.getZ() - object.getzOffset()));
+		Vector2D topRight = cam.toScreenPosition(new Vector3D(object.getX() + object.getRenderModel().getWidth() - object.getxOffset(), object.getY() - object.getxOffset() + object.getRenderModel().getHeight(), object.getZ() - object.getzOffset()));
 		double width = topRight.getX() - topLeft.getX();
 		
 		//HP

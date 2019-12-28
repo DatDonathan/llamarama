@@ -31,6 +31,7 @@ import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.rendering.StretchYZPerspective;
+import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
@@ -258,13 +259,13 @@ public class GameLevel extends Level{
 	@Override
 	public void update(double delta, LevelHandler handler, Camera camera) {
 		super.update(delta, handler, camera);
-		Input input = handler.getInput();
-		if (input.getButton(ControlConstants.CAM_UP)) {
-			camera.setRotationX(camera.getRotationX() + 60 * delta);
-		}
-		else if (input.getButton(ControlConstants.CAM_DOWN)) {
-			camera.setRotationX(camera.getRotationX() - 60 * delta);
-		}
+//		Input input = handler.getInput();
+//		if (input.getButton(ControlConstants.CAM_UP)) {
+//			camera.setRotationX(camera.getRotationX() + 60 * delta);
+//		}
+//		else if (input.getButton(ControlConstants.CAM_DOWN)) {
+//			camera.setRotationX(camera.getRotationX() - 60 * delta);
+//		}
 	}
 	
 	@Override
@@ -276,8 +277,8 @@ public class GameLevel extends Level{
 	@Override
 	public void start(Camera camera) {
 		super.start(camera);
-		camera.setPerspective(new StretchYZPerspective());
-		camera.setRotationX(45);
+		camera.setPerspective(new TwoDimensionalPerspective());
+		camera.setRotationX(80);
 		camera.setRenderDistance(32 * 40);
 	}
 	

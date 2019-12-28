@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import at.jojokobi.donatengine.rendering.BoxModel;
+import at.jojokobi.donatengine.rendering.Image2DModel;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import javafx.scene.image.Image;
 
@@ -70,10 +70,10 @@ public class CharacterTypeProvider {
 		corporal.setxOffset(8);
 		corporal.setyOffset(0);
 		corporal.setzOffset(16);
-		corporal.getModels().put(Direction.UP, new BoxModel(CORPORAL_UP, null, null, null));
-		corporal.getModels().put(Direction.DOWN, new BoxModel(CORPORAL_DOWN, null, null, null));
-		corporal.getModels().put(Direction.RIGHT, new BoxModel(CORPORAL_RIGHT, null, null, null));
-		corporal.getModels().put(Direction.LEFT, new BoxModel(CORPORAL_LEFT, null, null, null));
+		corporal.getModels().put(Direction.UP, new Image2DModel(CORPORAL_UP));
+		corporal.getModels().put(Direction.DOWN, new Image2DModel(CORPORAL_DOWN));
+		corporal.getModels().put(Direction.RIGHT, new Image2DModel(CORPORAL_RIGHT));
+		corporal.getModels().put(Direction.LEFT, new Image2DModel(CORPORAL_LEFT));
 		types.put("Corporal", corporal);
 
 		// Speedy
@@ -89,10 +89,10 @@ public class CharacterTypeProvider {
 		speedy.setxOffset(8);
 		speedy.setyOffset(0);
 		speedy.setzOffset(16);
-		speedy.getModels().put(Direction.UP, new BoxModel(SPEEDY_UP, null, null, null));
-		speedy.getModels().put(Direction.DOWN, new BoxModel(SPEEDY_DOWN, null, null, null));
-		speedy.getModels().put(Direction.RIGHT, new BoxModel(SPEEDY_RIGHT, null, null, null));
-		speedy.getModels().put(Direction.LEFT, new BoxModel(SPEEDY_LEFT, null, null, null));
+		speedy.getModels().put(Direction.UP, new Image2DModel(SPEEDY_UP));
+		speedy.getModels().put(Direction.DOWN, new Image2DModel(SPEEDY_DOWN));
+		speedy.getModels().put(Direction.RIGHT, new Image2DModel(SPEEDY_RIGHT));
+		speedy.getModels().put(Direction.LEFT, new Image2DModel(SPEEDY_LEFT));
 		types.put("Speedy", speedy);
 
 		// Jeremy
@@ -108,10 +108,10 @@ public class CharacterTypeProvider {
 		jeremy.setxOffset(8);
 		jeremy.setyOffset(0);
 		jeremy.setzOffset(16);
-		jeremy.getModels().put(Direction.UP, new BoxModel(JEREMY_UP, null, null, null));
-		jeremy.getModels().put(Direction.DOWN, new BoxModel(JEREMY_DOWN, null, null, null));
-		jeremy.getModels().put(Direction.RIGHT, new BoxModel(JEREMY_RIGHT, null, null, null));
-		jeremy.getModels().put(Direction.LEFT, new BoxModel(JEREMY_LEFT, null, null, null));
+		jeremy.getModels().put(Direction.UP, new Image2DModel(JEREMY_UP));
+		jeremy.getModels().put(Direction.DOWN, new Image2DModel(JEREMY_DOWN));
+		jeremy.getModels().put(Direction.RIGHT, new Image2DModel(JEREMY_RIGHT));
+		jeremy.getModels().put(Direction.LEFT, new Image2DModel(JEREMY_LEFT));
 		types.put("Jeremy", jeremy);
 
 		// Officer
@@ -127,10 +127,10 @@ public class CharacterTypeProvider {
 		officer.setxOffset(8);
 		officer.setyOffset(0);
 		officer.setzOffset(16);
-		officer.getModels().put(Direction.UP, new BoxModel(OFFICER_UP, null, null, null));
-		officer.getModels().put(Direction.DOWN, new BoxModel(OFFICER_DOWN, null, null, null));
-		officer.getModels().put(Direction.RIGHT, new BoxModel(OFFICER_RIGHT, null, null, null));
-		officer.getModels().put(Direction.LEFT, new BoxModel(OFFICER_LEFT, null, null, null));
+		officer.getModels().put(Direction.UP, new Image2DModel(OFFICER_UP));
+		officer.getModels().put(Direction.DOWN, new Image2DModel(OFFICER_DOWN));
+		officer.getModels().put(Direction.RIGHT, new Image2DModel(OFFICER_RIGHT));
+		officer.getModels().put(Direction.LEFT, new Image2DModel(OFFICER_LEFT));
 		types.put("Officer", officer);
 
 		return types;
