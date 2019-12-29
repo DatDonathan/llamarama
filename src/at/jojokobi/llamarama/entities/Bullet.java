@@ -1,6 +1,7 @@
 package at.jojokobi.llamarama.entities;
 
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
@@ -39,6 +40,10 @@ public class Bullet extends GameObject {
 	@Override
 	public void hostUpdate(Level level, LevelHandler handler, Camera camera, double delta) {
 		super.hostUpdate(level, handler, camera, delta);
+		LevelBoundsComponent component = level.getComponent(LevelBoundsComponent.class);
+		if (component != null && component.outsideBounds(this)) {
+			delete(level);
+		}
 		for (GameObject collided : getCollided(level)) {
 			CharacterComponent comp = collided.getComponent(CharacterComponent.class);
 			if (comp != null && comp != shooter && comp.isAlive()) {

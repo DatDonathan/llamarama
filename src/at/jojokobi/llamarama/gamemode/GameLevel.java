@@ -22,6 +22,7 @@ import at.jojokobi.donatengine.gui.style.FixedStyle;
 import at.jojokobi.donatengine.level.ChatComponent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
+import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.level.TileMapParser;
@@ -34,7 +35,6 @@ import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
-import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import javafx.scene.canvas.GraphicsContext;
@@ -128,7 +128,7 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void update(Level level, double delta) {
+		public void update(Level level, Camera cam, double delta) {
 			time += delta;
 			if (running) {
 				gameMode.update(level, this, delta);
@@ -163,7 +163,7 @@ public class GameLevel extends Level{
 			running = true;
 			gameMode.startGame(level, this);
 			for (var e : characterChoices.entrySet()) {
-				PlayerCharacter player = new PlayerCharacter(startPos.getX(), startPos.getY(), startPos.getZ(), startArea, e.getKey(), e.getValue());
+				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * 128 * 32, startPos.getY(), startPos.getZ() + Math.random() * 128 * 32, startArea, e.getKey(), e.getValue());
 				level.spawn(player);
 			}
 			characterChoices.clear();
@@ -201,9 +201,6 @@ public class GameLevel extends Level{
 				obj.delete(level);
 			}
 			
-			level.spawn(new NonPlayerCharacter(128, 32, 128, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
-			level.spawn(new NonPlayerCharacter(512, 32, 256, startArea, CharacterTypeProvider.getCharacterTypes().get("Speedy")));
-			
 			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI);
 		}
 		
@@ -218,6 +215,7 @@ public class GameLevel extends Level{
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
+		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
 		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 32, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
