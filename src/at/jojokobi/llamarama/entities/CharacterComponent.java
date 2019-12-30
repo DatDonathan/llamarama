@@ -148,6 +148,11 @@ public class CharacterComponent implements ObjectComponent {
 		return new Pair<>(getCharacter().getWeapons().get(getSelectedWeapon()), getWeapons().get(getSelectedWeapon()));
 	}
 	
+	public void reloadWeapon (int amount) {
+		Pair<WeaponType, Weapon> weapon = getCurrentWeapon();
+		weapon.getValue().setBullets(Math.min(weapon.getValue().getBullets() + amount, weapon.getKey().getMaxBullets()));
+	}
+	
 	private double getMaxAbilityCooldown () {
 		return getCharacter().getAbility() == null ? 1 : getCharacter().getAbility().getCooldown();
 	}
@@ -158,6 +163,14 @@ public class CharacterComponent implements ObjectComponent {
 			weapon.getValue().setBullets(weapon.getValue().getBullets() - weapon.getKey().getFireBehavior().shoot(object, this, weapon.getKey(), weapon.getValue(), level));
 			setCooldown(weapon.getKey().getFireDelay());
 		}
+	}
+	
+	public void heal (int amount) {
+		setHp(Math.min(getHp() + amount, getCharacter().getMaxHp()));
+	}
+	
+	public void damage (int amount) {
+		setHp(Math.min(getHp() - amount, 0));
 	}
 	
 	public boolean isAlive () {

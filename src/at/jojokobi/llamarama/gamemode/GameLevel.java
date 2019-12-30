@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
 import at.jojokobi.donatengine.gui.GUISystem;
@@ -35,8 +36,10 @@ import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
+import at.jojokobi.llamarama.maps.GameMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -58,7 +61,9 @@ public class GameLevel extends Level{
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
 			system.removeGUI(id);
-			level.getComponent(GameComponent.class).startMatch(level);
+			if (!level.getComponent(GameComponent.class).isRunning()) {
+				level.getComponent(GameComponent.class).startMatch(level);
+			}
 		}
 
 		@Override
@@ -114,9 +119,12 @@ public class GameLevel extends Level{
 		private Map<Long, CharacterType> characterChoices = new HashMap<>();
 		private List<Long> connectedClients = new ArrayList<>();
 		
+		private List<GameEffect> gameEffects;
+		
 		private GameMode gameMode;
 		private Vector3D startPos;
 		private String startArea;
+		private GameMap currentMap;
 		private double time;
 		private boolean running = false;
 
@@ -130,14 +138,17 @@ public class GameLevel extends Level{
 		@Override
 		public void update(Level level, Camera cam, double delta) {
 			time += delta;
-			if (running) {
-				gameMode.update(level, this, delta);
-				if (gameMode.canEndGame(level, this)) {
-					endMatch(level);
+			if (level.getBehavior().isHost()) {
+				if (running) {
+					gameMode.update(level, this, delta);
+					if (gameMode.canEndGame(level, this)) {
+						endMatch(level);
+					}
 				}
-			}
-			else if (gameMode.canStartGame(level, characterChoices, this)) {
-				startMatch(level);
+				else if (gameMode.canStartGame(level, characterChoices, this)) {
+					startMatch(level);
+				}
+				gameEffects.forEach(e -> e.update(level, this, delta));
 			}
 		}
 
@@ -161,11 +172,18 @@ public class GameLevel extends Level{
 		private void startMatch (Level level) {
 			time = 0;
 			running = true;
-			gameMode.startGame(level, this);
+			level.clear();
+			
+			gameEffects = gameMode.createEffects();
+			
+			currentMap = gameMode.getPossibleMaps().get(new Random().nextInt(gameMode.getPossibleMaps().size()));
+			currentMap.generate(level, startPos, startArea);
 			for (var e : characterChoices.entrySet()) {
-				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * 128 * 32, startPos.getY(), startPos.getZ() + Math.random() * 128 * 32, startArea, e.getKey(), e.getValue());
+				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY(), startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue());
 				level.spawn(player);
 			}
+			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
+			gameMode.startGame(level, this);
 			characterChoices.clear();
 		}
 		
@@ -196,12 +214,25 @@ public class GameLevel extends Level{
 			}
 			time = 0;
 			running = false;
+			gameEffects = new ArrayList<>();
 			
 			for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 				obj.delete(level);
 			}
 			
 			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI);
+		}
+
+		public Vector3D getStartPos() {
+			return startPos;
+		}
+
+		public String getStartArea() {
+			return startArea;
+		}
+
+		public GameMap getCurrentMap() {
+			return currentMap;
 		}
 		
 	}
@@ -215,7 +246,7 @@ public class GameLevel extends Level{
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
-		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), false));
+		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
 		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 32, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
@@ -261,7 +292,7 @@ public class GameLevel extends Level{
 	public void start(Camera camera) {
 		super.start(camera);
 		camera.setPerspective(new TwoDimensionalPerspective());
-		camera.setRotationX(80);
+		camera.setRotationX(90);
 		camera.setRenderDistance(32 * 40);
 	}
 	

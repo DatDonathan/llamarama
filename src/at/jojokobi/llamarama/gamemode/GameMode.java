@@ -1,10 +1,12 @@
 package at.jojokobi.llamarama.gamemode;
 
+import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
+import at.jojokobi.llamarama.maps.GameMap;
 
 public interface GameMode {
 
@@ -20,6 +22,8 @@ public interface GameMode {
 	
 	public Winner determineWinner (Level level, GameComponent comp);
 	
-	public void addComponents(Level level);
+	public List<GameEffect> createEffects ();
+	
+	public List<GameMap> getPossibleMaps ();
 	
 }

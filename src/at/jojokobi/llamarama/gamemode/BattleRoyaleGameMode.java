@@ -1,12 +1,19 @@
 package at.jojokobi.llamarama.gamemode;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
+import at.jojokobi.llamarama.items.HealingGrass;
+import at.jojokobi.llamarama.items.SpitBucket;
+import at.jojokobi.llamarama.maps.CSVLoadedMap;
+import at.jojokobi.llamarama.maps.GameMap;
 
 public class BattleRoyaleGameMode implements GameMode {
 	
@@ -65,8 +72,13 @@ public class BattleRoyaleGameMode implements GameMode {
 	}
 
 	@Override
-	public void addComponents(Level level) {
-		
+	public List<GameMap> getPossibleMaps() {
+		return Arrays.asList(new CSVLoadedMap(TileMapParser.loadTilemap(getClass().getResourceAsStream("/assets/maps/online.csv"), 128)));
+	}
+
+	@Override
+	public List<GameEffect> createEffects() {
+		return Arrays.asList(new ItemSpawnerEffect(Arrays.asList(HealingGrass::new, SpitBucket::new), 30, 0.001, 32));
 	}
 
 }

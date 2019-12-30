@@ -44,10 +44,10 @@ public class Bullet extends GameObject {
 		if (component != null && component.outsideBounds(this)) {
 			delete(level);
 		}
-		for (GameObject collided : getCollided(level)) {
+		for (GameObject collided : level.getObjectsInArea(getX() - 1, getY() - 1, getZ() - 1, getWidth() + 2, getHeight() + 2, getLength() + 2, getArea())) {
 			CharacterComponent comp = collided.getComponent(CharacterComponent.class);
 			if (comp != null && comp != shooter && comp.isAlive()) {
-				comp.setHp(comp.getHp() - damage);
+				comp.damage(damage);
 				if (!comp.isAlive()) {
 					shooter.setKills(shooter.getKills() + 1);
 				}
