@@ -170,7 +170,7 @@ public class CharacterComponent implements ObjectComponent {
 	}
 	
 	public void damage (int amount) {
-		setHp(Math.min(getHp() - amount, 0));
+		setHp(Math.max(getHp() - amount, 0));
 	}
 	
 	public boolean isAlive () {
