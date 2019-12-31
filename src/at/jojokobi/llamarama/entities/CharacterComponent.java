@@ -127,7 +127,7 @@ public class CharacterComponent implements ObjectComponent {
 		ctx.setFill(Color.ORANGE);
 		ctx.fillRect(topLeft.getX(), topLeft.getY() - 30, width, 5);
 		ctx.setFill(Color.YELLOW);
-		ctx.fillRect(topLeft.getX(), topLeft.getY() - 25, width * (1-((double)getAbilityCooldown()/getMaxAbilityCooldown())), 5);
+		ctx.fillRect(topLeft.getX(), topLeft.getY() - 30, width * (1-((double)getAbilityCooldown()/getMaxAbilityCooldown())), 5);
 		//Bullets
 		ctx.setFill(new Color(0.2, 0.2, 0.2, 1));
 		ctx.fillRect(topLeft.getX(), topLeft.getY() - 20, width, 5);
@@ -186,6 +186,7 @@ public class CharacterComponent implements ObjectComponent {
 		if (getSelectedWeapon() >= getWeapons().size()) {
 			weapon.set(0);
 		}
+		cooldown.set(getCurrentWeapon().getKey().getFireDelay());
 	}
 	
 	public Direction getDirection() {

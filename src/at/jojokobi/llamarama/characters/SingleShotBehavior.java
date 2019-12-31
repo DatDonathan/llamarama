@@ -8,6 +8,18 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.Weapon;
 
 public class SingleShotBehavior implements FireBehavior {
+	
+	private double speed;
+
+
+	public SingleShotBehavior(double speed) {
+		super();
+		this.speed = speed;
+	}
+	
+	public SingleShotBehavior() {
+		this(1200);
+	}
 
 	@Override
 	public int shoot(GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level) {
@@ -15,7 +27,7 @@ public class SingleShotBehavior implements FireBehavior {
 			Vector3D motion = comp.getDirection().getMotion();
 			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX(), obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY(), obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ());
 			
-			level.spawn(new Bullet(pos.getX(), pos.getY(), pos.getZ(), obj.getArea(), comp, type.getDamage(), motion));
+			level.spawn(new Bullet(pos.getX(), pos.getY(), pos.getZ(), obj.getArea(), comp, type.getDamage(), motion, speed));
 			return 1;
 		}
 		return 0;

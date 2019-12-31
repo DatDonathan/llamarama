@@ -19,11 +19,11 @@ public class Bullet extends GameObject {
 	private CharacterComponent shooter;
 	private int damage;
 
-	public Bullet(double x, double y, double z, String area, CharacterComponent shooter, int damage, Vector3D motion) {
+	public Bullet(double x, double y, double z, String area, CharacterComponent shooter, int damage, Vector3D motion, double speed) {
 		super(x, y, z, area, SPIT_MODEL);
 		this.shooter = shooter;
 		this.damage = damage;
-		motion.multiply(1200);
+		motion.normalize().multiply(speed);
 		setxMotion(motion.getX());
 		setyMotion(motion.getY());
 		setzMotion(motion.getZ());
@@ -34,7 +34,7 @@ public class Bullet extends GameObject {
 	}
 	
 	public Bullet() {
-		this(0, 0, 0, "", null, 0, new Vector3D());
+		this(0, 0, 0, "", null, 0, new Vector3D(), 1200);
 	}
 	
 	@Override
