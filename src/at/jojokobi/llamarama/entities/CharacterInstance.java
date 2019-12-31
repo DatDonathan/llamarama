@@ -1,5 +1,6 @@
 package at.jojokobi.llamarama.entities;
 
+import at.jojokobi.donatengine.objects.BrakeMotionComponent;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.Direction;
@@ -12,6 +13,7 @@ public abstract class CharacterInstance extends GameObject {
 		super(x, y, z, area, character.getModelForDirection(Direction.LEFT));
 		comp = new CharacterComponent(character);
 		addComponent(comp);
+		addComponent(new BrakeMotionComponent(600, 0, 600));
 	}
 
 	public Direction getDirection() {

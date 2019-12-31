@@ -120,7 +120,7 @@ public class CharacterTypeProvider {
 		officer.setMaxHp(120);
 		officer.setSpeed(240);
 		officer.addWeapon(new WeaponType(1/3.0, 9, 120, new SingleShotBehavior()));
-		// officer.addWeapon(new WeaponType(0.4, 35, 1, new MeleeAttackBehavior()));
+		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setWidth(48);
 		officer.setHeight(48);
 		officer.setLength(48);

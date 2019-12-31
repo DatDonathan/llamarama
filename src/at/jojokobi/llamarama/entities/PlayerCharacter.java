@@ -27,14 +27,21 @@ public class PlayerCharacter extends CharacterInstance {
 		super.hostUpdate(level, handler, camera, delta);
 		CharacterComponent comp = getComponent(CharacterComponent.class);
 		Input input =  handler.getInput(getComponent(PlayerComponent.class).getClient());
+		//Move
 		Vector2D axis = input.getAxis(ControlConstants.MOVEMENT).normalize();
-		axis.multiply(comp.getCharacter().getSpeed());
-		setxMotion(axis.getX());
-		setzMotion(axis.getY());
+		double speed = comp.getCharacter().getSpeed();
+		axis.multiply(speed);
+		if (getxMotion() >= -speed && getxMotion() <= speed) {
+			setxMotion(axis.getX());
+		}
+		if (getzMotion() >= -speed && getzMotion() <= speed) {
+			setzMotion(axis.getY());
+		}
 		//Shoot
 		if (input.getButton(ControlConstants.ATTACK)) {
 			comp.attack(this, level);
 		}
+		//Swap Weapon
 		if (input.getButton(ControlConstants.SWAP_WEAPON)) {
 			comp.swapWeapon();
 		}
