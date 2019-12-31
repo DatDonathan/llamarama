@@ -9,9 +9,9 @@ public abstract class CharacterInstance extends GameObject {
 
 	private CharacterComponent comp;
 
-	public CharacterInstance(double x, double y, double z, String area, CharacterType character) {
+	public CharacterInstance(double x, double y, double z, String area, CharacterType character, String name) {
 		super(x, y, z, area, character.getModelForDirection(Direction.LEFT));
-		comp = new CharacterComponent(character);
+		comp = new CharacterComponent(character, name);
 		addComponent(comp);
 		addComponent(new BrakeMotionComponent(600, 0, 600));
 	}

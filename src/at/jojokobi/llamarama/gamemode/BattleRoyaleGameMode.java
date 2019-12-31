@@ -7,9 +7,9 @@ import java.util.Map;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
+import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.items.HealingGrass;
 import at.jojokobi.llamarama.items.SpitBucket;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
@@ -28,7 +28,7 @@ public class BattleRoyaleGameMode implements GameMode {
 	}
 
 	@Override
-	public boolean canStartGame(Level level, Map<Long, CharacterType> players, GameComponent comp) {
+	public boolean canStartGame(Level level, Map<Long, PlayerInformation> players, GameComponent comp) {
 		return players.size() >= minPlayers || comp.getTime() > maxLobbyTime;
 	}
 

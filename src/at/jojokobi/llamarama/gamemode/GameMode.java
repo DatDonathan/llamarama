@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
-import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
+import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.maps.GameMap;
 
 public interface GameMode {
 
-	public boolean canStartGame (Level level, Map<Long, CharacterType> players, GameComponent comp);
+	public boolean canStartGame (Level level, Map<Long,  PlayerInformation> players, GameComponent comp);
 	
 	public boolean canEndGame (Level level, GameComponent comp);
 	

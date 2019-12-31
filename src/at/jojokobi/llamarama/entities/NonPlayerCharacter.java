@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class NonPlayerCharacter extends CharacterInstance {
 
 	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character) {
-		super(x, y, z, area, character);
+		super(x, y, z, area, character, character.getName());
 	}
 	
 	public NonPlayerCharacter() {

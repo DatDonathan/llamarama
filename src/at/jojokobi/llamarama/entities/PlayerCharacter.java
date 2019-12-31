@@ -13,13 +13,13 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class PlayerCharacter extends CharacterInstance {
 
-	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character) {
-		super(x, y, z, area, character);
+	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character, String name) {
+		super(x, y, z, area, character, name);
 		addComponent(new PlayerComponent(client));
 	}
 	
 	public PlayerCharacter() {
-		this(0, 0, 0, "", 0, CharacterTypeProvider.getCharacterTypes().get("Corporal"));
+		this(0, 0, 0, "", 0, CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal");
 	}
 	
 	@Override

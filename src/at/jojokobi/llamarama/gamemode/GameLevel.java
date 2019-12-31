@@ -18,6 +18,8 @@ import at.jojokobi.donatengine.gui.SimpleGUISystem;
 import at.jojokobi.donatengine.gui.actions.GUIAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
+import at.jojokobi.donatengine.gui.nodes.TextField;
+import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.gui.style.FixedDimension;
 import at.jojokobi.donatengine.gui.style.FixedStyle;
 import at.jojokobi.donatengine.level.ChatComponent;
@@ -75,34 +77,38 @@ public class GameLevel extends Level{
 		
 		private long client;
 		private String characterType;
+		private String name;
 		
 		
 		
-		public SelectCharacterAction(long client, String characterType) {
+		public SelectCharacterAction(long client, String characterType, String name) {
 			super();
 			this.client = client;
 			this.characterType = characterType;
+			this.name = name;
 		}
 		
 		public SelectCharacterAction() {
-			this(0, "");
+			this(0, "", "");
 		}
 
 		@Override
 		public void serialize(DataOutput buffer) throws IOException {
 			buffer.writeLong(client);
 			buffer.writeUTF(characterType);
+			buffer.writeUTF(name);
 		}
 
 		@Override
 		public void deserialize(DataInput buffer) throws IOException {
 			client = buffer.readLong();
 			characterType = buffer.readUTF();
+			name = buffer.readUTF();
 		}
 
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
-			level.getComponent(GameComponent.class).characterChoices.put(client, CharacterTypeProvider.getCharacterTypes().get(characterType));
+			level.getComponent(GameComponent.class).characterChoices.put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
 		}
 
 		@Override
@@ -112,9 +118,42 @@ public class GameLevel extends Level{
 		
 	}
 	
+	public static class PlayerInformation {
+		
+		private CharacterType character;
+		private String name;
+		
+		public PlayerInformation(CharacterType character, String name) {
+			super();
+			this.character = character;
+			this.name = name;
+		}
+		
+		public PlayerInformation() {
+			
+		}
+
+		public CharacterType getCharacter() {
+			return character;
+		}
+
+		public void setCharacter(CharacterType character) {
+			this.character = character;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+	}
+	
 	public static class GameComponent implements LevelComponent {
 		
-		private Map<Long, CharacterType> characterChoices = new HashMap<>();
+		private Map<Long, PlayerInformation> characterChoices = new HashMap<>();
 		private List<Long> connectedClients = new ArrayList<>();
 		
 		private List<GameEffect> gameEffects;
@@ -164,7 +203,7 @@ public class GameLevel extends Level{
 		public void onConnectPlayer(Camera cam, Level level, long id) {
 			LevelComponent.super.onConnectPlayer(cam, level, id);
 			connectedClients.add(id);
-			characterChoices.put(id, CharacterTypeProvider.getCharacterTypes().get("Corporal"));
+			characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
 		}
 		
 		private void startMatch (Level level) {
@@ -182,7 +221,7 @@ public class GameLevel extends Level{
 			bounds.setSize(size);
 			currentMap.generate(level, startPos, startArea);
 			for (var e : characterChoices.entrySet()) {
-				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue());
+				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue().getCharacter(), e.getValue().getName());
 				level.spawn(player);
 			}
 			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
@@ -213,7 +252,7 @@ public class GameLevel extends Level{
 		public void init(Level level) {
 			characterChoices.clear();
 			for (Long id : connectedClients) {
-				characterChoices.put(id, CharacterTypeProvider.getCharacterTypes().get("Corporal"));
+				characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
 			}
 			time = 0;
 			running = false;
@@ -253,10 +292,16 @@ public class GameLevel extends Level{
 		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 0, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
+		//Select Player GUI
 		fact.registerGUI(SELECT_CHARACTER_GUI, () -> {
 			HFlowBox box = new HFlowBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			box.setHeightDimension(new PercentualDimension(1));
+			//Nickname Field
+			TextField nickname = new TextField();
+			nickname.setText("Nickname");
+			nickname.setWidthDimension(new PercentualDimension(1));
+			nickname.addStyle(s -> true, new FixedStyle().setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
 			//Character Buttons
 			for (Map.Entry<String, CharacterType> e : CharacterTypeProvider.getCharacterTypes().entrySet()) {
 				Button button = new Button(e.getKey());
@@ -265,9 +310,16 @@ public class GameLevel extends Level{
 				button.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
 				button.addStyle(s -> s.isSelected(), new FixedStyle().setFill(Color.AQUA));
 				
-				button.setOnAction(() -> new SelectCharacterAction(getClientId(), e.getKey()));
+				button.setOnAction(() -> new SelectCharacterAction(getClientId(), e.getKey(), nickname.getText()));
 				box.addChild(button);
 			}
+			//Nickname box
+			VBox nicknameBox = new VBox();
+			nicknameBox.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setBorder(Color.GRAY).setBorderStrength(2.0).setPadding(5).setFont(new Font("Consolas", 24)));
+			nicknameBox.addChild(nickname);
+			nicknameBox.setWidthDimension(new FixedDimension(200));
+			nicknameBox.setHeightDimension(new FixedDimension(200));
+			box.addChild(nicknameBox);
 			//Start Game Button
 			Button button = new Button("Start Game");
 			button.setWidthDimension(new FixedDimension(200));

@@ -15,6 +15,7 @@ import at.jojokobi.donatengine.objects.properties.ObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableList;
 import at.jojokobi.donatengine.objects.properties.ObservableObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
+import at.jojokobi.donatengine.objects.properties.StringProperty;
 import at.jojokobi.donatengine.util.Pair;
 import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.donatengine.util.Vector3D;
@@ -23,6 +24,7 @@ import at.jojokobi.llamarama.characters.Direction;
 import at.jojokobi.llamarama.characters.WeaponType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class CharacterComponent implements ObjectComponent {
 	
@@ -32,13 +34,15 @@ public class CharacterComponent implements ObjectComponent {
 	private DoubleProperty cooldown = new DoubleProperty(0);
 	private double abilityCooldown = 0;
 	private IntProperty kills = new IntProperty(0);
+	private StringProperty name = new StringProperty("");
 	
 	private IntProperty weapon = new IntProperty(0);
 	private ObservableObjectProperty<ObservableList<Weapon>> weapons = new ObservableObjectProperty<ObservableList<Weapon>>(new ObservableList<>());
 
-	public CharacterComponent(CharacterType character) {
+	public CharacterComponent(CharacterType character, String name) {
 		super();
 		this.character.set(character);
+		setName(name);
 		setHp(character.getMaxHp());
 	}
 	
@@ -134,10 +138,10 @@ public class CharacterComponent implements ObjectComponent {
 		ctx.setFill(new Color(0.2, 0.2, 1, 1));
 		ctx.fillRect(topLeft.getX(), topLeft.getY() - 20, width * ((double)getCurrentWeapon().getValue().getBullets()/getCurrentWeapon().getKey().getMaxBullets()), 5);
 		//Name
-//		ctx.setFill(Color.BLACK);
-//		ctx.setFont(new Font("Consolas", 12));
-//		ctx.strokeText(getNickname(), getX() - cam.getX(), getY() - 50 - cam.getY(), getWidth());
-//		ctx.strokeText("Kills " + getKills(), getX() - cam.getX(), getY() - 40 - cam.getY(), getWidth());
+		ctx.setFill(Color.BLACK);
+		ctx.setFont(new Font("Consolas", 12));
+		ctx.fillText(getName(), topLeft.getX(), topLeft.getY() - 50, width);
+		ctx.fillText("Kills " + getKills(), topLeft.getX(), topLeft.getY() - 40, width);
 		//Team
 //		if (team != null) {
 //			ctx.strokeText(getTeam(), getX() - cam.getX(), getY() - 60 - cam.getY(), getWidth());
@@ -178,7 +182,7 @@ public class CharacterComponent implements ObjectComponent {
 	}
 	
 	public String getName () {
-		return getCharacter().getName();
+		return name.get();
 	}
 	
 	public void swapWeapon () {
@@ -241,9 +245,13 @@ public class CharacterComponent implements ObjectComponent {
 		return weapons.get();
 	}
 
+	public void setName(String name) {
+		this.name.set(name);
+	}
+
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
-		return Arrays.asList(direction, character, hp, kills, weapon, weapons);
+		return Arrays.asList(direction, character, hp, kills, weapon, weapons, name);
 	}
 	
 }
