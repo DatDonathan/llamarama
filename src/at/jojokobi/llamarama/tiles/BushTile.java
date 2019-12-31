@@ -14,6 +14,7 @@ public class BushTile extends Tile {
 	public BushTile(double x, double y, double z, String area) {
 		super(x, y, z, area, 32, 32, 32, BUSH_MODEL);
 		setSolid(true);
+		setNeedsUpdate(false);
 	}
 	
 	public BushTile() {

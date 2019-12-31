@@ -14,6 +14,7 @@ public class StompTile extends Tile {
 	public StompTile(double x, double y, double z, String area) {
 		super(x, y, z, area, 32, 32, 32, STOMP_MODEL);
 		setSolid(true);
+		setNeedsUpdate(false);
 	}
 	
 	public StompTile() {

@@ -26,7 +26,6 @@ import at.jojokobi.donatengine.level.LevelArea;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
-import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
@@ -38,7 +37,6 @@ import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
-import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import at.jojokobi.llamarama.maps.GameMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -177,9 +175,14 @@ public class GameLevel extends Level{
 			gameEffects = gameMode.createEffects();
 			
 			currentMap = gameMode.getPossibleMaps().get(new Random().nextInt(gameMode.getPossibleMaps().size()));
+			LevelBoundsComponent bounds = level.getComponent(LevelBoundsComponent.class);
+			bounds.setPos(startPos);
+			Vector3D size = currentMap.getSize();
+			size.setY(32 * 64);
+			bounds.setSize(size);
 			currentMap.generate(level, startPos, startArea);
 			for (var e : characterChoices.entrySet()) {
-				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY(), startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue());
+				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue());
 				level.spawn(player);
 			}
 			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
@@ -247,7 +250,7 @@ public class GameLevel extends Level{
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
-		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 32, 0), mainArea));
+		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 0, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		fact.registerGUI(SELECT_CHARACTER_GUI, () -> {
@@ -285,7 +288,6 @@ public class GameLevel extends Level{
 	@Override
 	public void generate(Camera camera) {
 		addArea(mainArea, new LevelArea());
-		new CSVLoadedMap(TileMapParser.loadTilemap(getClass().getResourceAsStream("/assets/maps/online.csv"), 128)).generate(this, new Vector3D(), mainArea);
 	}
 	
 	@Override

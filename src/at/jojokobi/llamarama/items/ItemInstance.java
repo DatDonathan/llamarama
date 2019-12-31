@@ -15,8 +15,17 @@ public class ItemInstance extends GameObject{
 	private ObjectProperty<Item> item = new ObjectProperty<Item>(null);
 
 	public ItemInstance(double x, double y, double z, String area, Item item) {
-		super(x, y, z, area, item.getModel());
+		super(x, y, z, area, null);
+		this.item.addListener((p, o, i) -> {
+			if (i != null) {
+				setRenderModel(i.getModel());
+			}
+		});
 		this.item.set(item);
+	}
+	
+	public ItemInstance() {
+		this(0, 0, 0, "", null);
 	}
 	
 	@Override

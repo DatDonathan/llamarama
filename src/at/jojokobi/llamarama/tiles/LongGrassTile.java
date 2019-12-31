@@ -14,6 +14,7 @@ public class LongGrassTile extends Tile {
 	public LongGrassTile(double x, double y, double z, String area) {
 		super(x, y, z, area, 32, 32, 32, LONG_GRASS_MODEL);
 		setSolid(false);
+		setNeedsUpdate(false);
 	}
 	
 	public LongGrassTile() {

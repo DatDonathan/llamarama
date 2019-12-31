@@ -14,6 +14,7 @@ public class GrassTile extends Tile {
 	public GrassTile(double x, double y, double z, String area) {
 		super(x, y, z, area, 32, 32, 32, GRASS_MODEL);
 		setSolid(true);
+		setNeedsUpdate(false);
 	}
 	
 	public GrassTile() {

@@ -14,6 +14,7 @@ public class SandTile extends Tile {
 	public SandTile(double x, double y, double z, String area) {
 		super(x, y, z, area, 32, 32, 32, SAND_MODEL);
 		setSolid(true);
+		setNeedsUpdate(false);
 	}
 	
 	public SandTile() {
