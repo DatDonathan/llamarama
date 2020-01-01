@@ -248,6 +248,10 @@ public class CharacterComponent implements ObjectComponent {
 	public void setName(String name) {
 		this.name.set(name);
 	}
+	
+	public ObjectProperty<CharacterType> characterProperty () {
+		return character;
+	}
 
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {

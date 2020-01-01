@@ -41,7 +41,7 @@ public class Bullet extends GameObject {
 	public void hostUpdate(Level level, LevelHandler handler, Camera camera, double delta) {
 		super.hostUpdate(level, handler, camera, delta);
 		LevelBoundsComponent component = level.getComponent(LevelBoundsComponent.class);
-		if (component != null && component.outsideBounds(this)) {
+		if (component != null && component.nearBounds(this)) {
 			delete(level);
 		}
 		for (GameObject collided : level.getObjectsInArea(getX() - 1, getY() - 1, getZ() - 1, getWidth() + 2, getHeight() + 2, getLength() + 2, getArea())) {

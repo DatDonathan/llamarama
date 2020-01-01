@@ -173,7 +173,7 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void update(Level level, Camera cam, double delta) {
+		public void hostUpdate(Level level, Camera cam, double delta) {
 			time += delta;
 			if (level.getBehavior().isHost()) {
 				if (running) {
@@ -275,6 +275,16 @@ public class GameLevel extends Level{
 
 		public GameMap getCurrentMap() {
 			return currentMap;
+		}
+
+		@Override
+		public void update(Level level, Camera cam, double delta) {
+			
+		}
+
+		@Override
+		public void clientUpdate(Level level, Camera cam, double delta) {
+			
 		}
 		
 	}

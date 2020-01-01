@@ -12,8 +12,12 @@ public abstract class CharacterInstance extends GameObject {
 	public CharacterInstance(double x, double y, double z, String area, CharacterType character, String name) {
 		super(x, y, z, area, character.getModelForDirection(Direction.LEFT));
 		comp = new CharacterComponent(character, name);
+		comp.characterProperty().addListener((p, o, n) -> {
+			getComponent(BrakeMotionComponent.class).setBrakeXLimit(n.getSpeed());
+			getComponent(BrakeMotionComponent.class).setBrakeZLimit(n.getSpeed());
+		});
 		addComponent(comp);
-		addComponent(new BrakeMotionComponent(600, 0, 600));
+		addComponent(new BrakeMotionComponent(600, 0, 600, character.getSpeed(), 0, character.getSpeed()));
 	}
 
 	public Direction getDirection() {
