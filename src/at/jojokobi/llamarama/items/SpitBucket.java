@@ -7,6 +7,7 @@ import java.io.IOException;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.rendering.Image2DModel;
 import at.jojokobi.donatengine.rendering.RenderModel;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.tiles.BushTile;
@@ -18,12 +19,12 @@ public class SpitBucket implements Item {
 	public static final RenderModel SPIT_BUCKET_MODEL = new Image2DModel(SPIT_BUCKET_IMAGE);
 
 	@Override
-	public void serialize(DataOutput buffer) throws IOException {
+	public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
 		
 	}
 
 	@Override
-	public void deserialize(DataInput buffer) throws IOException {
+	public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 		
 	}
 

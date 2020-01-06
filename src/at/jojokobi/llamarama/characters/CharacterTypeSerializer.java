@@ -5,16 +5,17 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import at.jojokobi.donatengine.serialization.BinarySerializer;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 
 public class CharacterTypeSerializer implements BinarySerializer<CharacterType>{
 
 	@Override
-	public void serialize(CharacterType t, DataOutput buffer) throws IOException {
+	public void serialize(CharacterType t, DataOutput buffer, SerializationWrapper serialization) throws IOException {
 		buffer.writeUTF(t.getName());
 	}
 
 	@Override
-	public CharacterType deserialize(DataInput buffer) throws IOException {
+	public CharacterType deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 		String id = buffer.readUTF();
 		return CharacterTypeProvider.getCharacterTypes().get(id);
 	}

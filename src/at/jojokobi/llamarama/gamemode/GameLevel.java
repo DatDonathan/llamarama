@@ -33,6 +33,7 @@ import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
@@ -49,12 +50,12 @@ public class GameLevel extends Level{
 	public static class StartMatchAction implements GUIAction {
 
 		@Override
-		public void serialize(DataOutput buffer) throws IOException {
+		public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
 			
 		}
 
 		@Override
-		public void deserialize(DataInput buffer) throws IOException {
+		public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 			
 		}
 
@@ -93,14 +94,14 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void serialize(DataOutput buffer) throws IOException {
+		public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
 			buffer.writeLong(client);
 			buffer.writeUTF(characterType);
 			buffer.writeUTF(name);
 		}
 
 		@Override
-		public void deserialize(DataInput buffer) throws IOException {
+		public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 			client = buffer.readLong();
 			characterType = buffer.readUTF();
 			name = buffer.readUTF();

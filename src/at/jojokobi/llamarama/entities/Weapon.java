@@ -10,6 +10,7 @@ import at.jojokobi.donatengine.objects.properties.IntProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.serialization.BinarySerializable;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 
 public class Weapon implements BinarySerializable, ObservableObject {
 	
@@ -32,12 +33,12 @@ public class Weapon implements BinarySerializable, ObservableObject {
 	}
 
 	@Override
-	public void serialize(DataOutput buffer) throws IOException {
+	public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
 		buffer.writeInt(getBullets());
 	}
 
 	@Override
-	public void deserialize(DataInput buffer) throws IOException {
+	public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 		setBullets(buffer.readInt());
 	}
 
@@ -47,18 +48,20 @@ public class Weapon implements BinarySerializable, ObservableObject {
 	}
 
 	@Override
-	public void writeChanges(DataOutput out) throws IOException {
-		
-	}
-
-	@Override
-	public void readChanges(DataInput in) throws IOException {
-		
-	}
-
-	@Override
 	public boolean stateChanged() {
 		return false;
+	}
+
+	@Override
+	public void writeChanges(DataOutput out, SerializationWrapper serialization) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readChanges(DataInput in, SerializationWrapper serialization) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
