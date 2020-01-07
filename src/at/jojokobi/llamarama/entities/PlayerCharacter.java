@@ -12,6 +12,8 @@ import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import javafx.scene.canvas.GraphicsContext;
 
 public class PlayerCharacter extends CharacterInstance {
+	
+	private double swapCooldown = 0.0;
 
 	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character, String name) {
 		super(x, y, z, area, character, name);
@@ -42,9 +44,11 @@ public class PlayerCharacter extends CharacterInstance {
 			comp.attack(this, level);
 		}
 		//Swap Weapon
-		if (input.getButton(ControlConstants.SWAP_WEAPON)) {
+		if (input.getButton(ControlConstants.SWAP_WEAPON) && swapCooldown <= 0) {
 			comp.swapWeapon();
+			swapCooldown = 0.25;
 		}
+		swapCooldown -= delta;
 	}
 	
 	@Override

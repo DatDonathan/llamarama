@@ -142,6 +142,9 @@ public class CharacterComponent implements ObjectComponent {
 		ctx.setFont(new Font("Consolas", 12));
 		ctx.fillText(getName(), topLeft.getX(), topLeft.getY() - 50, width);
 		ctx.fillText("Kills " + getKills(), topLeft.getX(), topLeft.getY() - 40, width);
+		//Weapon
+		ctx.setFont(new Font("Consolas", 32));
+		ctx.fillText(weapon.get() + 1 + "", topLeft.getX() - 20, topLeft.getY() - 20, width);
 		//Team
 //		if (team != null) {
 //			ctx.strokeText(getTeam(), getX() - cam.getX(), getY() - 60 - cam.getY(), getWidth());
