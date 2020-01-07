@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
 import at.jojokobi.donatengine.gui.GUISystem;
@@ -166,10 +167,13 @@ public class GameLevel extends Level{
 		private GameMap currentMap;
 		private double time;
 		private boolean running = false;
+		private String connectionString;
+		private UUID partyId = UUID.randomUUID();
 
-		public GameComponent(GameMode gameMode, Vector3D startPos, String startArea) {
+		public GameComponent(GameMode gameMode, String connectionString, Vector3D startPos, String startArea) {
 			super();
 			this.gameMode = gameMode;
+			this.connectionString = connectionString;
 			this.startPos = startPos;
 			this.startArea = startArea;
 		}
@@ -210,13 +214,15 @@ public class GameLevel extends Level{
 		
 		private void startMatch (Level level, LevelHandler handler) {
 			GamePresence presence = new GamePresence();
-			presence.setState("In Match | Battle Royale");
+			presence.setState("In Match");
+			presence.setDetails("Battle Royale");
+			presence.setPartySize(connectedClients.size());
+			presence.setPartyMax(gameMode.getMaxPlayers());
 			presence.setStartTimestamp(System.currentTimeMillis());
-			presence.setSmallImageKey("corporal");
-			presence.setSmallImageText("corporal");
 			presence.setLargeImageKey("corporal");
 			presence.setLargeImageText("corporal");
-			handler.getGamePresenceHandler().updatePresence(presence);
+			presence.setPartyId(partyId.toString());
+			handler.getGamePresenceHandler().updatePresence(presence, null, null);
 			
 			time = 0;
 			running = true;
@@ -240,21 +246,10 @@ public class GameLevel extends Level{
 			characterChoices.clear();
 		}
 		
-		private void endMatch (Level level, LevelHandler handler) {
-			GamePresence presence = new GamePresence();
-			presence.setState("In Lobby | Battle Royale");
-			presence.setPartySize(connectedClients.size());
-			presence.setPartyMax(gameMode.getMaxPlayers());
-			presence.setStartTimestamp(System.currentTimeMillis());
-			presence.setSmallImageKey("corporal");
-			presence.setSmallImageText("corporal");
-			presence.setLargeImageKey("corporal");
-			presence.setLargeImageText("corporal");
-			handler.getGamePresenceHandler().updatePresence(presence);
-			
+		private void endMatch (Level level, LevelHandler handler) {			
 			level.getComponent(ChatComponent.class).postMessage(gameMode.determineWinner(level, this).getName() + " won the game!");
 			gameMode.endGame(level, this);
-			init(level);
+			init(level, handler);
 		}
 
 		@Override
@@ -271,7 +266,26 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void init(Level level) {
+		public void init(Level level, LevelHandler handler) {
+			initGame(level, handler);
+		}
+		
+		private void initGame (Level level, LevelHandler handler) {
+			GamePresence presence = new GamePresence();
+			presence.setState("In Lobby");
+			presence.setDetails("Battle Royale");
+			presence.setPartySize(connectedClients.size());
+			presence.setPartyMax(gameMode.getMaxPlayers());
+			presence.setStartTimestamp(System.currentTimeMillis());
+			presence.setLargeImageKey("corporal");
+			presence.setLargeImageText("corporal");
+			presence.setPartyId(partyId.toString());
+			presence.setJoinSecret(connectionString);
+			handler.getGamePresenceHandler().updatePresence(presence, null, r -> {
+				level.getComponent(ChatComponent.class).postMessage(r.getUsername() + " joined via " + r.getPlatform() + "!");
+				return true;
+			});
+			
 			characterChoices.clear();
 			for (Long id : connectedClients) {
 				characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
@@ -316,12 +330,12 @@ public class GameLevel extends Level{
 	private String mainArea = "main";
 	
 	
-	public GameLevel(MultiplayerBehavior behavior) {
+	public GameLevel(MultiplayerBehavior behavior, String connectionString) {
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
-		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), new Vector3D(0, 0, 0), mainArea));
+		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		//Select Player GUI
@@ -375,8 +389,8 @@ public class GameLevel extends Level{
 	}
 	
 	@Override
-	public void start(Camera camera) {
-		super.start(camera);
+	public void start(Camera camera, LevelHandler handler) {
+		super.start(camera, handler);
 		camera.setPerspective(new TwoDimensionalPerspective());
 		camera.setRotationX(90);
 		camera.setRenderDistance(32 * 40);

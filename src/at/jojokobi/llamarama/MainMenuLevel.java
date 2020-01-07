@@ -1,6 +1,10 @@
 package at.jojokobi.llamarama;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
 
 import at.jojokobi.donatengine.ClientGameLogic;
 import at.jojokobi.donatengine.SimpleGameLogic;
@@ -34,7 +38,8 @@ import javafx.scene.text.Font;
 public class MainMenuLevel extends Level{
 	
 	public static final String MAIN_MENU_GUI = "main_menu";
-	private boolean started = false;
+	
+	private ServerClientFactory factory = TCPServerClientFactory.getInstance();
 
 	public MainMenuLevel(MultiplayerBehavior behavior) {
 		super(behavior, 0, 0, 0);
@@ -44,7 +49,6 @@ public class MainMenuLevel extends Level{
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
-			ServerClientFactory factory = TCPServerClientFactory.getInstance();
 			//Title
 			Text title = new Text("Llamarama");
 			title.addStyle(s -> true, new FixedStyle().setFontColor(Color.BLACK).setFont(new Font("Consolas", 72)).setMarginTop(40.0));
@@ -55,7 +59,7 @@ public class MainMenuLevel extends Level{
 			//Buttons
 			Button singleplayer = new Button("Singleplayer");
 			singleplayer.setWidthDimension(new PercentualDimension(0.3));
-			singleplayer.setOnAction(() -> new ChangeLogicAction(() -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior()))));
+			singleplayer.setOnAction(() -> new ChangeLogicAction(() -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), ""))));
 			singleplayer.addStyle(s -> true, new FixedStyle().setFill(Color.LIGHTBLUE).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 			singleplayer.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.AQUA));
 			//Host
@@ -71,7 +75,22 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true)), server);
+				//Find server IP
+				String ip = "";
+				URL url;
+				try {
+					url = new URL("https://jojokobi.lima-city.de/ip.php");
+					try (InputStream in = url.openStream();
+							Scanner scanner = new Scanner(in)) {
+						ip = scanner.nextLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					}
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				}
+				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), ip), server);
 			}));
 			//IP input
 			TextField ip = new TextField();
@@ -91,7 +110,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior()), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), ip.getText()), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -112,22 +131,27 @@ public class MainMenuLevel extends Level{
 	@Override
 	public synchronized void update(double delta, LevelHandler handler, Camera camera) {
 		super.update(delta, handler, camera);
-		if (!started) {
-			GamePresence presence = new GamePresence();
-			presence.setDetails("In menu");
-			presence.setSmallImageKey("corporal");
-			presence.setSmallImageText("corporal");
-			presence.setLargeImageKey("corporal");
-			presence.setLargeImageText("corporal");
-			handler.getGamePresenceHandler().updatePresence(presence);
-			started = true;
-		}
 	}
 
 	@Override
-	public void start(Camera camera) {
-		super.start(camera);
+	public void start(Camera camera, LevelHandler handler) {
+		super.start(camera, handler);
 		getGuiSystem().showGUI(MAIN_MENU_GUI);
+		
+		GamePresence presence = new GamePresence();
+		presence.setDetails("In menu");
+		presence.setLargeImageKey("corporal");
+		presence.setLargeImageText("corporal");
+		handler.getGamePresenceHandler().updatePresence(presence, secret -> {
+			Client client = null;
+			try {
+				client = factory.createClient(secret, 44444);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), secret), client));
+		}, null);
 	}
 	
 	@Override
