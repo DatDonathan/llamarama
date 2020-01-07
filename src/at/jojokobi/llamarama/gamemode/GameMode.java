@@ -22,6 +22,8 @@ public interface GameMode {
 	
 	public Winner determineWinner (Level level, GameComponent comp);
 	
+	public int getMaxPlayers ();
+	
 	public List<GameEffect> createEffects ();
 	
 	public List<GameMap> getPossibleMaps ();

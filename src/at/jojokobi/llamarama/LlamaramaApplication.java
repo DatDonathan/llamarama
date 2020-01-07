@@ -28,6 +28,7 @@ import at.jojokobi.donatengine.input.ButtonAxis;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.presence.DiscordGamePresence;
 import at.jojokobi.donatengine.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.ressources.IRessourceHandler;
 import at.jojokobi.donatengine.ressources.RessourceHandler;
@@ -95,6 +96,7 @@ public class LlamaramaApplication extends Application {
 			Map<String, Axis> axisBindings = new HashMap<>();
 			axisBindings.put(ControlConstants.MOVEMENT, new ButtonAxis(ControlConstants.UP, ControlConstants.DOWN, ControlConstants.LEFT, ControlConstants.RIGHT));
 			view = new GameView(stage, new SimpleGameLogic(level), cam, ressourceHandler, keyBindings, new HashMap<>(), axisBindings);
+			view.getGamePresenceHandler().addPlatform(new DiscordGamePresence("663770162188779521", ""));
 			GameLoop loop = new GameLoop(60, view);
 			loop.start();
 		}, "Game-Thread").start();

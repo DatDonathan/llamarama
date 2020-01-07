@@ -16,11 +16,13 @@ import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.gui.style.FixedStyle;
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.net.ClientBehavior;
 import at.jojokobi.donatengine.net.HostBehavior;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
@@ -32,6 +34,7 @@ import javafx.scene.text.Font;
 public class MainMenuLevel extends Level{
 	
 	public static final String MAIN_MENU_GUI = "main_menu";
+	private boolean started = false;
 
 	public MainMenuLevel(MultiplayerBehavior behavior) {
 		super(behavior, 0, 0, 0);
@@ -104,6 +107,21 @@ public class MainMenuLevel extends Level{
 	@Override
 	public void generate(Camera camera) {
 		
+	}
+	
+	@Override
+	public synchronized void update(double delta, LevelHandler handler, Camera camera) {
+		super.update(delta, handler, camera);
+		if (!started) {
+			GamePresence presence = new GamePresence();
+			presence.setDetails("In menu");
+			presence.setSmallImageKey("corporal");
+			presence.setSmallImageText("corporal");
+			presence.setLargeImageKey("corporal");
+			presence.setLargeImageText("corporal");
+			handler.getGamePresenceHandler().updatePresence(presence);
+			started = true;
+		}
 	}
 
 	@Override

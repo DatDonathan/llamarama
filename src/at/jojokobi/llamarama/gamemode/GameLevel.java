@@ -32,6 +32,7 @@ import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
+import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.donatengine.util.Vector3D;
@@ -63,7 +64,7 @@ public class GameLevel extends Level{
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
 			system.removeGUI(id);
 			if (!level.getComponent(GameComponent.class).isRunning()) {
-				level.getComponent(GameComponent.class).startMatch(level);
+				level.getComponent(GameComponent.class).startMatch(level, handler);
 			}
 		}
 
@@ -174,17 +175,17 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void hostUpdate(Level level, Camera cam, double delta) {
+		public void hostUpdate(Level level, LevelHandler handler, Camera cam, double delta) {
 			time += delta;
 			if (level.getBehavior().isHost()) {
 				if (running) {
 					gameMode.update(level, this, delta);
 					if (gameMode.canEndGame(level, this)) {
-						endMatch(level);
+						endMatch(level, handler);
 					}
 				}
 				else if (gameMode.canStartGame(level, characterChoices, this)) {
-					startMatch(level);
+					startMatch(level, handler);
 				}
 				gameEffects.forEach(e -> e.update(level, this, delta));
 			}
@@ -207,7 +208,16 @@ public class GameLevel extends Level{
 			characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
 		}
 		
-		private void startMatch (Level level) {
+		private void startMatch (Level level, LevelHandler handler) {
+			GamePresence presence = new GamePresence();
+			presence.setState("In Match | Battle Royale");
+			presence.setStartTimestamp(System.currentTimeMillis());
+			presence.setSmallImageKey("corporal");
+			presence.setSmallImageText("corporal");
+			presence.setLargeImageKey("corporal");
+			presence.setLargeImageText("corporal");
+			handler.getGamePresenceHandler().updatePresence(presence);
+			
 			time = 0;
 			running = true;
 			level.clear();
@@ -230,7 +240,18 @@ public class GameLevel extends Level{
 			characterChoices.clear();
 		}
 		
-		private void endMatch (Level level) {
+		private void endMatch (Level level, LevelHandler handler) {
+			GamePresence presence = new GamePresence();
+			presence.setState("In Lobby | Battle Royale");
+			presence.setPartySize(connectedClients.size());
+			presence.setPartyMax(gameMode.getMaxPlayers());
+			presence.setStartTimestamp(System.currentTimeMillis());
+			presence.setSmallImageKey("corporal");
+			presence.setSmallImageText("corporal");
+			presence.setLargeImageKey("corporal");
+			presence.setLargeImageText("corporal");
+			handler.getGamePresenceHandler().updatePresence(presence);
+			
 			level.getComponent(ChatComponent.class).postMessage(gameMode.determineWinner(level, this).getName() + " won the game!");
 			gameMode.endGame(level, this);
 			init(level);
@@ -279,12 +300,12 @@ public class GameLevel extends Level{
 		}
 
 		@Override
-		public void update(Level level, Camera cam, double delta) {
+		public void update(Level level, LevelHandler handler, Camera cam, double delta) {
 			
 		}
 
 		@Override
-		public void clientUpdate(Level level, Camera cam, double delta) {
+		public void clientUpdate(Level level, LevelHandler handler, Camera cam, double delta) {
 			
 		}
 		

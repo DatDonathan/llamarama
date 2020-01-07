@@ -81,4 +81,9 @@ public class BattleRoyaleGameMode implements GameMode {
 		return Arrays.asList(new ItemSpawnerEffect(Arrays.asList(HealingGrass::new, SpitBucket::new), 30, 0.001, 32));
 	}
 
+	@Override
+	public int getMaxPlayers() {
+		return minPlayers;
+	}
+
 }

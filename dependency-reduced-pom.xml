@@ -24,6 +24,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -64,7 +65,7 @@
               <goal>java</goal>
             </goals>
             <configuration>
-              <mainClass>at.jojokobi.llamarama.LlamaramaApplication</mainClass>
+              <mainClass>at.jojokobi.llamarama.LlamaramaMain</mainClass>
             </configuration>
           </execution>
         </executions>

@@ -25,6 +25,7 @@
       <plugin>
       	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <archive>
           	<manifest>
@@ -66,7 +67,7 @@
       	  	  <goal>java</goal>
       	  	</goals>
       	  	<configuration>
-      	  	  <mainClass>at.jojokobi.llamarama.LlamaramaApplication</mainClass>
+      	  	  <mainClass>at.jojokobi.llamarama.LlamaramaMain</mainClass>
       	  	</configuration>
       	  </execution>
       	</executions>
@@ -85,7 +86,7 @@
 	  <version>11</version>
   	</dependency>
   	<dependency>
-	  <groupId>donat-engine</groupId>
+	  <groupId>donat-engine</groupId>       
 	  <artifactId>donat-engine</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
   	</dependency>
