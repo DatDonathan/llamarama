@@ -1,10 +1,6 @@
 package at.jojokobi.llamarama;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 import at.jojokobi.donatengine.ClientGameLogic;
 import at.jojokobi.donatengine.SimpleGameLogic;
@@ -76,20 +72,27 @@ public class MainMenuLevel extends Level{
 					throw new RuntimeException(e);
 				}
 				//Find server IP
-				String ip = "";
-				URL url;
-				try {
-					url = new URL("https://jojokobi.lima-city.de/ip.php");
-					try (InputStream in = url.openStream();
-							Scanner scanner = new Scanner(in)) {
-						ip = scanner.nextLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-						throw new RuntimeException(e);
-					}
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
-				}
+				String ip = server.getHostAddress().toString().substring(1);
+				System.out.println(ip);
+//				try {
+//					ip = Inet4Address.getLocalHost().getHostAddress();
+//					System.out.println(ip);
+//				} catch (UnknownHostException e) {
+//					e.printStackTrace();
+//				}
+//				URL url;
+//				try {
+//					url = new URL("https://jojokobi.lima-city.de/ip.php");
+//					try (InputStream in = url.openStream();
+//							Scanner scanner = new Scanner(in)) {
+//						ip = scanner.nextLine();
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//						throw new RuntimeException(e);
+//					}
+//				} catch (MalformedURLException e1) {
+//					e1.printStackTrace();
+//				}
 				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), ip), server);
 			}));
 			//IP input
@@ -110,7 +113,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior(), ip.getText()), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + ""), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -150,7 +153,7 @@ public class MainMenuLevel extends Level{
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), secret), client));
+			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + ""), client));
 		}, null);
 	}
 	
