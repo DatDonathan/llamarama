@@ -146,6 +146,7 @@ public class MainMenuLevel extends Level{
 		presence.setLargeImageKey("corporal");
 		presence.setLargeImageText("corporal");
 		handler.getGamePresenceHandler().updatePresence(presence, secret -> {
+			System.out.println("Join attempt");
 			Client client = null;
 			try {
 				client = factory.createClient(secret, 44444);

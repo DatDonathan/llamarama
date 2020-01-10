@@ -8,6 +8,7 @@ import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.ObjectComponent;
+import at.jojokobi.donatengine.objects.properties.BooleanProperty;
 import at.jojokobi.donatengine.objects.properties.DoubleProperty;
 import at.jojokobi.donatengine.objects.properties.EnumProperty;
 import at.jojokobi.donatengine.objects.properties.IntProperty;
@@ -32,9 +33,10 @@ public class CharacterComponent implements ObjectComponent {
 	private ObjectProperty<CharacterType> character = new ObjectProperty<CharacterType>(null);
 	private IntProperty hp = new IntProperty(40);
 	private DoubleProperty cooldown = new DoubleProperty(0);
-	private double abilityCooldown = 0;
+	private DoubleProperty abilityCooldown = new DoubleProperty(0);
 	private IntProperty kills = new IntProperty(0);
 	private StringProperty name = new StringProperty("");
+	private BooleanProperty usingAbility = new BooleanProperty(false);
 	
 	private IntProperty weapon = new IntProperty(0);
 	private ObservableObjectProperty<ObservableList<Weapon>> weapons = new ObservableObjectProperty<ObservableList<Weapon>>(new ObservableList<>());
@@ -80,6 +82,15 @@ public class CharacterComponent implements ObjectComponent {
 		if (dir != getDirection()) {
 			setDirection(dir);
 		}
+		if (getCharacter().getAbility() != null) {
+			getCharacter().getAbility().update(level, object, delta, this);
+		}
+		//Use Ability
+		if (getAbilityCooldown() <= 0 && usingAbility.get() && getCharacter().getAbility() != null) {
+			if (getCharacter().getAbility().use(level, object, delta, this)) {
+				setAbilityCooldown(getCharacter().getAbility().getCooldown());
+			}
+		}
 		//Die
 //		if (getHp() <= 0) {
 //			object.delete(level);
@@ -95,6 +106,13 @@ public class CharacterComponent implements ObjectComponent {
 		}
 		
 		this.cooldown.setUnchanged(cooldown);
+		double abilityCooldown = getAbilityCooldown();
+		abilityCooldown -= delta;
+		if (abilityCooldown <= 0) {
+			abilityCooldown = 0;
+		}
+		
+		this.abilityCooldown.setUnchanged(cooldown);
 	}
 
 	@Override
@@ -145,12 +163,24 @@ public class CharacterComponent implements ObjectComponent {
 		//Weapon
 		ctx.setFont(new Font("Consolas", 32));
 		ctx.fillText(weapon.get() + 1 + "", topLeft.getX() - 20, topLeft.getY() - 20, width);
+		
+		if (getCharacter().getAbility() != null && usingAbility.get()) {
+			getCharacter().getAbility().render(level, object, this, ctx, cam);
+		}
 		//Team
 //		if (team != null) {
 //			ctx.strokeText(getTeam(), getX() - cam.getX(), getY() - 60 - cam.getY(), getWidth());
 //		}
 	}
 	
+	public boolean isUsingAbility() {
+		return usingAbility.get();
+	}
+
+	public void setUsingAbility(boolean usingAbility) {
+		this.usingAbility.set(usingAbility);
+	}
+
 	public Pair<WeaponType, Weapon> getCurrentWeapon () {
 		return new Pair<>(getCharacter().getWeapons().get(getSelectedWeapon()), getWeapons().get(getSelectedWeapon()));
 	}
@@ -213,7 +243,7 @@ public class CharacterComponent implements ObjectComponent {
 	}
 
 	public double getAbilityCooldown() {
-		return abilityCooldown;
+		return abilityCooldown.get();
 	}
 
 	public void setCooldown(double cooldown) {
@@ -221,7 +251,7 @@ public class CharacterComponent implements ObjectComponent {
 	}
 
 	public void setAbilityCooldown(double abilityCooldown) {
-		this.abilityCooldown = abilityCooldown;
+		this.abilityCooldown.set(abilityCooldown);
 	}
 
 	public void setHp(Integer t) {
@@ -258,7 +288,7 @@ public class CharacterComponent implements ObjectComponent {
 
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
-		return Arrays.asList(direction, character, hp, kills, cooldown, weapon, weapons, name);
+		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, weapon, weapons, name);
 	}
 	
 }

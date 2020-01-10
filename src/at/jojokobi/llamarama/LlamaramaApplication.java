@@ -92,6 +92,7 @@ public class LlamaramaApplication extends Application {
 			keyBindings.put(ControlConstants.CAM_UP, KeyCode.PLUS);
 			keyBindings.put(ControlConstants.CAM_DOWN, KeyCode.MINUS);
 			keyBindings.put(ControlConstants.SWAP_WEAPON, KeyCode.SHIFT);
+			keyBindings.put(ControlConstants.USE_ABILITY, KeyCode.CONTROL);
 			keyBindings.put(ControlConstants.PAUSE, KeyCode.ESCAPE);
 			Map<String, Axis> axisBindings = new HashMap<>();
 			axisBindings.put(ControlConstants.MOVEMENT, new ButtonAxis(ControlConstants.UP, ControlConstants.DOWN, ControlConstants.LEFT, ControlConstants.RIGHT));

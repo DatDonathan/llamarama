@@ -59,4 +59,12 @@ public class Bullet extends GameObject {
 		}
 	}
 
+	public CharacterComponent getShooter() {
+		return shooter;
+	}
+
+	public void setShooter(CharacterComponent shooter) {
+		this.shooter = shooter;
+	}
+
 }

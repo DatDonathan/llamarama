@@ -15,7 +15,7 @@ public class PunchBehavior implements FireBehavior {
 		List<GameObject> targets = obj.getCollided(level);
 		for (GameObject target : targets) {
 			CharacterComponent ch = target.getComponent(CharacterComponent.class);
-			if (target != obj) {
+			if (ch != null && target != obj) {
 				ch.damage(type.getDamage()); 
 				if (!ch.isAlive()) {
 					comp.setKills(comp.getKills());

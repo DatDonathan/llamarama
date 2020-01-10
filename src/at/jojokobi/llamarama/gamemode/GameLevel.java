@@ -282,6 +282,7 @@ public class GameLevel extends Level{
 			presence.setPartyId(partyId.toString());
 			presence.setJoinSecret(connectionString);
 			handler.getGamePresenceHandler().updatePresence(presence, null, r -> {
+				System.out.println("Someone else joins");
 				level.getComponent(ChatComponent.class).postMessage(r.getUsername() + " joined via " + r.getPlatform() + "!");
 				return true;
 			});

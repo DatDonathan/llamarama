@@ -48,6 +48,10 @@ public class PlayerCharacter extends CharacterInstance {
 			comp.swapWeapon();
 			swapCooldown = 0.25;
 		}
+		//Swap Weapon
+		if (input.getButton(ControlConstants.USE_ABILITY)) {
+			comp.setUsingAbility(true);
+		}
 		swapCooldown -= delta;
 	}
 	
