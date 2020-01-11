@@ -288,7 +288,7 @@ public class CharacterComponent implements ObjectComponent {
 
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
-		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, weapon, weapons, name);
+		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, usingAbility, weapon, weapons, name);
 	}
 	
 }
