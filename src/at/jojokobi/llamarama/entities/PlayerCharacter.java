@@ -30,9 +30,10 @@ public class PlayerCharacter extends CharacterInstance {
 		CharacterComponent comp = getComponent(CharacterComponent.class);
 		Input input =  handler.getInput(getComponent(PlayerComponent.class).getClient());
 		//Move
-		Vector2D axis = input.getAxis(ControlConstants.MOVEMENT).normalize();
+		Vector2D axis = input.getAxis(ControlConstants.MOVEMENT);
 		double speed = comp.getCharacter().getSpeed();
-		axis.multiply(speed);
+		axis.normalize().multiply(speed);
+		
 		if (getxMotion() >= -speed && getxMotion() <= speed) {
 			setxMotion(axis.getX());
 		}

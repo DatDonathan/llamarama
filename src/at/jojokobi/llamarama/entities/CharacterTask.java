@@ -4,7 +4,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 
-public interface CharacterAI {
+public interface CharacterTask {
 	
 	public boolean canApply (Level level, GameObject obj, CharacterComponent ch);
 	
@@ -12,6 +12,6 @@ public interface CharacterAI {
 	
 	public void activate (Level level, GameObject obj, CharacterComponent ch);
 	
-	public void deavtivate (Level level, GameObject obj, CharacterComponent ch);
+	public void deactivate (Level level, GameObject obj, CharacterComponent ch);
 
 }

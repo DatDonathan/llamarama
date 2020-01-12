@@ -4,10 +4,10 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 
-public class RandomAI implements CharacterAI {
+public class RandomTask implements CharacterTask {
 	
 	private double interval = 3.0;
-	private double distance = 256.0;
+	private double distance = 1024.0;
 	private double timer = 0;
 	private Vector3D goal;
 
@@ -32,7 +32,7 @@ public class RandomAI implements CharacterAI {
 	}
 
 	@Override
-	public void deavtivate(Level level, GameObject obj, CharacterComponent ch) {
+	public void deactivate(Level level, GameObject obj, CharacterComponent ch) {
 		
 	}
 
