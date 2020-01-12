@@ -20,6 +20,7 @@ public class NonPlayerCharacter extends CharacterInstance {
 
 	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character) {
 		super(x, y, z, area, character, character.getName());
+		tasks.add(new FollowTask(o -> o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 1024, false));
 		tasks.add(new RandomTask());
 	}
 	
