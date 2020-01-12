@@ -78,7 +78,7 @@ public class BattleRoyaleGameMode implements GameMode {
 
 	@Override
 	public List<GameEffect> createEffects() {
-		return Arrays.asList(new ItemSpawnerEffect(Arrays.asList(HealingGrass::new, SpitBucket::new), 30, 0.001, 32));
+		return Arrays.asList(new ItemSpawnerEffect(Arrays.asList(HealingGrass::new, SpitBucket::new), 10, 0.0005, 32));
 	}
 
 	@Override

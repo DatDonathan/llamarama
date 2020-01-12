@@ -86,7 +86,7 @@ public class CharacterComponent implements ObjectComponent {
 			getCharacter().getAbility().update(level, object, delta, this);
 		}
 		//Use Ability
-		if (getAbilityCooldown() <= 0 && usingAbility.get() && getCharacter().getAbility() != null) {
+		if (getAbilityCooldown() <= 0 && usingAbility.get() && getCharacter().getAbility() != null && isAlive()) {
 			if (getCharacter().getAbility().use(level, object, delta, this)) {
 				setAbilityCooldown(getCharacter().getAbility().getCooldown());
 			}

@@ -1,8 +1,9 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.ai;
 
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
+import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public class RandomTask implements CharacterTask {
 	

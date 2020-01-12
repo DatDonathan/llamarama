@@ -27,5 +27,10 @@ public class PunchBehavior implements FireBehavior {
 		}
 		return 0;
 	}
+	
+	@Override
+	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
+		return obj.isColliding(target);
+	}
 
 }

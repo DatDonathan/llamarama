@@ -9,4 +9,6 @@ public interface FireBehavior {
 	
 	public int shoot (GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level);
 	
+	public boolean willHit (GameObject obj, CharacterComponent comp, GameObject target, Level level);
+	
 }

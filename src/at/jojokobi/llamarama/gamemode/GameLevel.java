@@ -181,6 +181,7 @@ public class GameLevel extends Level{
 		@Override
 		public void hostUpdate(Level level, LevelHandler handler, Camera cam, double delta) {
 			time += delta;
+			System.out.println(cam.getX() + " " + cam.getY() + " " + cam.getZ());
 			if (level.getBehavior().isHost()) {
 				if (running) {
 					gameMode.update(level, this, delta);

@@ -69,8 +69,16 @@ public class PlayerCharacter extends CharacterInstance {
 	
 	@Override
 	public void render(GraphicsContext ctx, Camera cam, Level level) {
-		if (getComponent(CharacterComponent.class).isAlive() || getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
+		CharacterComponent comp = getComponent(CharacterComponent.class);
+		PlayerComponent player = getComponent(PlayerComponent.class);
+		if (comp.isAlive() || player.getClient() == level.getClientId()) {
+			if (!getComponent(CharacterComponent.class).isAlive() && getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
+				ctx.setGlobalAlpha(0.5);
+			}
 			super.render(ctx, cam, level);
+			if (!getComponent(CharacterComponent.class).isAlive() && getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
+				ctx.setGlobalAlpha(0.1);
+			}
 		}
 	}
 

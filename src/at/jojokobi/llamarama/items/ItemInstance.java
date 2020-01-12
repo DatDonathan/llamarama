@@ -13,6 +13,7 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 public class ItemInstance extends GameObject{
 	
 	private ObjectProperty<Item> item = new ObjectProperty<Item>(null);
+	private double lifetime = 20.0;
 
 	public ItemInstance(double x, double y, double z, String area, Item item) {
 		super(x, y, z, area, null);
@@ -31,14 +32,20 @@ public class ItemInstance extends GameObject{
 	@Override
 	public void hostUpdate(Level level, LevelHandler handler, Camera camera, double delta) {
 		super.hostUpdate(level, handler, camera, delta);
+		lifetime -= delta;
 		
+		boolean used = false;
 		for (GameObject obj : getCollided(level)) {
 			CharacterComponent comp = obj.getComponent(CharacterComponent.class);
 			if (comp != null) {
 				item.get().use(comp, obj);
 				delete(level);
+				used = true;
 				break;
 			}
+		}
+		if (lifetime <= 0 && !used) {
+			delete(level);
 		}
 	}
 	

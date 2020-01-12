@@ -1,6 +1,9 @@
 package at.jojokobi.llamarama;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import at.jojokobi.donatengine.ClientGameLogic;
 import at.jojokobi.donatengine.SimpleGameLogic;
@@ -16,14 +19,21 @@ import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.gui.style.FixedStyle;
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.net.ClientBehavior;
 import at.jojokobi.donatengine.net.HostBehavior;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.presence.GamePresence;
+import at.jojokobi.donatengine.util.Vector3D;
+import at.jojokobi.llamarama.characters.CharacterTypeProvider;
+import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.gamemode.GameLevel;
+import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
 import at.jojokobi.netutil.client.Client;
@@ -35,10 +45,38 @@ public class MainMenuLevel extends Level{
 	
 	public static final String MAIN_MENU_GUI = "main_menu";
 	
+	public static final int[][][] PARK_TILEMAP = 
+		{{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,5,5,0,0,0,0,0,0,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,3,0,0,0,0,0,0,5,5,0,0,0,0,0,1,1,1,0,0,0,5,0,0,3,0,0,0,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,0,0,0,0,0,3,0,5,0,5,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,4,4,4,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,5,5,0,0,0},
+		 {0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,5,5,0,0},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,4,0,0,0,0,0,0,0,0,3,0,0,0,0},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,5,5,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,1,1,1,0,0,0,0,0,0,0,0,0,0,4,5,5,5,0,0,1,1,1,0,0,0,4,0,0,0,0,0,0,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,0,0,0,0,0,0,0,0,4,5,5,0,0,0,1,1,1,0,0,0,4,0,0,0,0,0,0,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,1,1,1,0,0,0,4,0,0,0,0,0,0,0,0,0,1,1,1,0},
+		 {0,0,0,0,0,0,0,0,5,5,0,0,0,0,4,0,0,3,0,0,0,0,0,0,0,0,4,0,3,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,0,0,0,0,0,0,0,5,5,5,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,0,0,0,0,0,0,0,0,0,5,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,0,0,0,0,0,0,0,0,0,3,0,0,0,4,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
+		 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,4,4,4,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		 {0,1,1,1,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,3,0,0,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,5,5,0,0,0,1,1,1,0},
+		 {0,1,1,1,0,0,0,5,5,0,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,3,0,0,0,0,0,5,5,0,0,0,1,1,1,0},
+		 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0}}};
+	
 	private ServerClientFactory factory = TCPServerClientFactory.getInstance();
+	private String mainArea = "main";
 
 	public MainMenuLevel(MultiplayerBehavior behavior) {
 		super(behavior, 0, 0, 0);
+		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(1280, 768, 768), true));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		fact.registerGUI(MAIN_MENU_GUI, () -> {
@@ -128,12 +166,28 @@ public class MainMenuLevel extends Level{
 
 	@Override
 	public void generate(Camera camera) {
-		
+		parseTilemap(PARK_TILEMAP, new LlamaramaTileMapParser(), mainArea);
+		LevelBoundsComponent comp = getComponent(LevelBoundsComponent.class);
+		//Spawn AIs
+		for (int i = 0; i < 8; i++) {
+			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
+			NonPlayerCharacter ch = new NonPlayerCharacter(Math.random() * comp.getSize().getX(), Math.random() * comp.getSize().getY(), Math.random() * comp.getSize().getZ(), mainArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+			camera.setFollow(spawn(ch));
+		}
 	}
 	
 	@Override
 	public synchronized void update(double delta, LevelHandler handler, Camera camera) {
 		super.update(delta, handler, camera);
+		if (getBehavior().isHost()) {
+			for (GameObject obj : getObjectsWithComponent(CharacterComponent.class)) {
+				CharacterComponent comp = obj.getComponent(CharacterComponent.class);
+				if (!comp.isAlive()) {
+					comp.heal(comp.getCharacter().getMaxHp());
+				}
+				comp.reloadWeapon(comp.getCurrentWeapon().getKey().getMaxBullets());
+			}
+		}
 	}
 
 	@Override
