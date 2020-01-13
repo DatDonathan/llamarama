@@ -8,6 +8,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.items.HealingGrass;
@@ -17,7 +18,7 @@ import at.jojokobi.llamarama.maps.GameMap;
 
 public class BattleRoyaleGameMode implements GameMode {
 	
-	private int minPlayers = 8;
+	private int minPlayers = 16;
 	private double maxLobbyTime = 60.0;
 	
 
@@ -40,7 +41,7 @@ public class BattleRoyaleGameMode implements GameMode {
 				count++;
 			}
 		}
-		return count <= 1;
+		return count <= 1|| level.getInstances(PlayerCharacter.class).stream().allMatch(o -> !o.getComponent(CharacterComponent.class).isAlive());
 	}
 
 	@Override

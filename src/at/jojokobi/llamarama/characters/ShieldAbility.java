@@ -43,7 +43,7 @@ public class ShieldAbility implements Ability {
 				bullet.setzMotion(-bullet.getzMotion());
 				bullet.setShooter(character);
 			}
-			used = used || Math.random() <= 0.3;
+			used = used && Math.random() <= 0.3;
 		}
 		return used;
 	}

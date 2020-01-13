@@ -12,7 +12,7 @@ public class AdvancedPathFinder implements PathFinder {
 	
 	private boolean xPriority = false;
 	private boolean clockwise = new Random().nextBoolean();
-	private double changeTimer = Math.random() * 15;
+	private double changeTimer = Math.random() * 10 + 5;
 
 	@Override
 	public Vector3D findMotion(Vector3D goal, double speed, Level level, double delta, GameObject obj, CharacterComponent ch) {
@@ -66,7 +66,7 @@ public class AdvancedPathFinder implements PathFinder {
 		changeTimer -= delta;
 		if (changeTimer <= 0) {
 			clockwise = !clockwise;
-			changeTimer = Math.random() * 15;
+			changeTimer = Math.random() * 10 + 5;
 		}
 		
 		return motion;

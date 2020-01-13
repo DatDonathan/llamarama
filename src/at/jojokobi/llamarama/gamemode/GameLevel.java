@@ -242,7 +242,13 @@ public class GameLevel extends Level{
 				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue().getCharacter(), e.getValue().getName());
 				level.spawn(player);
 			}
-			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
+			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
+			for (int i = characterChoices.size(); i < gameMode.getMaxPlayers(); i++) {
+				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+				level.spawn(player);
+			}
+			
+//			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
 			gameMode.startGame(level, this);
 			characterChoices.clear();
 		}

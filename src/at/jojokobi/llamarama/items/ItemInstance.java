@@ -37,7 +37,7 @@ public class ItemInstance extends GameObject{
 		boolean used = false;
 		for (GameObject obj : getCollided(level)) {
 			CharacterComponent comp = obj.getComponent(CharacterComponent.class);
-			if (comp != null) {
+			if (comp != null && comp.isAlive()) {
 				item.get().use(comp, obj);
 				delete(level);
 				used = true;
