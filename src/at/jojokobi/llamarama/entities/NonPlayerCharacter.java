@@ -9,9 +9,9 @@ import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
+import at.jojokobi.llamarama.entities.ai.AdvancedPathFinder;
 import at.jojokobi.llamarama.entities.ai.AttackTask;
 import at.jojokobi.llamarama.entities.ai.CharacterTask;
-import at.jojokobi.llamarama.entities.ai.DirectPathFinder;
 import at.jojokobi.llamarama.entities.ai.FollowTask;
 import at.jojokobi.llamarama.entities.ai.PathFinder;
 import at.jojokobi.llamarama.entities.ai.RandomTask;
@@ -19,7 +19,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class NonPlayerCharacter extends CharacterInstance {
 	
-	private PathFinder pathFinder = new DirectPathFinder();
+	private PathFinder pathFinder = new AdvancedPathFinder();
 	private CharacterTask currentTask;
 	private List<CharacterTask> tasks = new ArrayList<>();
 	private Vector3D goal;
@@ -66,7 +66,7 @@ public class NonPlayerCharacter extends CharacterInstance {
 		Vector3D motion = new Vector3D();
 		double speed = comp.getCharacter().getSpeed();
 		if (goal != null) {
-			motion = pathFinder.findMotion(goal, comp.getCharacter().getSpeed(), level, this, comp);
+			motion = pathFinder.findMotion(goal, comp.getCharacter().getSpeed(), level, delta, this, comp);
 		}
 		if (getxMotion() >= -speed && getxMotion() <= speed) {
 			setxMotion(motion.getX());

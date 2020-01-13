@@ -26,11 +26,11 @@ import at.jojokobi.donatengine.net.HostBehavior;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
-import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.presence.GamePresence;
+import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
+import at.jojokobi.donatengine.ressources.IRessourceHandler;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
-import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
@@ -38,6 +38,7 @@ import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
 import at.jojokobi.netutil.client.Client;
 import at.jojokobi.netutil.server.Server;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -171,28 +172,29 @@ public class MainMenuLevel extends Level{
 		//Spawn AIs
 		for (int i = 0; i < 8; i++) {
 			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
-			NonPlayerCharacter ch = new NonPlayerCharacter(Math.random() * comp.getSize().getX(), Math.random() * comp.getSize().getY(), Math.random() * comp.getSize().getZ(), mainArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
-			camera.setFollow(spawn(ch));
+			NonPlayerCharacter ch = new NonPlayerCharacter(Math.random() * comp.getSize().getX(), 32, Math.random() * comp.getSize().getZ(), mainArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+			spawn(ch);
 		}
+		camera.setArea(mainArea);
 	}
 	
 	@Override
 	public synchronized void update(double delta, LevelHandler handler, Camera camera) {
 		super.update(delta, handler, camera);
-		if (getBehavior().isHost()) {
-			for (GameObject obj : getObjectsWithComponent(CharacterComponent.class)) {
-				CharacterComponent comp = obj.getComponent(CharacterComponent.class);
-				if (!comp.isAlive()) {
-					comp.heal(comp.getCharacter().getMaxHp());
-				}
-				comp.reloadWeapon(comp.getCurrentWeapon().getKey().getMaxBullets());
-			}
-		}
+	}
+	
+	@Override
+	public synchronized void render(GraphicsContext ctx, Camera camera, IRessourceHandler ressourceHandler,
+			boolean renderInvisible) {
+		super.render(ctx, camera, ressourceHandler, renderInvisible);
 	}
 
 	@Override
 	public void start(Camera camera, LevelHandler handler) {
 		super.start(camera, handler);
+		camera.setPerspective(new TwoDimensionalPerspective());
+		camera.setRotationX(90);
+		camera.setRenderDistance(32 * 40);
 		getGuiSystem().showGUI(MAIN_MENU_GUI);
 		
 		GamePresence presence = new GamePresence();

@@ -8,7 +8,7 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 public class DirectPathFinder implements PathFinder {
 
 	@Override
-	public Vector3D findMotion(Vector3D goal, double speed, Level level, GameObject obj, CharacterComponent ch) {
+	public Vector3D findMotion(Vector3D goal, double speed, Level level, double delta, GameObject obj, CharacterComponent ch) {
 		Vector3D pos = obj.getPosition();
 		Vector3D dir = goal.clone().subtract(pos);
 		dir.setY(0);

@@ -41,7 +41,7 @@ public class MultiShotBehavior implements FireBehavior {
 	@Override
 	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
 		List<GameObject> objs = null;
-		final double size = 16;
+		final double size = 0;
 		Vector3D pos = obj.getPosition().add(obj.getSize().multiply(0.5));
 		Vector3D targetPos = target.getPosition().add(target.getSize().multiply(0.5));
 		Vector3D dst = targetPos.clone().subtract(pos);
@@ -49,23 +49,26 @@ public class MultiShotBehavior implements FireBehavior {
 		boolean hit = true;
 		switch(comp.getDirection()) {
 		case DOWN:
-			objs = level.getSolidInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ(), size, size, dst.getZ(), obj.getArea());
+			objs = level.getObjectsInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ(), size, size, dst.getZ(), obj.getArea());
 			hit = dst.getZ() >= 0;
 			break;
 		case LEFT:
-			objs = level.getSolidInArea(pos.getX() + dst.getX(), pos.getY() - size/2, pos.getZ(), -dst.getX(), size, size, obj.getArea());
+			objs = level.getObjectsInArea(pos.getX() + dst.getX(), pos.getY() - size/2, pos.getZ(), -dst.getX(), size, size, obj.getArea());
 			hit = dst.getX() <= 0;
 			break;
 		case RIGHT:
-			objs = level.getSolidInArea(pos.getX(), pos.getY() - size/2, pos.getZ(), dst.getX(), size, size, obj.getArea());
+			objs = level.getObjectsInArea(pos.getX(), pos.getY() - size/2, pos.getZ(), dst.getX(), size, size, obj.getArea());
 			hit = dst.getX() >= 0;
 			break;
 		case UP:
-			objs = level.getSolidInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ() + dst.getZ(), size, size, -dst.getZ(), obj.getArea());
+			objs = level.getObjectsInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ() + dst.getZ(), size, size, -dst.getZ(), obj.getArea());
 			hit = dst.getZ() <= 0;
 			break;
 		}
-		return hit && obj.getArea().equals(target.getArea()) && objs.isEmpty();
+		objs.remove(obj);
+		hit = hit && objs.contains(target);
+		objs.remove(target);
+		return hit && obj.getArea().equals(target.getArea()) && objs.stream().allMatch(o -> !o.isSolid());
 	}
 
 }

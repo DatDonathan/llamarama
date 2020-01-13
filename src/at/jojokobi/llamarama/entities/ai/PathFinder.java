@@ -7,6 +7,6 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public interface PathFinder {
 	
-	public Vector3D findMotion (Vector3D goal, double speed, Level level, GameObject obj, CharacterComponent ch);
+	public Vector3D findMotion (Vector3D goal, double speed, Level level, double delta, GameObject obj, CharacterComponent ch);
 	
 }
