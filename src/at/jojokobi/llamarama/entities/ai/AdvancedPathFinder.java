@@ -3,6 +3,7 @@ package at.jojokobi.llamarama.entities.ai;
 import java.util.Random;
 
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
@@ -41,7 +42,7 @@ public class AdvancedPathFinder implements PathFinder {
 		}
 		// Rotate if walls are nearby
 		int count = 0;
-		while (obj.getObjectsInDirection(level, motion, speed, GameObject.class).stream().anyMatch(o -> o.isSolid()) && count < 3) {
+		while (canMove(level, obj, motion, speed) && count < 3) {
 			if (clockwise) {
 				double x = motion.getX();
 				motion.setX(motion.getZ());
@@ -69,6 +70,15 @@ public class AdvancedPathFinder implements PathFinder {
 		}
 		
 		return motion;
+	}
+	
+	private boolean canMove (Level level, GameObject obj, Vector3D motion, double speed) {
+		boolean canMove = true;
+		LevelBoundsComponent bounds = level.getComponent(LevelBoundsComponent.class);
+		if (bounds != null) {
+			canMove = !bounds.nearBounds(obj);
+		}
+		return canMove && obj.getObjectsInDirection(level, motion, speed, GameObject.class).stream().anyMatch(o -> o.isSolid());
 	}
 
 }
