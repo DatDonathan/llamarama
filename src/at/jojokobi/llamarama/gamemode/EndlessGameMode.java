@@ -71,7 +71,7 @@ public class EndlessGameMode implements GameMode {
 		objs.sort((l, r) ->  {
 			CharacterComponent cl = l.getComponent(CharacterComponent.class);
 			CharacterComponent cr = r.getComponent(CharacterComponent.class);
-			return Integer.compare(cl.getKills() , cr.getKills());
+			return Integer.compare(cr.getKills() , cl.getKills());
 		});
 		return new SingleWinner(objs.get(0).getComponent(CharacterComponent.class));
 	}

@@ -112,7 +112,7 @@ public class CharacterComponent implements ObjectComponent {
 			abilityCooldown = 0;
 		}
 		
-		this.abilityCooldown.setUnchanged(cooldown);
+		this.abilityCooldown.setUnchanged(abilityCooldown);
 	}
 
 	@Override

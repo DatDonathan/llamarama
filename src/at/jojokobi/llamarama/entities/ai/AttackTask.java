@@ -49,7 +49,6 @@ public class AttackTask implements CharacterTask {
 				objs.add(obj);
 			}
 		}
-		System.out.println(objs);
 		return objs;
 	}
 

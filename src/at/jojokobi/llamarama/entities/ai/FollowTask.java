@@ -28,7 +28,7 @@ public class FollowTask implements CharacterTask {
 	@Override
 	public boolean canApply(Level level, GameObject obj, CharacterComponent ch) {
 		List<GameObject> targets = findTargets(level, obj, obj.getPosition(), obj.getArea());
-		return follow != null ? targets.contains(follow) : !targets.isEmpty();
+		return follow != null ? targets.contains(follow) || !targets.isEmpty() : !targets.isEmpty();
 	}
 
 	@Override
@@ -61,4 +61,8 @@ public class FollowTask implements CharacterTask {
 		return objs;
 	}
 
+	public GameObject getFollow() {
+		return follow;
+	}
+	
 }
