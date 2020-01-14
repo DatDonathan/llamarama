@@ -37,5 +37,10 @@ public class HealingGrass implements Item {
 	public RenderModel getModel() {
 		return HEALING_GRASS_MODEL;
 	}
+	
+	@Override
+	public double getUsePriority(CharacterComponent comp, GameObject obj) {
+		return 1 - ((double) comp.getHp()/comp.getCharacter().getMaxHp());
+	}
 
 }

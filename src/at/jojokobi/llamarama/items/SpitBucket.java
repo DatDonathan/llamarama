@@ -8,8 +8,11 @@ import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.rendering.Image2DModel;
 import at.jojokobi.donatengine.rendering.RenderModel;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
+import at.jojokobi.donatengine.util.Pair;
 import at.jojokobi.llamarama.LlamaramaApplication;
+import at.jojokobi.llamarama.characters.WeaponType;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.Weapon;
 import at.jojokobi.llamarama.tiles.BushTile;
 import javafx.scene.image.Image;
 
@@ -36,6 +39,12 @@ public class SpitBucket implements Item {
 	@Override
 	public RenderModel getModel() {
 		return SPIT_BUCKET_MODEL;
+	}
+	
+	@Override
+	public double getUsePriority(CharacterComponent comp, GameObject obj) {
+		Pair<WeaponType, Weapon> weapon = comp.getCurrentWeapon();
+		return 1 - ((double) weapon.getValue().getBullets()/weapon.getKey().getMaxBullets());
 	}
 
 }

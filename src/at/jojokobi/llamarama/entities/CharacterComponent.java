@@ -104,14 +104,13 @@ public class CharacterComponent implements ObjectComponent {
 		if (cooldown <= 0) {
 			cooldown = 0;
 		}
-		
 		this.cooldown.setUnchanged(cooldown);
+		
 		double abilityCooldown = getAbilityCooldown();
 		abilityCooldown -= delta;
 		if (abilityCooldown <= 0) {
 			abilityCooldown = 0;
 		}
-		
 		this.abilityCooldown.setUnchanged(abilityCooldown);
 	}
 
@@ -164,13 +163,22 @@ public class CharacterComponent implements ObjectComponent {
 		ctx.setFont(new Font("Consolas", 32));
 		ctx.fillText(weapon.get() + 1 + "", topLeft.getX() - 20, topLeft.getY() - 20, width);
 		
-		if (getCharacter().getAbility() != null && usingAbility.get()) {
+		if (getCharacter().getAbility() != null && usingAbility.get() && getAbilityCooldown() <= 0) {
 			getCharacter().getAbility().render(level, object, this, ctx, cam);
 		}
 		//Team
 //		if (team != null) {
 //			ctx.strokeText(getTeam(), getX() - cam.getX(), getY() - 60 - cam.getY(), getWidth());
 //		}
+	}
+	
+	public void revive () {
+		setHp(getCharacter().getMaxHp());
+		int i = 0;
+		for (Weapon weapon : weapons.get()) {
+			weapon.setBullets(getCharacter().getWeapons().get(i).getMaxBullets());
+			i++;
+		}
 	}
 	
 	public boolean isUsingAbility() {

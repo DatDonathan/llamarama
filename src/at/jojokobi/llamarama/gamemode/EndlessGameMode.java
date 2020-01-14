@@ -52,7 +52,7 @@ public class EndlessGameMode implements GameMode {
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
 			if (!ch.isAlive()) {
-				ch.heal(ch.getCharacter().getMaxHp());
+				ch.revive();
 				obj.setX(bounds.getPos().getX() + Math.random() * bounds.getSize().getX());
 				obj.setZ(bounds.getPos().getZ() + Math.random() * bounds.getSize().getZ());
 				ch.setKills(ch.getKills() - 1);

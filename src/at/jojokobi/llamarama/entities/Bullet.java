@@ -44,17 +44,19 @@ public class Bullet extends GameObject {
 		if (component != null && component.nearBounds(this)) {
 			delete(level);
 		}
-		for (GameObject collided : level.getObjectsInArea(getX() - 1, getY() - 1, getZ() - 1, getWidth() + 2, getHeight() + 2, getLength() + 2, getArea())) {
-			CharacterComponent comp = collided.getComponent(CharacterComponent.class);
-			if (comp != null && comp != shooter && comp.isAlive()) {
-				comp.damage(damage);
-				if (!comp.isAlive()) {
-					shooter.setKills(shooter.getKills() + 1);
+		else {
+			for (GameObject collided : level.getObjectsInArea(getX() - 1, getY() - 1, getZ() - 1, getWidth() + 2, getHeight() + 2, getLength() + 2, getArea())) {
+				CharacterComponent comp = collided.getComponent(CharacterComponent.class);
+				if (comp != null && comp != shooter && comp.isAlive()) {
+					comp.damage(damage);
+					if (!comp.isAlive()) {
+						shooter.setKills(shooter.getKills() + 1);
+					}
+					delete(level);
 				}
-				delete(level);
-			}
-			else if (comp == null && collided.isSolid()) {
-				delete(level);
+				else if (comp == null && collided.isSolid()) {
+					delete(level);
+				}
 			}
 		}
 	}

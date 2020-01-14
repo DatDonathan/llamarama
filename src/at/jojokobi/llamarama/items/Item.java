@@ -9,6 +9,8 @@ public interface Item extends BinarySerializable{
 	
 	public void use (CharacterComponent comp, GameObject obj);
 	
+	public double getUsePriority (CharacterComponent comp, GameObject obj);
+	
 	public RenderModel getModel ();
 
 }
