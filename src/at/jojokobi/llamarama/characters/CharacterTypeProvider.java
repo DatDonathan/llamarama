@@ -119,7 +119,7 @@ public class CharacterTypeProvider {
 		officer.setName("Officer");
 		officer.setMaxHp(120);
 		officer.setSpeed(240);
-		officer.addWeapon(new WeaponType(1/3.0, 9, 120, new SingleShotBehavior()));
+		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
 		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setAbility(new ShieldAbility());
 		officer.setWidth(48);

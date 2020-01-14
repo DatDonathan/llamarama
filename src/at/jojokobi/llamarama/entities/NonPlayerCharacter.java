@@ -15,6 +15,7 @@ import at.jojokobi.llamarama.entities.ai.CharacterTask;
 import at.jojokobi.llamarama.entities.ai.FollowTask;
 import at.jojokobi.llamarama.entities.ai.PathFinder;
 import at.jojokobi.llamarama.entities.ai.RandomTask;
+import at.jojokobi.llamarama.entities.ai.UseAbilityTask;
 import javafx.scene.canvas.GraphicsContext;
 
 public class NonPlayerCharacter extends CharacterInstance {
@@ -26,6 +27,7 @@ public class NonPlayerCharacter extends CharacterInstance {
 
 	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character) {
 		super(x, y, z, area, character, character.getName());
+		tasks.add(new UseAbilityTask());
 		tasks.add(new AttackTask(o -> o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 1024));
 		tasks.add(new FollowTask(o -> o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 1024, false));
 		tasks.add(new RandomTask());

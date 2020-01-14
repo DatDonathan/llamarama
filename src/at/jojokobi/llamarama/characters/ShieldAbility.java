@@ -50,7 +50,8 @@ public class ShieldAbility implements Ability {
 
 	@Override
 	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
-		return !findBullets(level, object, character).isEmpty();
+		List<Bullet> bullets = object.getObjectsInDirection(level, character.getDirection().getMotion(), 128, Bullet.class);
+		return !bullets.isEmpty() && bullets.stream().allMatch(o -> o.getShooter() != character);
 	}
 
 	@Override

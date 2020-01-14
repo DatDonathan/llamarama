@@ -343,7 +343,7 @@ public class GameLevel extends Level{
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
-		addComponent(new GameComponent(new BattleRoyaleGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea));
+		addComponent(new GameComponent(new EndlessGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		//Select Player GUI
