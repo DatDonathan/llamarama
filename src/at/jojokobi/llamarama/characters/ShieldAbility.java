@@ -34,10 +34,10 @@ public class ShieldAbility implements Ability {
 		boolean used = false;
 		List<Bullet> bullets = findBullets(level, object, character);
 		for (Bullet bullet : bullets) {
-			if (bullet.getShooter() == character) {
-				bullet.delete(level);
-			}
-			else {
+			if (bullet.getShooter() != character) {
+//				bullet.delete(level);
+//			}
+//			else {
 				bullet.setxMotion(-bullet.getxMotion());
 				bullet.setyMotion(-bullet.getyMotion());
 				bullet.setzMotion(-bullet.getzMotion());
