@@ -95,5 +95,10 @@
 	  <artifactId>net-util</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+	  <groupId>donat-engine-discord-rpc</groupId>
+	  <artifactId>donat-engine-discord-rpc</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
