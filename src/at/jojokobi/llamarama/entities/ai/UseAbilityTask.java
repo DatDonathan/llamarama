@@ -21,12 +21,12 @@ public class UseAbilityTask implements CharacterTask {
 
 	@Override
 	public void activate(Level level, GameObject obj, CharacterComponent ch) {
-		ch.setUsingAbility(true);
+		ch.setUseAbility(true);
 	}
 
 	@Override
 	public void deactivate(Level level, GameObject obj, CharacterComponent ch) {
-		ch.setUsingAbility(false);
+		ch.setUseAbility(false);
 	}
 
 }

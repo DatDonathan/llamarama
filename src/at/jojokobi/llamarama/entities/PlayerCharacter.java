@@ -51,10 +51,10 @@ public class PlayerCharacter extends CharacterInstance {
 		}
 		//Use ability
 		if (input.getButton(ControlConstants.USE_ABILITY)) {
-			comp.setUsingAbility(true);
+			comp.setUseAbility(true);
 		}
 		else {
-			comp.setUsingAbility(false);
+			comp.setUseAbility(false);
 		}
 		swapCooldown -= delta;
 	}

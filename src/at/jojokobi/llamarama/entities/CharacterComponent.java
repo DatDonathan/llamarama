@@ -36,7 +36,7 @@ public class CharacterComponent implements ObjectComponent {
 	private DoubleProperty abilityCooldown = new DoubleProperty(0);
 	private IntProperty kills = new IntProperty(0);
 	private StringProperty name = new StringProperty("");
-	private BooleanProperty usingAbility = new BooleanProperty(false);
+	private BooleanProperty useAbility = new BooleanProperty(false);
 	
 	private IntProperty weapon = new IntProperty(0);
 	private ObservableObjectProperty<ObservableList<Weapon>> weapons = new ObservableObjectProperty<ObservableList<Weapon>>(new ObservableList<>());
@@ -86,7 +86,7 @@ public class CharacterComponent implements ObjectComponent {
 			getCharacter().getAbility().update(level, object, delta, this);
 		}
 		//Use Ability
-		if (getAbilityCooldown() <= 0 && usingAbility.get() && getCharacter().getAbility() != null && isAlive()) {
+		if (usingAbility ()) {
 			if (getCharacter().getAbility().use(level, object, delta, this)) {
 				setAbilityCooldown(getCharacter().getAbility().getCooldown());
 			}
@@ -163,7 +163,7 @@ public class CharacterComponent implements ObjectComponent {
 		ctx.setFont(new Font("Consolas", 32));
 		ctx.fillText(weapon.get() + 1 + "", topLeft.getX() - 20, topLeft.getY() - 20, width);
 		
-		if (getCharacter().getAbility() != null && usingAbility.get() && getAbilityCooldown() <= 0) {
+		if (usingAbility()) {
 			getCharacter().getAbility().render(level, object, this, ctx, cam);
 		}
 		//Team
@@ -181,12 +181,16 @@ public class CharacterComponent implements ObjectComponent {
 		}
 	}
 	
-	public boolean isUsingAbility() {
-		return usingAbility.get();
+	public boolean isUseAbility() {
+		return useAbility.get();
 	}
 
-	public void setUsingAbility(boolean usingAbility) {
-		this.usingAbility.set(usingAbility);
+	public void setUseAbility(boolean usingAbility) {
+		this.useAbility.set(usingAbility);
+	}
+	
+	public boolean usingAbility () {
+		return getAbilityCooldown() <= 0 && useAbility.get() && getCharacter().getAbility() != null && isAlive();
 	}
 
 	public Pair<WeaponType, Weapon> getCurrentWeapon () {
@@ -204,7 +208,7 @@ public class CharacterComponent implements ObjectComponent {
 	
 	public void attack (GameObject object, Level level) {
 		Pair<WeaponType, Weapon> weapon = getCurrentWeapon();
-		if (getCooldown() <= 0 && isAlive()) {
+		if (getCooldown() <= 0 && isAlive() && !usingAbility()) {
 			weapon.getValue().setBullets(weapon.getValue().getBullets() - weapon.getKey().getFireBehavior().shoot(object, this, weapon.getKey(), weapon.getValue(), level));
 			setCooldown(weapon.getKey().getFireDelay());
 		}
@@ -296,7 +300,7 @@ public class CharacterComponent implements ObjectComponent {
 
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
-		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, usingAbility, weapon, weapons, name);
+		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, useAbility, weapon, weapons, name);
 	}
 	
 }
