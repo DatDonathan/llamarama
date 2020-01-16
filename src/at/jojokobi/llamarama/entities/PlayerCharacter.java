@@ -77,7 +77,7 @@ public class PlayerCharacter extends CharacterInstance {
 			}
 			super.render(ctx, cam, level);
 			if (!getComponent(CharacterComponent.class).isAlive() && getComponent(PlayerComponent.class).getClient() == level.getClientId()) {
-				ctx.setGlobalAlpha(0.1);
+				ctx.setGlobalAlpha(1);
 			}
 		}
 	}

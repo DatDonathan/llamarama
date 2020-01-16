@@ -16,6 +16,7 @@ import at.jojokobi.donatengine.gui.GUISystem;
 import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
 import at.jojokobi.donatengine.gui.SimpleGUISystem;
+import at.jojokobi.donatengine.gui.SimpleGUIType;
 import at.jojokobi.donatengine.gui.actions.GUIAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
@@ -305,7 +306,7 @@ public class GameLevel extends Level{
 				obj.delete(level);
 			}
 			
-			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI);
+			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null);
 		}
 
 		public Vector3D getStartPos() {
@@ -346,7 +347,7 @@ public class GameLevel extends Level{
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		//Select Player GUI
-		fact.registerGUI(SELECT_CHARACTER_GUI, () -> {
+		fact.registerGUI(SELECT_CHARACTER_GUI, new SimpleGUIType<>(Object.class, data -> {
 			HFlowBox box = new HFlowBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			box.setHeightDimension(new PercentualDimension(1));
@@ -385,8 +386,8 @@ public class GameLevel extends Level{
 			}
 			box.addChild(button);
 			
-			return new SimpleGUI(box, SELECT_CHARACTER_GUI);
-		});
+			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data);
+		}));
 		initGuiSystem(new SimpleGUISystem(fact));
 	}
 
