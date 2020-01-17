@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
+import at.jojokobi.donatengine.gui.GUI;
 import at.jojokobi.donatengine.gui.GUISystem;
 import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
@@ -20,6 +21,7 @@ import at.jojokobi.donatengine.gui.SimpleGUIType;
 import at.jojokobi.donatengine.gui.actions.GUIAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
+import at.jojokobi.donatengine.gui.nodes.ListView;
 import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.gui.style.FixedDimension;
@@ -64,10 +66,10 @@ public class GameLevel extends Level{
 
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
-			system.removeGUI(id);
-			if (!level.getComponent(GameComponent.class).isRunning()) {
+			if (!level.getComponent(GameComponent.class).isRunning() && level.getClientId() == system.getGUI(id).getClient()) {
 				level.getComponent(GameComponent.class).startMatch(level, handler);
 			}
+			system.removeGUI(id);
 		}
 
 		@Override
@@ -79,40 +81,38 @@ public class GameLevel extends Level{
 	
 	public static class SelectCharacterAction implements GUIAction{
 		
-		private long client;
 		private String characterType;
 		private String name;
 		
-		
-		
-		public SelectCharacterAction(long client, String characterType, String name) {
+		public SelectCharacterAction(String characterType, String name) {
 			super();
-			this.client = client;
 			this.characterType = characterType;
 			this.name = name;
 		}
 		
 		public SelectCharacterAction() {
-			this(0, "", "");
+			this("", "");
 		}
 
 		@Override
 		public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
-			buffer.writeLong(client);
 			buffer.writeUTF(characterType);
 			buffer.writeUTF(name);
 		}
 
 		@Override
 		public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
-			client = buffer.readLong();
 			characterType = buffer.readUTF();
 			name = buffer.readUTF();
 		}
 
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
+			GUI gui = system.getGUI(id);
+			long client = gui.getClient();
 			level.getComponent(GameComponent.class).characterChoices.put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
+			system.removeGUI(id);
+			system.showGUI(LIST_CHARACTERS_GUI, null, client);
 		}
 
 		@Override
@@ -151,6 +151,11 @@ public class GameLevel extends Level{
 
 		public void setName(String name) {
 			this.name = name;
+		}
+		
+		@Override
+		public String toString() {
+			return name + " (" + character.getName() + ")";
 		}
 		
 	}
@@ -295,9 +300,9 @@ public class GameLevel extends Level{
 			});
 			
 			characterChoices.clear();
-			for (Long id : connectedClients) {
-				characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
-			}
+//			for (Long id : connectedClients) {
+//				characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
+//			}
 			time = 0;
 			running = false;
 			gameEffects = new ArrayList<>();
@@ -306,7 +311,7 @@ public class GameLevel extends Level{
 				obj.delete(level);
 			}
 			
-			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null);
+			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null, level.getClientId());
 		}
 
 		public Vector3D getStartPos() {
@@ -334,6 +339,7 @@ public class GameLevel extends Level{
 	}
 	
 	public static final String SELECT_CHARACTER_GUI = "select_character";
+	public static final String LIST_CHARACTERS_GUI = "list_characters";
 	
 	private String mainArea = "main";
 	
@@ -343,11 +349,14 @@ public class GameLevel extends Level{
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
-		addComponent(new GameComponent(new EndlessGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea));
+		GameComponent comp = new GameComponent(new EndlessGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea);
+		addComponent(comp);
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
 		//Select Player GUI
-		fact.registerGUI(SELECT_CHARACTER_GUI, new SimpleGUIType<>(Object.class, data -> {
+		fact.registerGUI(SELECT_CHARACTER_GUI, new SimpleGUIType<>(Object.class, (data, client) -> {
+			PlayerInformation info = new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Nickname");
+			
 			HFlowBox box = new HFlowBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			box.setHeightDimension(new PercentualDimension(1));
@@ -364,7 +373,10 @@ public class GameLevel extends Level{
 				button.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
 				button.addStyle(s -> s.isSelected(), new FixedStyle().setFill(Color.AQUA));
 				
-				button.setOnAction(() -> new SelectCharacterAction(getClientId(), e.getKey(), nickname.getText()));
+				button.setOnAction(() -> {
+					info.setCharacter(e.getValue());
+					return null;
+				});
 				box.addChild(button);
 			}
 			//Nickname box
@@ -375,18 +387,41 @@ public class GameLevel extends Level{
 			nicknameBox.setHeightDimension(new FixedDimension(200));
 			box.addChild(nicknameBox);
 			//Start Game Button
-			Button button = new Button("Start Game");
+			Button button = new Button("Select");
 			button.setWidthDimension(new FixedDimension(200));
 			button.setHeightDimension(new FixedDimension(200));
 			button.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
 			button.addStyle(s -> !behavior.isHost(), new FixedStyle().setBorder(Color.GRAY).setFontColor(Color.GRAY));
 			
 			if (behavior.isHost()) {
-				button.setOnAction(() -> new StartMatchAction());
+				button.setOnAction(() -> new SelectCharacterAction(info.getCharacter().getName(), nickname.getText()));
 			}
 			box.addChild(button);
 			
-			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data);
+			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data, client);
+		}));
+		//List characters gui
+		fact.registerGUI(LIST_CHARACTERS_GUI, new SimpleGUIType<>(Object.class, (data, client) -> {
+			VBox box = new VBox();
+			box.setWidthDimension(new PercentualDimension(1));
+			
+			ListView<PlayerInformation> playerView = new ListView<PlayerInformation>(() -> Arrays.asList(comp.characterChoices.entrySet().stream().map(e -> e.getValue()).toArray(PlayerInformation[]::new)));
+			playerView.addStyle(s -> true, new FixedStyle().setMargin(10).setBorder(Color.BLACK).setBorderStrength(2.0).setFont(new Font("Consolas", 24)));
+			playerView.setHeightDimension(new FixedDimension(500));
+			playerView.setWidthDimension(new PercentualDimension(0.5));
+			box.addChild(playerView);
+			
+			Button startButton = new Button("Start Game");
+			startButton.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
+			startButton.addStyle(s -> !behavior.isHost(), new FixedStyle().setBorder(Color.GRAY).setFontColor(Color.GRAY));
+			startButton.setWidthDimension(new PercentualDimension(0.5));
+			startButton.setOnAction(() -> new StartMatchAction());
+			
+			if (behavior.isHost()) {
+				box.addChild(startButton);
+			}
+			
+			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data, client);
 		}));
 		initGuiSystem(new SimpleGUISystem(fact));
 	}

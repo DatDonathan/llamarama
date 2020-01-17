@@ -81,7 +81,7 @@ public class MainMenuLevel extends Level{
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(1280, 768, 768), true));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
-		fact.registerGUI(MAIN_MENU_GUI, new SimpleGUIType<>(Object.class, data -> {
+		fact.registerGUI(MAIN_MENU_GUI, new SimpleGUIType<>(Object.class, (data, clientId) -> {
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
@@ -161,7 +161,7 @@ public class MainMenuLevel extends Level{
 			box.addChild(ip);
 			box.addChild(joinGame);
 			
-			return new SimpleGUI(box, MAIN_MENU_GUI, null);
+			return new SimpleGUI(box, MAIN_MENU_GUI, null, clientId);
 		}));
 		initGuiSystem(new SimpleGUISystem(fact));
 	}
@@ -196,7 +196,7 @@ public class MainMenuLevel extends Level{
 		camera.setPerspective(new TwoDimensionalPerspective());
 		camera.setRotationX(90);
 		camera.setRenderDistance(32 * 40);
-		getGuiSystem().showGUI(MAIN_MENU_GUI, null);
+		getGuiSystem().showGUI(MAIN_MENU_GUI, null, getClientId());
 		
 		GamePresence presence = new GamePresence();
 		presence.setDetails("In menu");
