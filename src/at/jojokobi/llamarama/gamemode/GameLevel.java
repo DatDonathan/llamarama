@@ -108,6 +108,7 @@ public class GameLevel extends Level{
 
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
+			System.out.println(id + ":" + system.getGUIs());
 			GUI gui = system.getGUI(id);
 			long client = gui.getClient();
 			level.getComponent(GameComponent.class).characterChoices.put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
@@ -215,7 +216,9 @@ public class GameLevel extends Level{
 		public void onConnectPlayer(Camera cam, Level level, long id) {
 			LevelComponent.super.onConnectPlayer(cam, level, id);
 			connectedClients.add(id);
-			characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
+			if (!isRunning()) {
+				level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null, id);
+			}
 		}
 		
 		private void startMatch (Level level, LevelHandler handler) {
@@ -311,7 +314,9 @@ public class GameLevel extends Level{
 				obj.delete(level);
 			}
 			
-			level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null, level.getClientId());
+			for (long client : connectedClients) {
+				level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null, client);
+			}
 		}
 
 		public Vector3D getStartPos() {
@@ -391,11 +396,8 @@ public class GameLevel extends Level{
 			button.setWidthDimension(new FixedDimension(200));
 			button.setHeightDimension(new FixedDimension(200));
 			button.addStyle(s -> true, new FixedStyle().setMargin(10).setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
-			button.addStyle(s -> !behavior.isHost(), new FixedStyle().setBorder(Color.GRAY).setFontColor(Color.GRAY));
 			
-			if (behavior.isHost()) {
-				button.setOnAction(() -> new SelectCharacterAction(info.getCharacter().getName(), nickname.getText()));
-			}
+			button.setOnAction(() -> new SelectCharacterAction(info.getCharacter().getName(), nickname.getText()));
 			box.addChild(button);
 			
 			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data, client);
