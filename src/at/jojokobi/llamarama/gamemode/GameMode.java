@@ -28,4 +28,6 @@ public interface GameMode {
 	
 	public List<GameMap> getPossibleMaps ();
 	
+	public String getName();
+	
 }

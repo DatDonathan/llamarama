@@ -2,10 +2,13 @@ package at.jojokobi.llamarama;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 import at.jojokobi.donatengine.ClientGameLogic;
+import at.jojokobi.donatengine.GameLogic;
 import at.jojokobi.donatengine.SimpleGameLogic;
 import at.jojokobi.donatengine.SimpleServerGameLogic;
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
@@ -13,6 +16,7 @@ import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
 import at.jojokobi.donatengine.gui.SimpleGUISystem;
 import at.jojokobi.donatengine.gui.SimpleGUIType;
+import at.jojokobi.donatengine.gui.actions.ChangeGUIAction;
 import at.jojokobi.donatengine.gui.actions.ChangeLogicAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.Text;
@@ -33,7 +37,10 @@ import at.jojokobi.donatengine.ressources.IRessourceHandler;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
+import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
+import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel;
+import at.jojokobi.llamarama.gamemode.GameMode;
 import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
@@ -46,6 +53,7 @@ import javafx.scene.text.Font;
 public class MainMenuLevel extends Level{
 	
 	public static final String MAIN_MENU_GUI = "main_menu";
+	public static final String SELECT_GAME_GUI = "select_game";
 	
 	public static final int[][][] PARK_TILEMAP = 
 		{{{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
@@ -95,7 +103,7 @@ public class MainMenuLevel extends Level{
 			//Buttons
 			Button singleplayer = new Button("Singleplayer");
 			singleplayer.setWidthDimension(new PercentualDimension(0.3));
-			singleplayer.setOnAction(() -> new ChangeLogicAction(() -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), ""))));
+			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), d, "")))));
 			singleplayer.addStyle(s -> true, new FixedStyle().setFill(Color.LIGHTBLUE).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 			singleplayer.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.AQUA));
 			//Host
@@ -103,7 +111,7 @@ public class MainMenuLevel extends Level{
 			hostGame.setWidthDimension(new PercentualDimension(0.3));
 			hostGame.addStyle(s -> true, new FixedStyle().setFill(Color.LIGHTBLUE).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 			hostGame.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.AQUA));
-			hostGame.setOnAction(() -> new ChangeLogicAction(() -> {
+			hostGame.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> {
 				Server server = null;
 				try {
 					server = factory.createServer(44444);
@@ -133,8 +141,8 @@ public class MainMenuLevel extends Level{
 //				} catch (MalformedURLException e1) {
 //					e1.printStackTrace();
 //				}
-				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), ip), server);
-			}));
+				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), d, ip), server);
+			})));
 			//IP input
 			TextField ip = new TextField();
 			ip.setWidthDimension(new PercentualDimension(0.3));
@@ -153,7 +161,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + ""), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), new BattleRoyaleGameMode(2, 16), client.getServerInetAddress() + ""), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -162,6 +170,21 @@ public class MainMenuLevel extends Level{
 			box.addChild(joinGame);
 			
 			return new SimpleGUI(box, MAIN_MENU_GUI, null, clientId);
+		}));
+		fact.registerGUI(SELECT_GAME_GUI, new SimpleGUIType<>(SelectGameData.class, (d, id) -> {
+			VBox box = new VBox();
+			box.setWidthDimension(new PercentualDimension(1));
+			
+			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(2, 16), new EndlessGameMode(2, 8));
+			for (GameMode mode : modes) {
+				Button button = new Button(mode.getName());
+				button.setWidthDimension(new PercentualDimension(0.3));
+				button.addStyle(s -> true, new FixedStyle().setFill(Color.LIGHTBLUE).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
+				button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.AQUA));
+				button.setOnAction(() -> new ChangeLogicAction(() -> d.getLogicSupplier().apply(mode)));
+				box.addChild(button);
+			}
+			return new SimpleGUI(box, SELECT_GAME_GUI, d, id);
 		}));
 		initGuiSystem(new SimpleGUISystem(fact));
 	}
@@ -211,7 +234,7 @@ public class MainMenuLevel extends Level{
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + ""), client));
+			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), new BattleRoyaleGameMode(2, 16), client.getServerInetAddress() + ""), client));
 		}, null);
 	}
 	
@@ -220,4 +243,20 @@ public class MainMenuLevel extends Level{
 		
 	}
 
+}
+
+class SelectGameData {
+	
+	private Function<GameMode, GameLogic> logicSupplier;
+	
+
+	public SelectGameData(Function<GameMode, GameLogic> logicSupplier) {
+		super();
+		this.logicSupplier = logicSupplier;
+	}
+
+	public Function<GameMode, GameLogic> getLogicSupplier() {
+		return logicSupplier;
+	}
+	
 }

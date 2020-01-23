@@ -224,7 +224,7 @@ public class GameLevel extends Level{
 		private void startMatch (Level level, LevelHandler handler) {
 			GamePresence presence = new GamePresence();
 			presence.setState("In Match");
-			presence.setDetails("Battle Royale");
+			presence.setDetails(gameMode.getName());
 			presence.setPartySize(connectedClients.size());
 			presence.setPartyMax(gameMode.getMaxPlayers());
 			presence.setStartTimestamp(System.currentTimeMillis());
@@ -288,7 +288,7 @@ public class GameLevel extends Level{
 		private void initGame (Level level, LevelHandler handler) {
 			GamePresence presence = new GamePresence();
 			presence.setState("In Lobby");
-			presence.setDetails("Battle Royale");
+			presence.setDetails(gameMode.getName());
 			presence.setPartySize(connectedClients.size());
 			presence.setPartyMax(gameMode.getMaxPlayers());
 			presence.setStartTimestamp(System.currentTimeMillis());
@@ -349,12 +349,12 @@ public class GameLevel extends Level{
 	private String mainArea = "main";
 	
 	
-	public GameLevel(MultiplayerBehavior behavior, String connectionString) {
+	public GameLevel(MultiplayerBehavior behavior, GameMode mode, String connectionString) {
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
-		GameComponent comp = new GameComponent(new EndlessGameMode(8, 60), connectionString, new Vector3D(0, 0, 0), mainArea);
+		GameComponent comp = new GameComponent(mode, connectionString, new Vector3D(0, 0, 0), mainArea);
 		addComponent(comp);
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();

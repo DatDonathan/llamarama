@@ -90,5 +90,10 @@ public class EndlessGameMode implements GameMode {
 	public int getMaxPlayers() {
 		return minPlayers;
 	}
+	
+	@Override
+	public String getName() {
+		return "Endless";
+	}
 
 }

@@ -87,4 +87,9 @@ public class BattleRoyaleGameMode implements GameMode {
 		return minPlayers;
 	}
 
+	@Override
+	public String getName() {
+		return "Battle Royale";
+	}
+
 }
