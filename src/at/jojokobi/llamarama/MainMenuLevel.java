@@ -161,7 +161,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior(), new BattleRoyaleGameMode(2, 16), client.getServerInetAddress() + ""), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), null, client.getServerInetAddress() + ""), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -175,7 +175,7 @@ public class MainMenuLevel extends Level{
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
-			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(2, 16), new EndlessGameMode(2, 8));
+			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60));
 			for (GameMode mode : modes) {
 				Button button = new Button(mode.getName());
 				button.setWidthDimension(new PercentualDimension(0.3));
