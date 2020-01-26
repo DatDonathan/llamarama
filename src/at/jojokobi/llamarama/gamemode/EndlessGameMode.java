@@ -1,5 +1,8 @@
 package at.jojokobi.llamarama.gamemode;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +11,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
@@ -21,6 +25,9 @@ public class EndlessGameMode implements GameMode {
 	private int minPlayers = 8;
 	private double maxLobbyTime = 60.0;
 	
+	public EndlessGameMode() {
+		
+	}
 
 	public EndlessGameMode(int minPlayers, double maxLobbyTime) {
 		super();
@@ -94,6 +101,18 @@ public class EndlessGameMode implements GameMode {
 	@Override
 	public String getName() {
 		return "Endless";
+	}
+	
+	@Override
+	public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
+		buffer.writeInt(minPlayers);
+		buffer.writeDouble(maxLobbyTime);
+	}
+
+	@Override
+	public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
+		minPlayers = buffer.readInt();
+		maxLobbyTime = buffer.readDouble();
 	}
 
 }

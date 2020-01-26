@@ -9,6 +9,8 @@ import at.jojokobi.llamarama.entities.Bullet;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.entities.Weapon;
+import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
+import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel.SelectCharacterAction;
 import at.jojokobi.llamarama.gamemode.GameLevel.StartMatchAction;
 import at.jojokobi.llamarama.items.HealingGrass;
@@ -70,6 +72,8 @@ public class LlamaramaApplication extends Application {
 		BinarySerialization.getInstance().getIdClassFactory().addClass(StompTile.class);
 		BinarySerialization.getInstance().getIdClassFactory().addClass(WaterTile.class);
 
+		BinarySerialization.getInstance().getIdClassFactory().addClass(BattleRoyaleGameMode.class);
+		BinarySerialization.getInstance().getIdClassFactory().addClass(EndlessGameMode.class);
 
 		launch (args);
 	}

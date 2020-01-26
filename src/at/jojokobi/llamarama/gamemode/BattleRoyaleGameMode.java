@@ -1,5 +1,8 @@
 package at.jojokobi.llamarama.gamemode;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +10,7 @@ import java.util.Map;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
@@ -21,6 +25,9 @@ public class BattleRoyaleGameMode implements GameMode {
 	private int minPlayers = 16;
 	private double maxLobbyTime = 60.0;
 	
+	public BattleRoyaleGameMode() {
+		
+	}
 
 	public BattleRoyaleGameMode(int minPlayers, double maxLobbyTime) {
 		super();
@@ -90,6 +97,18 @@ public class BattleRoyaleGameMode implements GameMode {
 	@Override
 	public String getName() {
 		return "Battle Royale";
+	}
+
+	@Override
+	public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
+		buffer.writeInt(minPlayers);
+		buffer.writeDouble(maxLobbyTime);
+	}
+
+	@Override
+	public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
+		minPlayers = buffer.readInt();
+		maxLobbyTime = buffer.readDouble();
 	}
 
 }

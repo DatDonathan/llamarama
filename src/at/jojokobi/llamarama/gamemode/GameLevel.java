@@ -35,6 +35,7 @@ import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.objects.properties.ObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
@@ -168,7 +169,7 @@ public class GameLevel extends Level{
 		
 		private List<GameEffect> gameEffects;
 		
-		private GameMode gameMode;
+		private ObjectProperty<GameMode> gameMode = new ObjectProperty<>(null);
 		private Vector3D startPos;
 		private String startArea;
 		private GameMap currentMap;
@@ -179,7 +180,7 @@ public class GameLevel extends Level{
 
 		public GameComponent(GameMode gameMode, String connectionString, Vector3D startPos, String startArea) {
 			super();
-			this.gameMode = gameMode;
+			this.gameMode.set(gameMode);
 			this.connectionString = connectionString;
 			this.startPos = startPos;
 			this.startArea = startArea;
@@ -190,12 +191,12 @@ public class GameLevel extends Level{
 			time += delta;
 			if (level.getBehavior().isHost()) {
 				if (running) {
-					gameMode.update(level, this, delta);
-					if (gameMode.canEndGame(level, this)) {
+					gameMode.get().update(level, this, delta);
+					if (gameMode.get().canEndGame(level, this)) {
 						endMatch(level, handler);
 					}
 				}
-				else if (gameMode.canStartGame(level, characterChoices, this)) {
+				else if (gameMode.get().canStartGame(level, characterChoices, this)) {
 					startMatch(level, handler);
 				}
 				gameEffects.forEach(e -> e.update(level, this, delta));
@@ -224,9 +225,9 @@ public class GameLevel extends Level{
 		private void startMatch (Level level, LevelHandler handler) {
 			GamePresence presence = new GamePresence();
 			presence.setState("In Match");
-			presence.setDetails(gameMode.getName());
+			presence.setDetails(gameMode.get().getName());
 			presence.setPartySize(connectedClients.size());
-			presence.setPartyMax(gameMode.getMaxPlayers());
+			presence.setPartyMax(gameMode.get().getMaxPlayers());
 			presence.setStartTimestamp(System.currentTimeMillis());
 			presence.setLargeImageKey("corporal");
 			presence.setLargeImageText("corporal");
@@ -237,9 +238,9 @@ public class GameLevel extends Level{
 			running = true;
 			level.clear();
 			
-			gameEffects = gameMode.createEffects();
+			gameEffects = gameMode.get().createEffects();
 			
-			currentMap = gameMode.getPossibleMaps().get(new Random().nextInt(gameMode.getPossibleMaps().size()));
+			currentMap = gameMode.get().getPossibleMaps().get(new Random().nextInt(gameMode.get().getPossibleMaps().size()));
 			LevelBoundsComponent bounds = level.getComponent(LevelBoundsComponent.class);
 			bounds.setPos(startPos);
 			Vector3D size = currentMap.getSize();
@@ -251,25 +252,25 @@ public class GameLevel extends Level{
 				level.spawn(player);
 			}
 			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
-			for (int i = characterChoices.size(); i < gameMode.getMaxPlayers(); i++) {
+			for (int i = characterChoices.size(); i < gameMode.get().getMaxPlayers(); i++) {
 				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
 				level.spawn(player);
 			}
 			
 //			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
-			gameMode.startGame(level, this);
+			gameMode.get().startGame(level, this);
 			characterChoices.clear();
 		}
 		
 		private void endMatch (Level level, LevelHandler handler) {			
-			level.getComponent(ChatComponent.class).postMessage(gameMode.determineWinner(level, this).getName() + " won the game!");
-			gameMode.endGame(level, this);
+			level.getComponent(ChatComponent.class).postMessage(gameMode.get().determineWinner(level, this).getName() + " won the game!");
+			gameMode.get().endGame(level, this);
 			init(level, handler);
 		}
 
 		@Override
 		public List<ObservableProperty<?>> observableProperties() {
-			return Arrays.asList();
+			return Arrays.asList(gameMode);
 		}
 
 		public double getTime() {
@@ -288,9 +289,9 @@ public class GameLevel extends Level{
 		private void initGame (Level level, LevelHandler handler) {
 			GamePresence presence = new GamePresence();
 			presence.setState("In Lobby");
-			presence.setDetails(gameMode.getName());
+			presence.setDetails(gameMode.get().getName());
 			presence.setPartySize(connectedClients.size());
-			presence.setPartyMax(gameMode.getMaxPlayers());
+			presence.setPartyMax(gameMode.get().getMaxPlayers());
 			presence.setStartTimestamp(System.currentTimeMillis());
 			presence.setLargeImageKey("corporal");
 			presence.setLargeImageText("corporal");

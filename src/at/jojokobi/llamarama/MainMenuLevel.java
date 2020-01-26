@@ -234,7 +234,7 @@ public class MainMenuLevel extends Level{
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), new BattleRoyaleGameMode(2, 16), client.getServerInetAddress() + ""), client));
+			handler.changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), null, client.getServerInetAddress() + ""), client));
 		}, null);
 	}
 	

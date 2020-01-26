@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.serialization.BinarySerializable;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.maps.GameMap;
 
-public interface GameMode {
+public interface GameMode extends BinarySerializable {
 
 	public boolean canStartGame (Level level, Map<Long,  PlayerInformation> players, GameComponent comp);
 	
