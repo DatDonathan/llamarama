@@ -5,7 +5,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -36,9 +35,12 @@ import at.jojokobi.donatengine.net.MultiplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObjectProperty;
+import at.jojokobi.donatengine.objects.properties.ObservableObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
+import at.jojokobi.donatengine.objects.properties.map.ObservableMap;
 import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.donatengine.rendering.TwoDimensionalPerspective;
+import at.jojokobi.donatengine.serialization.BinarySerializable;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
@@ -112,7 +114,7 @@ public class GameLevel extends Level{
 			System.out.println(id + ":" + system.getGUIs());
 			GUI gui = system.getGUI(id);
 			long client = gui.getClient();
-			level.getComponent(GameComponent.class).characterChoices.put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
+			level.getComponent(GameComponent.class).characterChoices.get().put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
 			system.removeGUI(id);
 			system.showGUI(LIST_CHARACTERS_GUI, null, client);
 		}
@@ -124,7 +126,7 @@ public class GameLevel extends Level{
 		
 	}
 	
-	public static class PlayerInformation {
+	public static class PlayerInformation implements BinarySerializable {
 		
 		private CharacterType character;
 		private String name;
@@ -159,12 +161,24 @@ public class GameLevel extends Level{
 		public String toString() {
 			return name + " (" + character.getName() + ")";
 		}
+
+		@Override
+		public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
+			serialization.serialize(character, buffer);
+			buffer.writeUTF(name);
+		}
+
+		@Override
+		public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
+			character = serialization.deserialize(CharacterType.class, buffer);
+			name = buffer.readUTF();
+		}
 		
 	}
 	
 	public static class GameComponent implements LevelComponent {
 		
-		private Map<Long, PlayerInformation> characterChoices = new HashMap<>();
+		private ObservableObjectProperty<ObservableMap<Long, PlayerInformation>> characterChoices = new ObservableObjectProperty<ObservableMap<Long,PlayerInformation>>(new ObservableMap<Long,PlayerInformation>());
 		private List<Long> connectedClients = new ArrayList<>();
 		
 		private List<GameEffect> gameEffects;
@@ -196,7 +210,7 @@ public class GameLevel extends Level{
 						endMatch(level, handler);
 					}
 				}
-				else if (gameMode.get().canStartGame(level, characterChoices, this)) {
+				else if (gameMode.get().canStartGame(level, characterChoices.get(), this)) {
 					startMatch(level, handler);
 				}
 				gameEffects.forEach(e -> e.update(level, this, delta));
@@ -247,19 +261,19 @@ public class GameLevel extends Level{
 			size.setY(32 * 64);
 			bounds.setSize(size);
 			currentMap.generate(level, startPos, startArea);
-			for (var e : characterChoices.entrySet()) {
+			for (var e : characterChoices.get().entrySet()) {
 				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue().getCharacter(), e.getValue().getName());
 				level.spawn(player);
 			}
 			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
-			for (int i = characterChoices.size(); i < gameMode.get().getMaxPlayers(); i++) {
+			for (int i = characterChoices.get().size(); i < gameMode.get().getMaxPlayers(); i++) {
 				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
 				level.spawn(player);
 			}
 			
 //			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
 			gameMode.get().startGame(level, this);
-			characterChoices.clear();
+			characterChoices.get().clear();
 		}
 		
 		private void endMatch (Level level, LevelHandler handler) {			
@@ -270,7 +284,7 @@ public class GameLevel extends Level{
 
 		@Override
 		public List<ObservableProperty<?>> observableProperties() {
-			return Arrays.asList(gameMode);
+			return Arrays.asList(gameMode, characterChoices);
 		}
 
 		public double getTime() {
@@ -303,7 +317,7 @@ public class GameLevel extends Level{
 				return true;
 			});
 			
-			characterChoices.clear();
+			characterChoices.get().clear();
 //			for (Long id : connectedClients) {
 //				characterChoices.put(id, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal"));
 //			}
@@ -408,7 +422,7 @@ public class GameLevel extends Level{
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
-			ListView<PlayerInformation> playerView = new ListView<PlayerInformation>(() -> Arrays.asList(comp.characterChoices.entrySet().stream().map(e -> e.getValue()).toArray(PlayerInformation[]::new)));
+			ListView<PlayerInformation> playerView = new ListView<PlayerInformation>(() -> Arrays.asList(comp.characterChoices.get().entrySet().stream().map(e -> e.getValue()).toArray(PlayerInformation[]::new)));
 			playerView.addStyle(s -> true, new FixedStyle().setMargin(10).setBorder(Color.BLACK).setBorderStrength(2.0).setFont(new Font("Consolas", 24)));
 			playerView.setHeightDimension(new FixedDimension(500));
 			playerView.setWidthDimension(new PercentualDimension(0.5));
