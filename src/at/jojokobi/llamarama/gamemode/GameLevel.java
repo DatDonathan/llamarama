@@ -111,12 +111,12 @@ public class GameLevel extends Level{
 
 		@Override
 		public void perform(Level level, LevelHandler handler, long id, GUISystem system, Camera camera) {
-			System.out.println(id + ":" + system.getGUIs());
 			GUI gui = system.getGUI(id);
 			long client = gui.getClient();
 			level.getComponent(GameComponent.class).characterChoices.get().put(client, new PlayerInformation(CharacterTypeProvider.getCharacterTypes().get(characterType), name.isEmpty() ? characterType : name));
 			system.removeGUI(id);
 			system.showGUI(LIST_CHARACTERS_GUI, null, client);
+			System.out.println("Showing list to " + client);
 		}
 
 		@Override
@@ -250,6 +250,7 @@ public class GameLevel extends Level{
 			
 			time = 0;
 			running = true;
+			level.getGuiSystem().clear();
 			level.clear();
 			
 			gameEffects = gameMode.get().createEffects();
@@ -330,6 +331,7 @@ public class GameLevel extends Level{
 			}
 			
 			for (long client : connectedClients) {
+				System.out.println("Showing to " + client);
 				level.getGuiSystem().showGUI(SELECT_CHARACTER_GUI, null, client);
 			}
 		}
@@ -438,7 +440,7 @@ public class GameLevel extends Level{
 				box.addChild(startButton);
 			}
 			
-			return new SimpleGUI(box, SELECT_CHARACTER_GUI, data, client);
+			return new SimpleGUI(box, LIST_CHARACTERS_GUI, data, client);
 		}));
 		initGuiSystem(new SimpleGUISystem(fact));
 	}
