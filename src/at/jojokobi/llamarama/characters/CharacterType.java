@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import at.jojokobi.donatengine.rendering.RenderModel;
+import at.jojokobi.donatengine.javafx.rendering.RenderModel;
 
 public class CharacterType {
 

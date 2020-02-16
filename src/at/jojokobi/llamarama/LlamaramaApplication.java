@@ -24,15 +24,15 @@ import at.jojokobi.llamarama.tiles.SandTile;
 import at.jojokobi.llamarama.tiles.StompTile;
 import at.jojokobi.llamarama.tiles.WaterTile;
 import at.jojokobi.donatengine.GameLoop;
-import at.jojokobi.donatengine.GameView;
+import at.jojokobi.donatengine.Game;
 import at.jojokobi.donatengine.SimpleGameLogic;
-import at.jojokobi.donatengine.input.Axis;
-import at.jojokobi.donatengine.input.ButtonAxis;
+import at.jojokobi.donatengine.javafx.input.Axis;
+import at.jojokobi.donatengine.javafx.input.ButtonAxis;
+import at.jojokobi.donatengine.javafx.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.presence.DiscordGamePresence;
-import at.jojokobi.donatengine.rendering.StretchYZPerspective;
 import at.jojokobi.donatengine.ressources.IRessourceHandler;
 import at.jojokobi.donatengine.ressources.RessourceHandler;
 import at.jojokobi.donatengine.serialization.BinarySerialization;
@@ -45,7 +45,7 @@ public class LlamaramaApplication extends Application {
 	
 	public static final String IMAGE_PATH = "/assets/images/";
 	
-	private GameView view;
+	private Game view;
 	
 	public static void main(String[] args) {
 		BinarySerialization.getInstance().registerSerializer(CharacterType.class, new CharacterTypeSerializer());
@@ -103,7 +103,7 @@ public class LlamaramaApplication extends Application {
 			keyBindings.put(ControlConstants.PAUSE, KeyCode.ESCAPE);
 			Map<String, Axis> axisBindings = new HashMap<>();
 			axisBindings.put(ControlConstants.MOVEMENT, new ButtonAxis(ControlConstants.UP, ControlConstants.DOWN, ControlConstants.LEFT, ControlConstants.RIGHT));
-			view = new GameView(stage, new SimpleGameLogic(level), cam, ressourceHandler, keyBindings, new HashMap<>(), axisBindings);
+			view = new Game(stage, new SimpleGameLogic(level), cam, ressourceHandler, keyBindings, new HashMap<>(), axisBindings);
 			view.getGamePresenceHandler().addPlatform(new DiscordGamePresence("663770162188779521", ""));
 			GameLoop loop = new GameLoop(60, view);
 			loop.start();

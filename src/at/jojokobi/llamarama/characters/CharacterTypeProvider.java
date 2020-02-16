@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import at.jojokobi.donatengine.rendering.Image2DModel;
+import at.jojokobi.donatengine.javafx.rendering.Image2DModel;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import javafx.scene.image.Image;
 

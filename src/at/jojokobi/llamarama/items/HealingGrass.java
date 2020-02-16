@@ -4,9 +4,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import at.jojokobi.donatengine.javafx.rendering.Image2DModel;
+import at.jojokobi.donatengine.javafx.rendering.RenderModel;
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.rendering.Image2DModel;
-import at.jojokobi.donatengine.rendering.RenderModel;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import at.jojokobi.llamarama.entities.CharacterComponent;

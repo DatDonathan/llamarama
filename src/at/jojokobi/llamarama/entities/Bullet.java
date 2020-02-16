@@ -1,12 +1,12 @@
 package at.jojokobi.llamarama.entities;
 
+import at.jojokobi.donatengine.javafx.rendering.Image2DModel;
+import at.jojokobi.donatengine.javafx.rendering.RenderModel;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelHandler;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.rendering.Image2DModel;
-import at.jojokobi.donatengine.rendering.RenderModel;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import javafx.scene.image.Image;

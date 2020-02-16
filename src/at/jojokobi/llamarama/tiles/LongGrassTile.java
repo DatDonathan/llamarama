@@ -1,8 +1,8 @@
 package at.jojokobi.llamarama.tiles;
 
+import at.jojokobi.donatengine.javafx.rendering.Image2DModel;
+import at.jojokobi.donatengine.javafx.rendering.RenderModel;
 import at.jojokobi.donatengine.objects.Tile;
-import at.jojokobi.donatengine.rendering.Image2DModel;
-import at.jojokobi.donatengine.rendering.RenderModel;
 import at.jojokobi.llamarama.LlamaramaApplication;
 import javafx.scene.image.Image;
 
