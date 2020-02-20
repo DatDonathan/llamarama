@@ -1,0 +1,195 @@
+{
+	"models": {
+		"character.corporal.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.corporal.down"
+			}
+		},
+		"character.corporal.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.corporal.up"
+			}
+		},
+		"character.corporal.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.corporal.left"
+			}
+		},
+		"character.corporal.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.corporal.right"
+			}
+		},
+		
+		"character.speedy.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.speedy.down"
+			}
+		},
+		"character.speedy.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.speedy.up"
+			}
+		},
+		"character.speedy.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.speedy.left"
+			}
+		},
+		"character.speedy.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.speedy.right"
+			}
+		},
+		
+		"character.jeremy.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.jeremy.down"
+			}
+		},
+		"character.jeremy.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.jeremy.up"
+			}
+		},
+		"character.jeremy.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.jeremy.left"
+			}
+		},
+		"character.jeremy.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.jeremy.right"
+			}
+		},
+		
+		"character.officer.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.officer.down"
+			}
+		},
+		"character.officer.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.officer.up"
+			}
+		},
+		"character.officer.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.officer.left"
+			}
+		},
+		"character.officer.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.officer.right"
+			}
+		},
+		
+		"ability.donut_shield.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.donut_shield.down"
+			}
+		},
+		"ability.donut_shield.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.donut_shield.up"
+			}
+		},
+		"ability.donut_shield.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.donut_shield.left"
+			}
+		},
+		"ability.donut_shield.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.donut_shield.right"
+			}
+		},
+		
+		"item.healing_grass": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "item.healing_grass"
+			}
+		},
+		"item.spit_bucket": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "item.spit_bucket"
+			}
+		},
+		
+		"tile.bush": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "tile.bush",
+			}
+		},
+		"tile.grass": {
+			"type": "BOX",
+			"faces": {
+				"front": "tile.grass",
+				"top": "tile.grass",
+				"left": "tile.grass",
+				"right": "tile.grass"
+			}
+		},
+		"tile.sand": {
+			"type": "BOX",
+			"faces": {
+				"front": "tile.sand",
+				"top": "tile.sand",
+				"left": "tile.sand",
+				"right": "tile.sand"
+			}
+		},
+		"tile.stomp": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "tile.stomp",
+			}
+		},
+		"tile.tall_grass": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "tile.tall_grass"
+			}
+		},
+		"tile.water": {
+			"type": "BOX",
+			"faces": {
+				"front": "tile.water",
+				"top": "tile.water",
+				"left": "tile.water",
+				"right": "tile.water"
+			}
+		},
+		
+		
+		"bullet.spit": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "item.spit"
+			}
+		}		
+	}
+}

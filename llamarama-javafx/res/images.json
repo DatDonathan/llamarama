@@ -1,0 +1,98 @@
+{
+	"images": {
+		"character.corporal.down": {
+			"path": "character/corporal_down.png"
+		},
+		"character.corporal.up": {
+			"path": "character/corporal_up.png"
+		},
+		"character.corporal.left": {
+			"path": "character/corporal_left.png"
+		},
+		"character.corporal.right": {
+			"path": "character/corporal_right.png"
+		},
+		
+		"character.speedy.down": {
+			"path": "character/speedy_down.png"
+		},
+		"character.speedy.up": {
+			"path": "character/speedy_up.png"
+		},
+		"character.speedy.left": {
+			"path": "character/speedy_left.png"
+		},
+		"character.speedy.right": {
+			"path": "character/speedy_right.png"
+		},
+		
+		"character.jeremy.down": {
+			"path": "character/jeremy_down.png"
+		},
+		"character.jeremy.up": {
+			"path": "character/jeremy_up.png"
+		},
+		"character.jeremy.left": {
+			"path": "character/jeremy_left.png"
+		},
+		"character.jeremy.right": {
+			"path": "character/jeremy_right.png"
+		},
+		
+		"character.officer.down": {
+			"path": "character/officer_down.png"
+		},
+		"character.officer.up": {
+			"path": "character/officer_up.png"
+		},
+		"character.officer.left": {
+			"path": "character/officer_left.png"
+		},
+		"character.officer.right": {
+			"path": "character/officer_right.png"
+		},
+		
+		"ability.donut_shield.down": {
+			"path": "ability/donut_down.png"
+		},
+		"ability.donut_shield.up": {
+			"path": "ability/donut_up.png"
+		},
+		"ability.donut_shield.left": {
+			"path": "ability/donut_left.png"
+		},
+		"ability.donut_shield.right": {
+			"path": "ability/donut_right.png"
+		},
+		
+		"item.healing_grass": {
+			"path": "item/heal_grass.png"
+		},
+		"item.spit_bucket": {
+			"path": "item/water.png"
+		},
+		
+		"tile.bush": {
+			"path": "tile/bush.png"
+		},
+		"tile.grass": {
+			"path": "tile/grass.png"
+		},
+		"tile.sand": {
+			"path": "tile/sand.png"
+		},
+		"tile.stomp": {
+			"path": "tile/stomp.png"
+		},
+		"tile.tall_grass": {
+			"path": "tile/tall_grass.png"
+		},
+		"tile.water": {
+			"path": "tile/water.png"
+		},
+		
+		"bullet.spit": {
+			"path": "bullet/spit.png"
+		}
+	}
+}
