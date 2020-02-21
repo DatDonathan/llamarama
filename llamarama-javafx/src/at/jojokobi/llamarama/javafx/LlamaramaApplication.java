@@ -87,7 +87,15 @@ public class LlamaramaApplication extends GameApplication {
 		return ControlConstants.class;
 	}
 
-	
+	@Override
+	protected String imagesRoot() {
+		return "assets/images";
+	}
+
+	@Override
+	protected String soundsRoot() {
+		return "assets/sounds";
+	}
 	
 //	@Override
 //	public void start(Stage stage) throws Exception {

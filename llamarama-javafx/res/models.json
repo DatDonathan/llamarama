@@ -141,7 +141,7 @@
 		"tile.bush": {
 			"type": "IMAGE",
 			"faces": {
-				"front": "tile.bush",
+				"front": "tile.bush"
 			}
 		},
 		"tile.grass": {
@@ -165,13 +165,13 @@
 		"tile.stomp": {
 			"type": "IMAGE",
 			"faces": {
-				"front": "tile.stomp",
+				"front": "tile.stomp"
 			}
 		},
-		"tile.tall_grass": {
+		"tile.long_grass": {
 			"type": "IMAGE",
 			"faces": {
-				"front": "tile.tall_grass"
+				"front": "tile.long_grass"
 			}
 		},
 		"tile.water": {
@@ -188,7 +188,7 @@
 		"bullet.spit": {
 			"type": "IMAGE",
 			"faces": {
-				"front": "item.spit"
+				"front": "bullet.spit"
 			}
 		}		
 	}

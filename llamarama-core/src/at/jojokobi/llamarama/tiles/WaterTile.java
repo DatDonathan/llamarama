@@ -8,7 +8,7 @@ public class WaterTile extends Tile {
 //	public static final RenderModel WATER_MODEL = new BoxModel(WATER_IMAGE, WATER_IMAGE);
 	
 	public WaterTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.water");
+		super(x, y, z, area, 1, 1, 1, "tile.water");
 		setSolid(true);
 		setNeedsUpdate(false);
 	}

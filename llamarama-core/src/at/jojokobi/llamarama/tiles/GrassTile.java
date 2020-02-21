@@ -8,7 +8,7 @@ public class GrassTile extends Tile {
 //	public static final RenderModel GRASS_MODEL = new BoxModel(GRASS_IMAGE, GRASS_IMAGE);
 	
 	public GrassTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.grass");
+		super(x, y, z, area, 1, 1, 1, "tile.grass");
 		setSolid(true);
 		setNeedsUpdate(false);
 	}

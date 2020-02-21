@@ -8,7 +8,7 @@ public class SandTile extends Tile {
 //	public static final RenderModel SAND_MODEL = new BoxModel(SAND_IMAGE, SAND_IMAGE);
 	
 	public SandTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.sand");
+		super(x, y, z, area, 1, 1, 1, "tile.sand");
 		setSolid(true);
 		setNeedsUpdate(false);
 	}

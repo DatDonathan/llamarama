@@ -205,6 +205,9 @@ public class MainMenuLevel extends Level{
 		Camera camera = getCamera();
 		camera.setRotationX(90);
 		getGuiSystem().showGUI(MAIN_MENU_GUI, null, getClientId());
+		camera.setY(24);
+		camera.setX(20);
+		camera.setZ(12);
 		
 		GamePresence presence = new GamePresence();
 		presence.setDetails("In menu");

@@ -8,7 +8,7 @@ public class LongGrassTile extends Tile {
 //	public static final RenderModel LONG_GRASS_MODEL = new Image2DModel(LONG_GRASS_IMAGE);
 	
 	public LongGrassTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.long_grass");
+		super(x, y, z, area, 1, 1, 1, "tile.long_grass");
 		setSolid(false);
 		setNeedsUpdate(false);
 	}

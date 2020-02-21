@@ -84,7 +84,7 @@
 		"tile.stomp": {
 			"path": "tile/stomp.png"
 		},
-		"tile.tall_grass": {
+		"tile.long_grass": {
 			"path": "tile/tall_grass.png"
 		},
 		"tile.water": {

@@ -23,9 +23,9 @@ public class Bullet extends GameObject {
 		setyMotion(motion.getY());
 		setzMotion(motion.getZ());
 		
-		setWidth(16);
-		setHeight(16);
-		setLength(16);
+		setWidth(0.5);
+		setHeight(0.5);
+		setLength(0.5);
 	}
 	
 	public Bullet() {

@@ -58,7 +58,7 @@ public class CharacterTypeProvider {
 		CharacterType corporal = new CharacterType();
 		corporal.setName("Corporal");
 		corporal.setMaxHp(70);
-		corporal.setSpeed(240);
+		corporal.setSpeed(7.5);
 		corporal.addWeapon(new WeaponType(0.4, 18, 40, new SingleShotBehavior()));
 		corporal.addWeapon(new WeaponType(0.4, 35, 1, new MeleeAttackBehavior()));
 		corporal.setWidth(1.5);
@@ -77,7 +77,7 @@ public class CharacterTypeProvider {
 		CharacterType speedy = new CharacterType();
 		speedy.setName("Speedy");
 		speedy.setMaxHp(50);
-		speedy.setSpeed(420);
+		speedy.setSpeed(13.125);
 		speedy.addWeapon(new WeaponType(1 / 12.0, 4, 50, new SingleShotBehavior()));
 		speedy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(2400)));
 		corporal.setWidth(1.5);
@@ -96,7 +96,7 @@ public class CharacterTypeProvider {
 		CharacterType jeremy = new CharacterType();
 		jeremy.setName("Jeremy");
 		jeremy.setMaxHp(50);
-		jeremy.setSpeed(300);
+		jeremy.setSpeed(9.375);
 		jeremy.addWeapon(new WeaponType(0.5, 4, 150, new MultiShotBehavior(8)));
 		jeremy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(2400)));
 		corporal.setWidth(1.5);
@@ -115,7 +115,7 @@ public class CharacterTypeProvider {
 		CharacterType officer = new CharacterType();
 		officer.setName("Officer");
 		officer.setMaxHp(120);
-		officer.setSpeed(240);
+		officer.setSpeed(7.5);
 		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
 		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setAbility(new ShieldAbility());

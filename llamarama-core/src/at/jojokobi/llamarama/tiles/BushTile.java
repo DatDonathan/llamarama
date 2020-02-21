@@ -8,7 +8,7 @@ public class BushTile extends Tile {
 //	public static final RenderModel BUSH_MODEL = new Image2DModel(BUSH_IMAGE);
 	
 	public BushTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.bush");
+		super(x, y, z, area, 1, 1, 1, "tile.bush");
 		setSolid(true);
 		setNeedsUpdate(false);
 	}

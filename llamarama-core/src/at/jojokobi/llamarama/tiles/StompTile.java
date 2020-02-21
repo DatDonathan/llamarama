@@ -8,7 +8,7 @@ public class StompTile extends Tile {
 //	public static final RenderModel STOMP_MODEL = new Image2DModel(STOMP_IMAGE);
 	
 	public StompTile(double x, double y, double z, String area) {
-		super(x, y, z, area, 32, 32, 32, "tile.stomp");
+		super(x, y, z, area, 1, 1, 1, "tile.stomp");
 		setSolid(true);
 		setNeedsUpdate(false);
 	}
