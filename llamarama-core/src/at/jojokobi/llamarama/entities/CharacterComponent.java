@@ -160,6 +160,8 @@ public class CharacterComponent implements ObjectComponent {
 		shapes.add(new RenderRect(new Vector2D(-width/2 + width * bulletsPercent, -height * 4), width * (1 - bulletsPercent), height, new FixedStyle().reset().setFill(new Color(0.2, 0.2, 0.2, 1))));
 		shapes.add(new RenderRect(new Vector2D(-width/2, -height * 4), width * bulletsPercent, height, new FixedStyle().reset().setFill(new Color(0.2, 0.2, 1, 1))));
 		//Name
+		shapes.add(new RenderText(new Vector2D(-width/2, -height * 11), getName(), new FixedStyle().reset().setFont(new Font("Consolas", 12))));
+		shapes.add(new RenderText(new Vector2D(-width/2, -height * 9), "Kills: " + getKills(), new FixedStyle().reset().setFont(new Font("Consolas", 12))));
 		//Weapon
 		shapes.add(new RenderText(new Vector2D(-width/2 - 0.5, -height * 5), weapon.get() + 1 + "", new FixedStyle().reset().setFont(new Font("Consolas", 32))));
 		
