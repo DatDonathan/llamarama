@@ -6,9 +6,11 @@ import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.input.Input;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.Camera;
+import at.jojokobi.donatengine.objects.FollowCameraComponent;
 import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Vector2D;
+import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
@@ -20,6 +22,7 @@ public class PlayerCharacter extends CharacterInstance {
 	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character, String name) {
 		super(x, y, z, area, character, name);
 		addComponent(new PlayerComponent(client));
+		addComponent(new FollowCameraComponent(new Vector3D(0, 10, 0), client));
 	}
 	
 	public PlayerCharacter() {
@@ -64,10 +67,6 @@ public class PlayerCharacter extends CharacterInstance {
 	@Override
 	public void clientUpdate(Level level, UpdateEvent event) {
 		super.clientUpdate(level, event);
-		//TODO: Camera follow
-		/*if (level.getClientId() == getComponent(PlayerComponent.class).getClient()) {
-			camera.setFollow(level.getId(this));
-		}*/
 	}
 	
 	@Override
