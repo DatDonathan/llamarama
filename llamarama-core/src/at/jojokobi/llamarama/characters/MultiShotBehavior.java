@@ -41,7 +41,7 @@ public class MultiShotBehavior implements FireBehavior {
 	@Override
 	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
 		List<GameObject> objs = null;
-		final double size = 0;
+		final double size = 0.5;
 		Vector3D pos = obj.getPosition().add(obj.getSize().multiply(0.5));
 		Vector3D targetPos = target.getPosition().add(target.getSize().multiply(0.5));
 		Vector3D dst = targetPos.clone().subtract(pos);
