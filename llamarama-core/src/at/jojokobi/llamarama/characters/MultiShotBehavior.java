@@ -21,7 +21,7 @@ public class MultiShotBehavior implements FireBehavior {
 	}
 
 	public MultiShotBehavior(int amount) {
-		this(amount, 1200);
+		this(amount, 37.5);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class MultiShotBehavior implements FireBehavior {
 		for (used = 0; used < Math.min(amount, weapon.getBullets()); used++) {
 			Vector3D motion = comp.getDirection().getMotion();
 			motion.add(Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2);
-			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX() - 8, obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY() - 8, obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ() - 8);
+			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX() - 0.25, obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY() - 0.25, obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ() - 0.25);
 			
 			Bullet bullet = new Bullet(pos.getX(), pos.getY(), pos.getZ(), obj.getArea(), comp, type.getDamage(), motion, speed);
 			level.spawn(bullet);

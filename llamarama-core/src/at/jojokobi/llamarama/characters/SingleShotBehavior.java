@@ -20,14 +20,14 @@ public class SingleShotBehavior implements FireBehavior {
 	}
 	
 	public SingleShotBehavior() {
-		this(1200);
+		this(37.5);
 	}
 
 	@Override
 	public int shoot(GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level) {
 		if (weapon.getBullets() > 0) {
 			Vector3D motion = comp.getDirection().getMotion();
-			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX() - 8, obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY() - 8, obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ() - 8);
+			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 + obj.getWidth()/2 * motion.getX() - 0.25, obj.getY() + obj.getHeight()/2 + obj.getHeight()/2 * motion.getY() - 0.25, obj.getZ() + obj.getLength()/2 + obj.getLength()/2 * motion.getZ() - 0.25);
 			
 			level.spawn(new Bullet(pos.getX(), pos.getY(), pos.getZ(), obj.getArea(), comp, type.getDamage(), motion, speed));
 			return 1;

@@ -29,7 +29,7 @@ public class Bullet extends GameObject {
 	}
 	
 	public Bullet() {
-		this(0, 0, 0, "", null, 0, new Vector3D(), 1200);
+		this(0, 0, 0, "", null, 0, new Vector3D(), 37.5);
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class Bullet extends GameObject {
 			delete(level);
 		}
 		else {
-			for (GameObject collided : level.getObjectsInArea(getX() - 1, getY() - 1, getZ() - 1, getWidth() + 2, getHeight() + 2, getLength() + 2, getArea())) {
+			for (GameObject collided : level.getObjectsInArea(getX() - 0.001, getY() - 0.001, getZ() - 0.001, getWidth() + 0.002, getHeight() + 0.002, getLength() + 0.002, getArea())) {
 				CharacterComponent comp = collided.getComponent(CharacterComponent.class);
 				if (comp != null && comp != shooter && comp.isAlive()) {
 					comp.damage(damage);
