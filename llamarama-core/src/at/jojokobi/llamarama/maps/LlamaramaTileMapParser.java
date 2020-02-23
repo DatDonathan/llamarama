@@ -28,15 +28,15 @@ public class LlamaramaTileMapParser extends TileMapParser {
 			objs.add(new WaterTile(x, y, z, ""));
 			break;
 		case 3:
-			objs.add(new BushTile(x, y + 32, z, ""));
+			objs.add(new BushTile(x, y + 1, z, ""));
 			objs.add(new GrassTile(x, y, z, ""));
 			break;
 		case 4:
-			objs.add(new StompTile(x, y + 32, z, ""));
+			objs.add(new StompTile(x, y + 1, z, ""));
 			objs.add(new GrassTile(x, y, z, ""));
 			break;
 		case 5:
-			objs.add(new LongGrassTile(x, y + 32, z, ""));
+			objs.add(new LongGrassTile(x, y + 1, z, ""));
 			objs.add(new GrassTile(x, y, z, ""));
 			break;
 		}

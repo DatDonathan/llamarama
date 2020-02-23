@@ -82,7 +82,7 @@ public class ShieldAbility implements Ability {
 	}
 	
 	private List<Bullet> findBullets (Level level, GameObject object, CharacterComponent character) {
-		return object.getObjectsInDirection(level, character.getDirection().getMotion(), 32, Bullet.class);
+		return object.getObjectsInDirection(level, character.getDirection().getMotion(), 1, Bullet.class);
 	}
 
 	@Override

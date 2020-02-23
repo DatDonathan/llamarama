@@ -64,6 +64,8 @@ public class PlayerCharacter extends CharacterInstance {
 	@Override
 	public void clientUpdate(Level level, UpdateEvent event) {
 		super.clientUpdate(level, event);
+		System.out.println(getPosition());
+		System.out.println(getCollided(level));
 		//TODO: Camera follow
 		/*if (level.getClientId() == getComponent(PlayerComponent.class).getClient()) {
 			camera.setFollow(level.getId(this));

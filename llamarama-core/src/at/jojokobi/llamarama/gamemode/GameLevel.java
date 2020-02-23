@@ -249,20 +249,20 @@ public class GameLevel extends Level{
 			LevelBoundsComponent bounds = level.getComponent(LevelBoundsComponent.class);
 			bounds.setPos(startPos);
 			Vector3D size = currentMap.getSize();
-			size.setY(32 * 64);
+			size.setY(64);
 			bounds.setSize(size);
 			currentMap.generate(level, startPos, startArea);
 			for (var e : characterChoices.get().entrySet()) {
-				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue().getCharacter(), e.getValue().getName());
+				PlayerCharacter player = new PlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 1, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, e.getKey(), e.getValue().getCharacter(), e.getValue().getName());
 				level.spawn(player);
 			}
 			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
 			for (int i = characterChoices.get().size(); i < gameMode.get().getMaxPlayers(); i++) {
-				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 32, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 1, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
 				level.spawn(player);
 			}
 			
-//			level.spawn(new NonPlayerCharacter(512, 32, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
+//			level.spawn(new NonPlayerCharacter(512, 1, 512, startArea, CharacterTypeProvider.getCharacterTypes().get("Corporal")));
 			gameMode.get().startGame(level, this);
 			characterChoices.get().clear();
 		}
@@ -360,7 +360,7 @@ public class GameLevel extends Level{
 		super(behavior, 0, 0, 0);
 		
 		addComponent(new ChatComponent());
-		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128 * 32, 64 * 32, 128 * 32), true));
+		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
 		GameComponent comp = new GameComponent(mode, connectionString, new Vector3D(0, 0, 0), mainArea);
 		addComponent(comp);
 		

@@ -19,7 +19,7 @@ public class CSVLoadedMap implements GameMap{
 
 	@Override
 	public Vector3D getSize() {
-		return new Vector3D(map[0][0].length * 32, map.length * 32, map[0].length * 32);
+		return new Vector3D(map[0][0].length, map.length, map[0].length);
 	}
 
 }
