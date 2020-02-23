@@ -19,24 +19,24 @@ public class AdvancedPathFinder implements PathFinder {
 		Vector3D motion = new Vector3D();
 		// Direction
 		if (xPriority) {
-			if (goal.getX() - obj.getX() < -2) {
+			if (goal.getX() - obj.getX() < -0.1) {
 				motion.setX(-1);
-			} else if (goal.getX() - obj.getX() > 2) {
+			} else if (goal.getX() - obj.getX() > 0.1) {
 				motion.setX(1);
-			} else if (goal.getZ() - obj.getZ() > 2) {
+			} else if (goal.getZ() - obj.getZ() > 0.1) {
 				motion.setZ(1);
-			} else if (goal.getZ() - obj.getZ() < -2) {
+			} else if (goal.getZ() - obj.getZ() < -0.1) {
 				motion.setZ(-1);
 			}
 		} else {
-			if (goal.getZ() - obj.getZ() > 2) {
+			if (goal.getZ() - obj.getZ() > .1) {
 				motion.setZ(1);
-			} else if (goal.getZ() - obj.getZ() < -2) {
+			} else if (goal.getZ() - obj.getZ() < -0.1) {
 				motion.setZ(-1);
 			}
-			else if (goal.getX() - obj.getX() < -2) {
+			else if (goal.getX() - obj.getX() < -0.1) {
 				motion.setX(-1);
-			} else if (goal.getX() - obj.getX() > 2) {
+			} else if (goal.getX() - obj.getX() > 0.1) {
 				motion.setX(1);
 			}
 		}
