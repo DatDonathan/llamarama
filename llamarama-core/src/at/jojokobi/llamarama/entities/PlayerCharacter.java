@@ -10,7 +10,6 @@ import at.jojokobi.donatengine.objects.FollowCameraComponent;
 import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Vector2D;
-import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
@@ -22,7 +21,7 @@ public class PlayerCharacter extends CharacterInstance {
 	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character, String name) {
 		super(x, y, z, area, character, name);
 		addComponent(new PlayerComponent(client));
-		addComponent(new FollowCameraComponent(new Vector3D(0, 10, 0), client));
+		addComponent(new FollowCameraComponent(client, 1/3.0));
 	}
 	
 	public PlayerCharacter() {

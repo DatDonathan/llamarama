@@ -36,7 +36,7 @@ import at.jojokobi.donatengine.style.FixedStyle;
 import at.jojokobi.donatengine.style.Font;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
-import at.jojokobi.llamarama.entities.PlayerCharacter;
+import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
 import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel;
@@ -192,12 +192,10 @@ public class MainMenuLevel extends Level{
 		LevelBoundsComponent comp = getComponent(LevelBoundsComponent.class);
 		List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
 		//Spawn AIs
-//		for (int i = 0; i < 8; i++) {		
-//			NonPlayerCharacter ch = new NonPlayerCharacter(Math.random() * comp.getSize().getX(), 1, Math.random() * comp.getSize().getZ(), mainArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
-//			spawn(ch);
-//		}
-		PlayerCharacter ch = new PlayerCharacter(Math.random() * comp.getSize().getX(), 1, Math.random() * comp.getSize().getZ(), mainArea, 0, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))), "Gamer");
-		spawn(ch);
+		for (int i = 0; i < 8; i++) {		
+			NonPlayerCharacter ch = new NonPlayerCharacter(Math.random() * comp.getSize().getX(), 1, Math.random() * comp.getSize().getZ(), mainArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+			spawn(ch);
+		}
 		camera.setArea(mainArea);
 	}
 
