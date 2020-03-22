@@ -1,10 +1,8 @@
 package at.jojokobi.llamarama.maps;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
-import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.tiles.TileSystem;
 import at.jojokobi.llamarama.tiles.BushTile;
 import at.jojokobi.llamarama.tiles.GrassTile;
 import at.jojokobi.llamarama.tiles.LongGrassTile;
@@ -15,32 +13,31 @@ import at.jojokobi.llamarama.tiles.WaterTile;
 public class LlamaramaTileMapParser extends TileMapParser {
 
 	@Override
-	public List<GameObject> parse(int id, double x, double y, double z) {
-		List<GameObject> objs = new ArrayList<>();
+	public void parse(int id, int x, int y, int z, String area, Level level) {
+		TileSystem system = level.getTileSystem();
 		switch (id) {
 		case 0:
-			objs.add(new GrassTile(x, y, z, ""));
+			system.place(new GrassTile(), x, y, z, area);
 			break;
 		case 1:
-			objs.add(new SandTile(x, y, z, ""));
+			system.place(new SandTile(), x, y, z, area);
 			break;
 		case 2:
-			objs.add(new WaterTile(x, y, z, ""));
+			system.place(new WaterTile(), x, y, z, area);
 			break;
 		case 3:
-			objs.add(new BushTile(x, y + 1, z, ""));
-			objs.add(new GrassTile(x, y, z, ""));
+			system.place(new BushTile(), x, y + 1, z, area);
+			system.place(new GrassTile(), x, y, z, area);
 			break;
 		case 4:
-			objs.add(new StompTile(x, y + 1, z, ""));
-			objs.add(new GrassTile(x, y, z, ""));
+			system.place(new StompTile(), x, y + 1, z, area);
+			system.place(new GrassTile(), x, y, z, area);
 			break;
 		case 5:
-			objs.add(new LongGrassTile(x, y + 1, z, ""));
-			objs.add(new GrassTile(x, y, z, ""));
+			system.place(new LongGrassTile(), x, y + 1, z, area);
+			system.place(new GrassTile(), x, y, z, area);
 			break;
 		}
-		return objs;
 	}
 
 }
