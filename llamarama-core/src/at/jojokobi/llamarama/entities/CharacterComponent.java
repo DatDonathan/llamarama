@@ -165,7 +165,7 @@ public class CharacterComponent implements ObjectComponent {
 		//Weapon
 		shapes.add(new RenderText(new Vector2D(-width/2 - 0.5, -height * 5), weapon.get() + 1 + "", new FixedStyle().reset().setFont(new Font("Consolas", 32))));
 		
-		data.add(new CanvasRenderData(new Position(object.getPosition().add(object.getSize().multiply(0.5)).add(0, object.getHeight()/2, 0), object.getArea()), shapes));
+		data.add(new CanvasRenderData(new Position(object.getPositionVector().add(object.getSize().multiply(0.5)).add(0, object.getHeight()/2, 0), object.getArea()), shapes));
 		
 		if (usingAbility()) {
 			getCharacter().getAbility().render(level, object, this, data, cam);

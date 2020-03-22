@@ -55,7 +55,7 @@ public class ShieldAbility implements Ability {
 
 	@Override
 	public void render(Level level, GameObject object, CharacterComponent character, List<RenderData> data, Camera cam) {
-		Vector3D pos = object.getPosition();
+		Vector3D pos = object.getPositionVector();
 		pos.add(object.getWidth()/2, 0, object.getLength()/2);
 		String img = "";
 		switch (character.getDirection()) {

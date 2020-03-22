@@ -23,7 +23,7 @@ public class AttackTask implements CharacterTask {
 
 	@Override
 	public boolean canApply(Level level, GameObject obj, CharacterComponent ch) {
-		return !findTargets(level, obj, ch, obj.getPosition().add(obj.getSize().multiply(0.5)), obj.getArea()).isEmpty();
+		return !findTargets(level, obj, ch, obj.getPositionVector().add(obj.getSize().multiply(0.5)), obj.getArea()).isEmpty();
 	}
 
 	@Override

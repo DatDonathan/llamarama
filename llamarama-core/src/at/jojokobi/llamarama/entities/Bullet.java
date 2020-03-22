@@ -36,7 +36,7 @@ public class Bullet extends GameObject {
 	public void hostUpdate(Level level, UpdateEvent event) {
 		super.hostUpdate(level, event);
 		LevelBoundsComponent component = level.getComponent(LevelBoundsComponent.class);
-		if (component != null && component.nearBounds(this)) {
+		if ((component != null && component.nearBounds(this)) || collidesSolid(level)) {
 			delete(level);
 		}
 		else {
@@ -47,9 +47,6 @@ public class Bullet extends GameObject {
 					if (!comp.isAlive()) {
 						shooter.setKills(shooter.getKills() + 1);
 					}
-					delete(level);
-				}
-				else if (comp == null && collided.isSolid()) {
 					delete(level);
 				}
 			}

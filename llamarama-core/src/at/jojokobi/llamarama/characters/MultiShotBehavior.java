@@ -3,6 +3,7 @@ package at.jojokobi.llamarama.characters;
 import java.util.List;
 
 import at.jojokobi.donatengine.level.Level;
+import at.jojokobi.donatengine.objects.Collidable;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.Bullet;
@@ -40,28 +41,28 @@ public class MultiShotBehavior implements FireBehavior {
 	
 	@Override
 	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
-		List<GameObject> objs = null;
+		List<Collidable> objs = null;
 		final double size = 0.5;
-		Vector3D pos = obj.getPosition().add(obj.getSize().multiply(0.5));
-		Vector3D targetPos = target.getPosition().add(target.getSize().multiply(0.5));
+		Vector3D pos = obj.getPositionVector().add(obj.getSize().multiply(0.5));
+		Vector3D targetPos = target.getPositionVector().add(target.getSize().multiply(0.5));
 		Vector3D dst = targetPos.clone().subtract(pos);
 
 		boolean hit = true;
 		switch(comp.getDirection()) {
 		case DOWN:
-			objs = level.getObjectsInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ(), size, size, dst.getZ(), obj.getArea());
+			objs = level.getCollidablesInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ(), size, size, dst.getZ(), obj.getArea());
 			hit = dst.getZ() >= 0;
 			break;
 		case LEFT:
-			objs = level.getObjectsInArea(pos.getX() + dst.getX(), pos.getY() - size/2, pos.getZ(), -dst.getX(), size, size, obj.getArea());
+			objs = level.getCollidablesInArea(pos.getX() + dst.getX(), pos.getY() - size/2, pos.getZ(), -dst.getX(), size, size, obj.getArea());
 			hit = dst.getX() <= 0;
 			break;
 		case RIGHT:
-			objs = level.getObjectsInArea(pos.getX(), pos.getY() - size/2, pos.getZ(), dst.getX(), size, size, obj.getArea());
+			objs = level.getCollidablesInArea(pos.getX(), pos.getY() - size/2, pos.getZ(), dst.getX(), size, size, obj.getArea());
 			hit = dst.getX() >= 0;
 			break;
 		case UP:
-			objs = level.getObjectsInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ() + dst.getZ(), size, size, -dst.getZ(), obj.getArea());
+			objs = level.getCollidablesInArea(pos.getX() - size/2, pos.getY() - size/2, pos.getZ() + dst.getZ(), size, size, -dst.getZ(), obj.getArea());
 			hit = dst.getZ() <= 0;
 			break;
 		}

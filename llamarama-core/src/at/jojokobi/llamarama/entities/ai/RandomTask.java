@@ -21,7 +21,7 @@ public class RandomTask implements CharacterTask {
 	public Vector3D apply(Level level, GameObject obj, CharacterComponent ch, double delta) {
 		if (timer <= 0) {
 			timer = interval;
-			goal = obj.getPosition().add((Math.random() - 0.5) * distance * 2, (Math.random() - 0.5) * distance * 2, (Math.random() - 0.5) * distance * 2);
+			goal = obj.getPositionVector().add((Math.random() - 0.5) * distance * 2, (Math.random() - 0.5) * distance * 2, (Math.random() - 0.5) * distance * 2);
 		}
 		timer -= delta;
  		return goal.clone();

@@ -27,18 +27,18 @@ public class FollowTask implements CharacterTask {
 
 	@Override
 	public boolean canApply(Level level, GameObject obj, CharacterComponent ch) {
-		List<GameObject> targets = findTargets(level, obj, obj.getPosition(), obj.getArea());
+		List<GameObject> targets = findTargets(level, obj, obj.getPositionVector(), obj.getArea());
 		return follow != null ? targets.contains(follow) || !targets.isEmpty() : !targets.isEmpty();
 	}
 
 	@Override
 	public Vector3D apply(Level level, GameObject obj, CharacterComponent ch, double delta) {
-		return follow.getPosition().add(follow.getSize().multiply(0.5)).subtract(obj.getSize().multiply(0.5));
+		return follow.getPositionVector().add(follow.getSize().multiply(0.5)).subtract(obj.getSize().multiply(0.5));
 	}
 
 	@Override
 	public void activate(Level level, GameObject obj, CharacterComponent ch) {
-		List<GameObject> targets = findTargets(level, obj, obj.getPosition(), obj.getArea());
+		List<GameObject> targets = findTargets(level, obj, obj.getPositionVector(), obj.getArea());
 		if (follow == null || !targets.contains(follow)) {
 			follow = targets.get(new Random().nextInt(targets.size()));
 		}

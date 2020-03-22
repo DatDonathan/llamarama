@@ -82,7 +82,7 @@ public class MainMenuLevel extends Level{
 	private String mainArea = "main";
 
 	public MainMenuLevel(MultiplayerBehavior behavior) {
-		super(behavior, 0, 0, 0);
+		super(behavior);
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(40, 24, 24), true));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();

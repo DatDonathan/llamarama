@@ -357,7 +357,7 @@ public class GameLevel extends Level{
 	
 	
 	public GameLevel(MultiplayerBehavior behavior, GameMode mode, String connectionString) {
-		super(behavior, 0, 0, 0);
+		super(behavior);
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
