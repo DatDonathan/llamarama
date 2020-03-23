@@ -8,4 +8,9 @@ public class LongGrassTile extends Tile {
 		super("tile.long_grass");
 	}
 	
+	@Override
+	public boolean isSolid() {
+		return false;
+	}
+	
 }
