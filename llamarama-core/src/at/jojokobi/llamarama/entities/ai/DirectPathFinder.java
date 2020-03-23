@@ -12,7 +12,7 @@ public class DirectPathFinder implements PathFinder {
 		Vector3D pos = obj.getPositionVector();
 		Vector3D dir = goal.clone().subtract(pos);
 		dir.setY(0);
-		if (Math.abs(dir.getZ()) > 1 && obj.getObjectsInDirection(level, dir.clone().add(-dir.getX(), 0, 0), Math.abs(dir.getZ()), GameObject.class).stream().allMatch(o -> !o.isSolid())) {
+		if (Math.abs(dir.getZ()) > 1 && obj.getCollidablesInDirection(level, dir.clone().add(-dir.getX(), 0, 0), Math.abs(dir.getZ())).stream().allMatch(o -> !o.isSolid())) {
 			dir.setX(0);
 		}
 		else if (Math.abs(dir.getX()) > 1) {

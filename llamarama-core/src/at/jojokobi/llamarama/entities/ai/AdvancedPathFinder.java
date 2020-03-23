@@ -29,7 +29,7 @@ public class AdvancedPathFinder implements PathFinder {
 				motion.setZ(-1);
 			}
 		} else {
-			if (goal.getZ() - obj.getZ() > .1) {
+			if (goal.getZ() - obj.getZ() > 0.1) {
 				motion.setZ(1);
 			} else if (goal.getZ() - obj.getZ() < -0.1) {
 				motion.setZ(-1);
@@ -42,7 +42,7 @@ public class AdvancedPathFinder implements PathFinder {
 		}
 		// Rotate if walls are nearby
 		int count = 0;
-		while (canMove(level, obj, motion, speed) && count < 3) {
+		while (!canMove(level, obj, motion, speed) && count < 3) {
 			if (clockwise) {
 				double x = motion.getX();
 				motion.setX(motion.getZ());
@@ -78,7 +78,7 @@ public class AdvancedPathFinder implements PathFinder {
 		if (bounds != null) {
 			canMove = !bounds.nearBounds(obj);
 		}
-		return canMove && obj.getObjectsInDirection(level, motion, speed, GameObject.class).stream().anyMatch(o -> o.isSolid());
+		return canMove && obj.getCollidablesInDirection(level, motion, speed).stream().allMatch(o -> !o.isSolid());
 	}
 
 }
