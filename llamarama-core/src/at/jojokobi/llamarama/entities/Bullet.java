@@ -5,6 +5,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
+import at.jojokobi.llamarama.characters.DamageCause;
 
 public class Bullet extends GameObject {
 //	
@@ -43,10 +44,7 @@ public class Bullet extends GameObject {
 			for (GameObject collided : level.getObjectsInArea(getX() - 0.001, getY() - 0.001, getZ() - 0.001, getWidth() + 0.002, getHeight() + 0.002, getLength() + 0.002, getArea())) {
 				CharacterComponent comp = collided.getComponent(CharacterComponent.class);
 				if (comp != null && comp != shooter && comp.isAlive()) {
-					comp.damage(damage);
-					if (!comp.isAlive()) {
-						shooter.setKills(shooter.getKills() + 1);
-					}
+					comp.damage(level, shooter, damage, DamageCause.SHOT);
 					delete(level);
 				}
 			}

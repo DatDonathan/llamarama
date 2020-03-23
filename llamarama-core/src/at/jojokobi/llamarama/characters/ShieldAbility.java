@@ -56,11 +56,10 @@ public class ShieldAbility implements Ability {
 	@Override
 	public void render(Level level, GameObject object, CharacterComponent character, List<RenderData> data, Camera cam) {
 		Vector3D pos = object.getPositionVector();
-		pos.add(object.getWidth()/2, 0, object.getLength()/2);
 		String img = "";
 		switch (character.getDirection()) {
 		case DOWN:
-			pos.add(0, 0, 1);
+			pos.add(0, 0, object.getLength());
 			img = "ability.donut_shield.down";
 			break;
 		case LEFT:
@@ -68,7 +67,7 @@ public class ShieldAbility implements Ability {
 			img = "ability.donut_shield.left";
 			break;
 		case RIGHT:
-			pos.add(1, 0, 0);
+			pos.add(object.getWidth(), 0, 0);
 			img = "ability.donut_shield.right";
 			break;
 		case UP:

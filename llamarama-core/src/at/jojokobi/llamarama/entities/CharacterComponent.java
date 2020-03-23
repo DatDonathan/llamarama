@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import at.jojokobi.donatengine.event.UpdateEvent;
+import at.jojokobi.donatengine.level.ChatComponent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
@@ -30,6 +31,7 @@ import at.jojokobi.donatengine.util.Pair;
 import at.jojokobi.donatengine.util.Position;
 import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.llamarama.characters.CharacterType;
+import at.jojokobi.llamarama.characters.DamageCause;
 import at.jojokobi.llamarama.characters.Direction;
 import at.jojokobi.llamarama.characters.WeaponType;
 
@@ -222,8 +224,27 @@ public class CharacterComponent implements ObjectComponent {
 		setHp(Math.min(getHp() + amount, getCharacter().getMaxHp()));
 	}
 	
-	public void damage (int amount) {
+	public void damage (Level level, CharacterComponent damager, int amount, DamageCause cause) {
 		setHp(Math.max(getHp() - amount, 0));
+		if (!isAlive()) {
+			damager.setKills(damager.getKills() + 1);
+			ChatComponent chat = level.getComponent(ChatComponent.class);
+			if (chat != null) {
+				String message = "";
+				switch (cause) {
+				case HIT:
+					message = getName() + " was slain by " + damager.getName() + "!";
+					break;
+				case PUNCH:
+					message = getName() + " was punched to death by " + damager.getName() + "!";
+					break;
+				case SHOT:
+					message = getName() + " was shot by " + damager.getName() + "!";
+					break;
+				}
+				chat.postMessage(message);
+			}
+		}
 	}
 	
 	public boolean isAlive () {
