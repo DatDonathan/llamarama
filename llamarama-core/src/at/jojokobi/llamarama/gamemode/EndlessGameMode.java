@@ -3,6 +3,7 @@ package at.jojokobi.llamarama.gamemode;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,17 @@ public class EndlessGameMode implements GameMode {
 	public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
 		minPlayers = buffer.readInt();
 		maxLobbyTime = buffer.readDouble();
+	}
+	
+	@Override
+	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp) {
+		List<ScoreboardEntry> entries = new ArrayList<ScoreboardEntry>();
+		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
+			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
+			entries.add(new SingleScoreboardEntry(ch));
+		}
+		entries.sort((l, r) -> Integer.compare(r.getKills(), l.getKills())); 
+		return entries;
 	}
 
 }

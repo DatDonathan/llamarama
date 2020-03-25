@@ -38,13 +38,20 @@ import at.jojokobi.donatengine.objects.properties.ObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableObjectProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.objects.properties.map.ObservableMap;
+import at.jojokobi.donatengine.platform.GamePlatform;
 import at.jojokobi.donatengine.presence.GamePresence;
+import at.jojokobi.donatengine.rendering.RenderData;
+import at.jojokobi.donatengine.rendering.RenderRect;
+import at.jojokobi.donatengine.rendering.RenderShape;
+import at.jojokobi.donatengine.rendering.RenderText;
+import at.jojokobi.donatengine.rendering.ScreenCanvasRenderData;
 import at.jojokobi.donatengine.serialization.BinarySerializable;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.donatengine.style.Color;
 import at.jojokobi.donatengine.style.FixedDimension;
 import at.jojokobi.donatengine.style.FixedStyle;
 import at.jojokobi.donatengine.style.Font;
+import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
@@ -346,6 +353,36 @@ public class GameLevel extends Level{
 		@Override
 		public void clientUpdate(Level level, UpdateEvent event) {
 			
+		}
+		
+		@Override
+		public void renderAfter(List<RenderData> data, Camera cam, Level level) {
+			LevelComponent.super.renderAfter(data, cam, level);
+			
+			Font font = new Font("Consolas", 16);
+			List<ScoreboardEntry> entries = gameMode.get().getScoreboardEntries(level, this);
+			
+			double width = 0;
+			double height = 4;
+			for (ScoreboardEntry entry : entries) {
+				Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
+				width = Math.max(width, dim.getX());
+				height += dim.getY();
+			}
+			width += 30 + 30 + 2;
+			
+			//Scoreboard
+			List<RenderShape> shapes = new ArrayList<> ();
+			shapes.add(new RenderRect(new Vector2D(cam.getViewWidth() - width, 0), width, height, new FixedStyle().reset().setBorder(Color.TRANSPARENT).setFill(new Color(0.4, 0.4, 0.4, 0.5))));
+			double y = 2;
+			//Names
+			for (ScoreboardEntry entry : entries) {
+				Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
+				shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - width + 2, y), entry.getName(), new FixedStyle().reset().setFont(font)));
+				shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - 30, y), entry.getKills() + "", new FixedStyle().reset().setFont(font)));
+				y += dim.getY();
+			}
+			data.add(new ScreenCanvasRenderData(new Vector2D(0, 0), shapes));
 		}
 		
 	}

@@ -21,6 +21,8 @@ public interface GameMode extends BinarySerializable {
 	
 	public void endGame (Level level, GameComponent comp);
 	
+	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp);
+	
 	public Winner determineWinner (Level level, GameComponent comp);
 	
 	public int getMaxPlayers ();
