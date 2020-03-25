@@ -79,7 +79,7 @@ public class CharacterTypeProvider {
 		speedy.setMaxHp(50);
 		speedy.setSpeed(13.125);
 		speedy.addWeapon(new WeaponType(1 / 12.0, 4, 50, new SingleShotBehavior()));
-		speedy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(2400)));
+		speedy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
 		speedy.setWidth(1.5);
 		speedy.setHeight(1.5);
 		speedy.setLength(1.5);
@@ -98,7 +98,7 @@ public class CharacterTypeProvider {
 		jeremy.setMaxHp(50);
 		jeremy.setSpeed(9.375);
 		jeremy.addWeapon(new WeaponType(0.5, 4, 150, new MultiShotBehavior(8)));
-		jeremy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(2400)));
+		jeremy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
 		jeremy.setWidth(1.5);
 		jeremy.setHeight(1.5);
 		jeremy.setLength(1.5);

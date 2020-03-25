@@ -27,6 +27,7 @@ public class Bullet extends GameObject {
 		setWidth(0.5);
 		setHeight(0.5);
 		setLength(0.5);
+		setCollideSolid(true);
 	}
 	
 	public Bullet() {
