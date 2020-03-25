@@ -26,8 +26,8 @@ public class NonPlayerCharacter extends CharacterInstance {
 	private List<CharacterTask> tasks = new ArrayList<>();
 	private Vector3D goal;
 
-	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character) {
-		super(x, y, z, area, character, character.getName());
+	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character, String name) {
+		super(x, y, z, area, character, name);
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) >= 0.9, 32, true));
 		tasks.add(new UseAbilityTask());
 		tasks.add(new AttackTask(o -> o != this && o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 32));
@@ -37,8 +37,12 @@ public class NonPlayerCharacter extends CharacterInstance {
 		tasks.add(new RandomTask());
 	}
 	
+	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character) {
+		this(x, y, z, area, character, character.getName());
+	}
+	
 	public NonPlayerCharacter() {
-		this(0, 0, 0, "", CharacterTypeProvider.getCharacterTypes().get("Corporal"));
+		this(0, 0, 0, "", CharacterTypeProvider.getCharacterTypes().get("Corporal"), "Corporal");
 	}
 	
 	@Override

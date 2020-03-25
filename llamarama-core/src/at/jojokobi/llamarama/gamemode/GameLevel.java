@@ -62,6 +62,24 @@ import at.jojokobi.llamarama.maps.GameMap;
 
 public class GameLevel extends Level{
 	
+	private static final String[] AI_NAMES = {
+		"GamingChungus",
+		"RobloxGamerGirl2007",
+		"YoshiGaming2007",
+		"OfficerMain",
+		"Wholesome69",
+		"Keanu_man",
+		"BigBoiBobby",
+		"PufferfishEatingCarrot",
+		"\u1F980 Crab Emoji \u1F980",
+		"FortniteBadKeanuChungus",
+		"xX_Skiller-Pro_Xx",
+		"Sudschuk_Skiller",
+		"MannVonUnvergleichlicherEhre",
+		"DabbinNinja",
+		"HyperExcel"
+	};
+	
 	public static class StartMatchAction implements GUIAction {
 
 		@Override
@@ -265,7 +283,7 @@ public class GameLevel extends Level{
 			}
 			List<String> types = new ArrayList<>(CharacterTypeProvider.getCharacterTypes().keySet());
 			for (int i = characterChoices.get().size(); i < gameMode.get().getMaxPlayers(); i++) {
-				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 1, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))));
+				NonPlayerCharacter player = new NonPlayerCharacter(startPos.getX() + Math.random() * currentMap.getSize().getX(), startPos.getY() + 1, startPos.getZ() + Math.random() * currentMap.getSize().getZ(), startArea, CharacterTypeProvider.getCharacterTypes().get(types.get(new Random().nextInt(types.size()))), AI_NAMES[new Random().nextInt(AI_NAMES.length)]);
 				level.spawn(player);
 			}
 			
