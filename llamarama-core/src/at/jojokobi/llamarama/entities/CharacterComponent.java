@@ -242,7 +242,7 @@ public class CharacterComponent implements ObjectComponent {
 					message = getName() + " was shot by " + damager.getName() + "!";
 					break;
 				}
-				chat.postMessage(message);
+				chat.postMessage(message, 5000);
 			}
 		}
 	}

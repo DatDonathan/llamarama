@@ -275,7 +275,7 @@ public class GameLevel extends Level{
 		}
 		
 		private void endMatch (Level level, Game game) {			
-			level.getComponent(ChatComponent.class).postMessage(gameMode.get().determineWinner(level, this).getName() + " won the game!");
+			level.getComponent(ChatComponent.class).postMessage(gameMode.get().determineWinner(level, this).getName() + " won the game!", 5000);
 			gameMode.get().endGame(level, this);
 			initGame(level, game);
 		}
@@ -311,7 +311,7 @@ public class GameLevel extends Level{
 			presence.setJoinSecret(connectionString);
 			game.getGamePresenceHandler().updatePresence(presence, null, r -> {
 				System.out.println("Someone else joins");
-				level.getComponent(ChatComponent.class).postMessage(r.getUsername() + " joined via " + r.getPlatform() + "!");
+				level.getComponent(ChatComponent.class).postMessage(r.getUsername() + " joined via " + r.getPlatform() + "!", 5000);
 				return true;
 			});
 			
