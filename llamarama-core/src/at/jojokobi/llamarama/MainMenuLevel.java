@@ -203,7 +203,7 @@ public class MainMenuLevel extends Level{
 	public void start(StartEvent event) {
 		super.start(event);
 		Camera camera = getCamera();
-		camera.setRotationX(90);
+		camera.setRotationX(-90);
 		getGuiSystem().showGUI(MAIN_MENU_GUI, null, getClientId());
 		camera.setX(20);
 		camera.setY(24);

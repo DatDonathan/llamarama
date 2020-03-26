@@ -499,7 +499,7 @@ public class GameLevel extends Level{
 	public void start(StartEvent event) {
 		super.start(event);
 		Camera camera = getCamera();
-		camera.setRotationX(90);
+		camera.setRotationX(-90);
 	}
 	
 }
