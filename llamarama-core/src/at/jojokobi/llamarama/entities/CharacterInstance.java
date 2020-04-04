@@ -17,7 +17,7 @@ public abstract class CharacterInstance extends GameObject {
 			getComponent(BrakeMotionComponent.class).setBrakeZLimit(n.getSpeed());
 		});
 		addComponent(comp);
-		addComponent(new BrakeMotionComponent(600, 0, 600, character.getSpeed(), 0, character.getSpeed()));
+		addComponent(new BrakeMotionComponent(18, 0, 18, character.getSpeed(), 0, character.getSpeed()));
 	}
 
 	public Direction getDirection() {

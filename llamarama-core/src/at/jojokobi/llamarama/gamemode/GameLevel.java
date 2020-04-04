@@ -62,6 +62,7 @@ import at.jojokobi.llamarama.maps.GameMap;
 
 public class GameLevel extends Level{
 	
+	private static final String CRAB_EMOJI = Character.toString(0x1F980);
 	private static final String[] AI_NAMES = {
 		"GamingChungus",
 		"RobloxGamerGirl2007",
@@ -71,7 +72,7 @@ public class GameLevel extends Level{
 		"Keanu_man",
 		"BigBoiBobby",
 		"PufferfishEatingCarrot",
-		"\u1F980 Crab Emoji \u1F980",
+		CRAB_EMOJI + "Crab Emoji" + CRAB_EMOJI,
 		"FortniteBadKeanuChungus",
 		"xX_Skiller-Pro_Xx",
 		"Sudschuk_Skiller",

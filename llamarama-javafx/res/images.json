@@ -52,6 +52,32 @@
 			"path": "character/officer_right.png"
 		},
 		
+		"character.ivan.down": {
+			"path": "character/ivan_down.png"
+		},
+		"character.ivan.up": {
+			"path": "character/ivan_up.png"
+		},
+		"character.ivan.left": {
+			"path": "character/ivan_left.png"
+		},
+		"character.ivan.right": {
+			"path": "character/ivan_right.png"
+		},
+		
+		"character.triplets.down": {
+			"path": "character/triplets_down.png"
+		},
+		"character.triplets.up": {
+			"path": "character/triplets_up.png"
+		},
+		"character.triplets.left": {
+			"path": "character/triplets_left.png"
+		},
+		"character.triplets.right": {
+			"path": "character/triplets_right.png"
+		},
+		
 		"ability.donut_shield.down": {
 			"path": "ability/donut_down.png"
 		},
@@ -93,6 +119,9 @@
 		
 		"bullet.spit": {
 			"path": "bullet/spit.png"
+		},
+		"bullet.puddle": {
+			"path": "bullet/puddle.png"
 		}
 	}
 }

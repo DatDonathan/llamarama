@@ -1,5 +1,5 @@
 package at.jojokobi.llamarama.characters;
 
 public enum DamageCause {
-	SHOT, PUNCH, HIT;
+	SHOT, PUNCH, HIT, PUDDLE;
 }

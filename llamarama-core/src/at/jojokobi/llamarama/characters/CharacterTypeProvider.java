@@ -130,6 +130,47 @@ public class CharacterTypeProvider {
 		officer.getModels().put(Direction.RIGHT, "character.officer.right");
 		officer.getModels().put(Direction.LEFT, "character.officer.left");
 		types.put("Officer", officer);
+		
+		// Ivan
+		CharacterType ivan = new CharacterType();
+		ivan.setName("Ivan");
+		ivan.setMaxHp(80);
+		ivan.setSpeed(7.5);
+		ivan.addWeapon(new WeaponType(0.7, 8, 40, new RecoilBehavior(new MultiShotBehavior(3), 0.7)));
+		//ivan.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));//TODO secondary weapon
+		//TODO Ability
+		ivan.setAbility(new PuddleAbility());
+		ivan.setWidth(1.5);
+		ivan.setHeight(1.5);
+		ivan.setLength(1.5);
+		ivan.setxOffset(0.25);
+		ivan.setyOffset(0);
+		ivan.setzOffset(0.5);
+		ivan.getModels().put(Direction.UP, "character.ivan.up");
+		ivan.getModels().put(Direction.DOWN, "character.ivan.down");
+		ivan.getModels().put(Direction.RIGHT, "character.ivan.right");
+		ivan.getModels().put(Direction.LEFT, "character.ivan.left");
+		types.put("Ivan", ivan);
+		
+		//Triplets
+		CharacterType triplets = new CharacterType();
+		triplets.setName("Triplets");
+		triplets.setMaxHp(60);
+		triplets.setSpeed(11.25);
+		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new SingleShotBehavior()));
+		//TODO secondary weapon
+		//TODO ability
+		triplets.setWidth(1.5);
+		triplets.setHeight(1.5);
+		triplets.setLength(1.5);
+		triplets.setxOffset(0.25);
+		triplets.setyOffset(0);
+		triplets.setzOffset(0.5);
+		triplets.getModels().put(Direction.UP, "character.triplets.up");
+		triplets.getModels().put(Direction.DOWN, "character.triplets.down");
+		triplets.getModels().put(Direction.RIGHT, "character.triplets.right");
+		triplets.getModels().put(Direction.LEFT, "character.triplets.left");
+		types.put("Triplets", triplets);
 
 		return types;
 	}

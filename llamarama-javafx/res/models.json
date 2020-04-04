@@ -145,6 +145,80 @@
 			"length": 64
 		},
 		
+		"character.ivan.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.ivan.down"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.ivan.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.ivan.up"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.ivan.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.ivan.left"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.ivan.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.ivan.right"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		
+		"character.triplets.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.triplets.down"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.triplets.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.triplets.up"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.triplets.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.triplets.left"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		"character.triplets.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.triplets.right"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
+		},
+		
 		"ability.donut_shield.down": {
 			"type": "IMAGE",
 			"faces": {
@@ -235,6 +309,15 @@
 			"faces": {
 				"front": "bullet.spit"
 			}
-		}		
+		},
+		"bullet.puddle": {
+			"type": "BOX",
+			"faces": {
+				"top": "bullet.puddle"
+			},
+			"width": 32,
+			"height": 2,
+			"length": 32
+		}
 	}
 }
