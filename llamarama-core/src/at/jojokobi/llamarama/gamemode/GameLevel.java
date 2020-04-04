@@ -507,9 +507,6 @@ public class GameLevel extends Level{
 				getCamera().setRotationX(getCamera().getRotationX() - 60 * event.getDelta());
 			}
 		}*/
-		System.out.println(getCamera().getRotationX());
-		System.out.println(getCamera().getY());
-		System.out.println("------");
 	}
 	
 	@Override

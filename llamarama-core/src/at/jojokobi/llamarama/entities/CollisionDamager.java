@@ -39,6 +39,14 @@ public class CollisionDamager extends GameObject {
 		return shooter;
 	}
 
+	public int getDamage() {
+		return damage;
+	}
+
+	public DamageCause getCause() {
+		return cause;
+	}
+
 	public void setShooter(CharacterComponent shooter) {
 		this.shooter = shooter;
 	}

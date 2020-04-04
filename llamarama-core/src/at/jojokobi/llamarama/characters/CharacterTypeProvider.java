@@ -137,8 +137,7 @@ public class CharacterTypeProvider {
 		ivan.setMaxHp(80);
 		ivan.setSpeed(7.5);
 		ivan.addWeapon(new WeaponType(0.7, 8, 40, new RecoilBehavior(new MultiShotBehavior(3), 0.7)));
-		//ivan.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));//TODO secondary weapon
-		//TODO Ability
+		ivan.addWeapon(new WeaponType(2.5, 80, 1, new RecoilBehavior(new BombBehavior(), 2)));
 		ivan.setAbility(new PuddleAbility());
 		ivan.setWidth(1.5);
 		ivan.setHeight(1.5);

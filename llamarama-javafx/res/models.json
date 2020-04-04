@@ -318,6 +318,12 @@
 			"width": 32,
 			"height": 2,
 			"length": 32
+		},
+		"bullet.bomb": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "bullet.bomb"
+			}
 		}
 	}
 }

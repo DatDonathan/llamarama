@@ -244,6 +244,9 @@ public class CharacterComponent implements ObjectComponent {
 				case PUDDLE:
 					message = getName() + " drowned in " + damager.getName() + "'s puddle!";
 					break;
+				case BOMB:
+					message = getName() + " was blown up by " + damager.getName() + "!";
+					break;
 				}
 				chat.postMessage(message, 5000);
 			}

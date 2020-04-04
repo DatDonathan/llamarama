@@ -122,6 +122,9 @@
 		},
 		"bullet.puddle": {
 			"path": "bullet/puddle.png"
+		},
+		"bullet.bomb": {
+			"path": "bullet/bomb.png"
 		}
 	}
 }

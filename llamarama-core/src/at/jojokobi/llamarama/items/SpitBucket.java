@@ -28,7 +28,7 @@ public class SpitBucket implements Item {
 
 	@Override
 	public void use(CharacterComponent comp, GameObject obj) {
-		comp.reloadWeapon(comp.getCurrentWeapon().getKey().getMaxBullets()/3);
+		comp.reloadWeapon((int) Math.ceil(comp.getCurrentWeapon().getKey().getMaxBullets()/3.0));
 	}
 
 	@Override
