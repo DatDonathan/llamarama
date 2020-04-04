@@ -38,6 +38,7 @@ import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
+import at.jojokobi.llamarama.gamemode.DebugMode;
 import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.llamarama.gamemode.GameMode;
@@ -172,7 +173,7 @@ public class MainMenuLevel extends Level{
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
-			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60));
+			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60), new DebugMode());
 			for (GameMode mode : modes) {
 				Button button = new Button(mode.getName());
 				button.setWidthDimension(new PercentualDimension(0.3));

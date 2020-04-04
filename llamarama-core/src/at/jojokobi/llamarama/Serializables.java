@@ -9,6 +9,7 @@ import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.entities.Weapon;
 import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
+import at.jojokobi.llamarama.gamemode.DebugMode;
 import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.gamemode.GameLevel.SelectCharacterAction;
@@ -53,6 +54,7 @@ public class Serializables {
 
 		BinarySerialization.getInstance().getIdClassFactory().addClass(BattleRoyaleGameMode.class);
 		BinarySerialization.getInstance().getIdClassFactory().addClass(EndlessGameMode.class);
+		BinarySerialization.getInstance().getIdClassFactory().addClass(DebugMode.class);
 		
 		BinarySerialization.getInstance().getIdClassFactory().addClass(PlayerInformation.class);
 	}

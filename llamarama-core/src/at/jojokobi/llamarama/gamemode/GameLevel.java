@@ -496,10 +496,27 @@ public class GameLevel extends Level{
 	}
 	
 	@Override
+	public void update(UpdateEvent event) {
+		super.update(event);
+		/*if (getBehavior().isClient()) {
+			if (event.getInput().getInput().getButton(ControlConstants.CAM_UP)) {
+				getCamera().setRotationX(getCamera().getRotationX() + 60 * event.getDelta());
+			}
+			else if (event.getInput().getInput().getButton(ControlConstants.CAM_DOWN)) {
+				getCamera().setRotationX(getCamera().getRotationX() - 60 * event.getDelta());
+			}
+		}*/
+		System.out.println(getCamera().getRotationX());
+		System.out.println(getCamera().getY());
+		System.out.println("------");
+	}
+	
+	@Override
 	public void start(StartEvent event) {
 		super.start(event);
 		Camera camera = getCamera();
 		camera.setRotationX(-90);
+		//camera.getAttributes().add("retro3d");
 	}
 	
 }

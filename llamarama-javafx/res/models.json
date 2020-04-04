@@ -4,50 +4,74 @@
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.corporal.down"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.corporal.up": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.corporal.up"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.corporal.left": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.corporal.left"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.corporal.right": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.corporal.right"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		
 		"character.speedy.down": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.speedy.down"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.speedy.up": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.speedy.up"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.speedy.left": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.speedy.left"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.speedy.right": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.speedy.right"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		
 		"character.jeremy.down": {
@@ -60,44 +84,65 @@
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.jeremy.up"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.jeremy.left": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.jeremy.left"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.jeremy.right": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.jeremy.right"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		
 		"character.officer.down": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.officer.down"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.officer.up": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.officer.up"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.officer.left": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.officer.left"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		"character.officer.right": {
 			"type": "IMAGE",
 			"faces": {
 				"front": "character.officer.right"
-			}
+			},
+			"width": 64,
+			"height": 64,
+			"length": 64
 		},
 		
 		"ability.donut_shield.down": {
