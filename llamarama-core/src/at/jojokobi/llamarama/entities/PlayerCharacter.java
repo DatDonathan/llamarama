@@ -1,5 +1,6 @@
 package at.jojokobi.llamarama.entities;
 
+import java.util.Arrays;
 import java.util.List;
 
 import at.jojokobi.donatengine.event.UpdateEvent;
@@ -9,6 +10,10 @@ import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.FollowCameraComponent;
 import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.rendering.RenderData;
+import at.jojokobi.donatengine.rendering.RenderRect;
+import at.jojokobi.donatengine.rendering.ScreenCanvasRenderData;
+import at.jojokobi.donatengine.style.Color;
+import at.jojokobi.donatengine.style.FixedStyle;
 import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.llamarama.ControlConstants;
 import at.jojokobi.llamarama.characters.CharacterType;
@@ -73,9 +78,12 @@ public class PlayerCharacter extends CharacterInstance {
 	@Override
 	public void render(List<RenderData> data, Camera cam, Level level) {
 		CharacterComponent comp = getComponent(CharacterComponent.class);
-//		PlayerComponent player = getComponent(PlayerComponent.class);
+		PlayerComponent player = getComponent(PlayerComponent.class);
 		if (comp.isAlive()) {
 			super.render(data, cam, level);
+		}
+		if (comp.isKnockedOut() && player.getClient() == level.getClientId()) {
+			data.add(new ScreenCanvasRenderData(new Vector2D(), Arrays.asList(new RenderRect(new Vector2D(), cam.getViewWidth(), cam.getViewHeight(), new FixedStyle().reset().setFill(new Color(0, 0, 0, Math.min(1, comp.getKnockOutTimer()/comp.getCharacter().getKnockOutLimit())))))));
 		}
 		/*
 		if (comp.isAlive() || player.getClient() == level.getClientId()) {

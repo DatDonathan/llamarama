@@ -149,6 +149,7 @@ public class CharacterComponent implements ObjectComponent {
 		if (!isKnockedOut()) {
 			double knockOutTimer = getKnockOutTimer() + strength;
 			if (knockOutTimer >= getCharacter().getKnockOutLimit()) {
+				knockOutTimer = getCharacter().getKnockOutLimit();
 				setKnockedOut(true);
 			}
 			setKnockOutTimer(knockOutTimer);
