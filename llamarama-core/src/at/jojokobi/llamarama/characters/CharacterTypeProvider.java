@@ -156,9 +156,9 @@ public class CharacterTypeProvider {
 		triplets.setName("Triplets");
 		triplets.setMaxHp(60);
 		triplets.setSpeed(11.25);
-		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new SingleShotBehavior()));
+		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new TripletBehavior(3)));
 		//TODO secondary weapon
-		//TODO ability
+		triplets.setAbility(new HealAbility());
 		triplets.setWidth(1.5);
 		triplets.setHeight(1.5);
 		triplets.setLength(1.5);
