@@ -45,6 +45,8 @@ public class CharacterComponent implements ObjectComponent {
 	private IntProperty kills = new IntProperty(0);
 	private StringProperty name = new StringProperty("");
 	private BooleanProperty useAbility = new BooleanProperty(false);
+	private BooleanProperty knockedOut = new BooleanProperty(false);
+	private DoubleProperty knockOutTimer = new DoubleProperty(0);
 	
 	private IntProperty weapon = new IntProperty(0);
 	private ObservableObjectProperty<ObservableList<Weapon>> weapons = new ObservableObjectProperty<ObservableList<Weapon>>(new ObservableList<>());
@@ -120,6 +122,13 @@ public class CharacterComponent implements ObjectComponent {
 			abilityCooldown = 0;
 		}
 		this.abilityCooldown.setUnchanged(abilityCooldown);
+		
+		double knockOutTimer = getKnockOutTimer();
+		knockOutTimer -= event.getDelta();
+		if (knockOutTimer <= 0) {
+			knockOutTimer = 0;
+		}
+		this.knockOutTimer.setUnchanged(knockOutTimer);
 	}
 
 	@Override
@@ -317,6 +326,22 @@ public class CharacterComponent implements ObjectComponent {
 		return weapon.get();
 	}
 	
+	public boolean isKnockedOut() {
+		return knockedOut.get();
+	}
+
+	public void setKnockedOut(boolean knockedOut) {
+		this.knockedOut.set(knockedOut);
+	}
+
+	public double getKnockOutTimer() {
+		return knockOutTimer.get();
+	}
+
+	public void setKnockOutTimer(double knockOutTimer) {
+		this.knockOutTimer.set(knockOutTimer);
+	}
+
 	public ObservableList<Weapon> getWeapons() {
 		return weapons.get();
 	}

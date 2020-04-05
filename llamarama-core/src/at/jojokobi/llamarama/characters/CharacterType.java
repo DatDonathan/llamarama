@@ -9,6 +9,7 @@ public class CharacterType {
 
 	private int maxHp;
 	private double speed;
+	private double knockOutLimit;
 	
 	private List<WeaponType> weapons = new ArrayList<>();
 	private Ability ability;
@@ -22,7 +23,6 @@ public class CharacterType {
 	private double zOffset;
 	
 	private Map<Direction, String> models = new HashMap<Direction, String> ();
-	
 	
 	
 	public String getModelForDirection (Direction direction) {
@@ -67,6 +67,14 @@ public class CharacterType {
 
 	public double getzOffset() {
 		return zOffset;
+	}
+
+	public double getKnockOutLimit() {
+		return knockOutLimit;
+	}
+
+	public void setKnockOutLimit(double knockOutLimit) {
+		this.knockOutLimit = knockOutLimit;
 	}
 
 	public void setLength(double length) {
