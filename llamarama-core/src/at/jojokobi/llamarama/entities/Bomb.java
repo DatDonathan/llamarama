@@ -1,8 +1,6 @@
 package at.jojokobi.llamarama.entities;
 
-import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.level.Level;
-import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.DamageCause;
@@ -17,15 +15,6 @@ public class Bomb extends AbstractBullet {
 	
 	public Bomb() {
 		this(0, 0, 0, "", null, 0, new Vector3D(), 37.5);
-	}
-	
-	@Override
-	public void hostUpdate(Level level, UpdateEvent event) {
-		LevelBoundsComponent component = level.getComponent(LevelBoundsComponent.class);
-		if ((component != null && component.nearBounds(this)) || !level.getSolidInArea(getX() - 0.001, getY() - 0.001, getZ() - 0.001, getWidth() + 0.002, getHeight() + 0.002, getLength() + 0.002, getArea()).isEmpty()) {
-			damage(level, getCause(), null, null);
-		}
-		super.hostUpdate(level, event);
 	}
 
 	@Override

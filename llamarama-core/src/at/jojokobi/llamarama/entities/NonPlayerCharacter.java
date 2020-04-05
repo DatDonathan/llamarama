@@ -16,6 +16,7 @@ import at.jojokobi.llamarama.entities.ai.CharacterTask;
 import at.jojokobi.llamarama.entities.ai.FollowTask;
 import at.jojokobi.llamarama.entities.ai.PathFinder;
 import at.jojokobi.llamarama.entities.ai.RandomTask;
+import at.jojokobi.llamarama.entities.ai.SwapWeaponTask;
 import at.jojokobi.llamarama.entities.ai.UseAbilityTask;
 import at.jojokobi.llamarama.items.ItemComponent;
 
@@ -33,6 +34,7 @@ public class NonPlayerCharacter extends CharacterInstance {
 		tasks.add(new AttackTask(o -> o != this && o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 32));
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) >= 0.7, 32, true));
 		tasks.add(new FollowTask(o -> o != this && o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 32, true));
+		tasks.add(new SwapWeaponTask());
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) > 0, 32, true));
 		tasks.add(new RandomTask());
 	}

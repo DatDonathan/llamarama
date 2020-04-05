@@ -120,7 +120,7 @@ public class CharacterTypeProvider {
 		officer.setMaxHp(120);
 		officer.setSpeed(7.5);
 		officer.setKnockOutLimit(3.2);
-//		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
+		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
 		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setAbility(new ShieldAbility());
 		officer.setWidth(1.5);
@@ -163,7 +163,7 @@ public class CharacterTypeProvider {
 		triplets.setSpeed(11.25);
 		triplets.setKnockOutLimit(2.5);
 		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new TripletBehavior(3)));
-		//TODO secondary weapon
+		triplets.addWeapon(new WeaponType(0.3, 5, 60, new ToyBehavior()));
 		triplets.setAbility(new HealAbility());
 		triplets.setWidth(1.5);
 		triplets.setHeight(1.5);

@@ -324,6 +324,12 @@
 			"faces": {
 				"front": "bullet.bomb"
 			}
+		},
+		"bullet.toy": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "bullet.toy"
+			}
 		}
 	}
 }
