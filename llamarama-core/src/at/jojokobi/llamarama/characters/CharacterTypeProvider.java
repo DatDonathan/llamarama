@@ -79,7 +79,7 @@ public class CharacterTypeProvider {
 		speedy.setName("Speedy");
 		speedy.setMaxHp(50);
 		speedy.setSpeed(13.125);
-		corporal.setKnockOutLimit(2.0);
+		speedy.setKnockOutLimit(2.0);
 		speedy.addWeapon(new WeaponType(1 / 12.0, 4, 50, new SingleShotBehavior()));
 		speedy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
 		speedy.setWidth(1.5);
@@ -99,7 +99,7 @@ public class CharacterTypeProvider {
 		jeremy.setName("Jeremy");
 		jeremy.setMaxHp(50);
 		jeremy.setSpeed(9.375);
-		corporal.setKnockOutLimit(2.0);
+		jeremy.setKnockOutLimit(2.0);
 		jeremy.addWeapon(new WeaponType(0.5, 4, 150, new MultiShotBehavior(8)));
 		jeremy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
 		jeremy.setWidth(1.5);
@@ -119,7 +119,7 @@ public class CharacterTypeProvider {
 		officer.setName("Officer");
 		officer.setMaxHp(120);
 		officer.setSpeed(7.5);
-		corporal.setKnockOutLimit(2.5);
+		officer.setKnockOutLimit(2.5);
 		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
 		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setAbility(new ShieldAbility());
@@ -140,7 +140,7 @@ public class CharacterTypeProvider {
 		ivan.setName("Ivan");
 		ivan.setMaxHp(80);
 		ivan.setSpeed(7.5);
-		corporal.setKnockOutLimit(3.5);
+		ivan.setKnockOutLimit(3.5);
 		ivan.addWeapon(new WeaponType(0.7, 10, 40, new RecoilBehavior(new MultiShotBehavior(3), 0.7)));
 		ivan.addWeapon(new WeaponType(2.5, 80, 1, new RecoilBehavior(new BombBehavior(), 2)));
 		ivan.setAbility(new PuddleAbility());
@@ -161,7 +161,7 @@ public class CharacterTypeProvider {
 		triplets.setName("Triplets");
 		triplets.setMaxHp(60);
 		triplets.setSpeed(11.25);
-		corporal.setKnockOutLimit(1.5);
+		triplets.setKnockOutLimit(1.5);
 		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new TripletBehavior(3)));
 		//TODO secondary weapon
 		triplets.setAbility(new HealAbility());

@@ -63,5 +63,10 @@ public abstract class CharacterInstance extends GameObject {
 	public Integer getKills() {
 		return comp.getKills();
 	}
-		
+	
+	public boolean canControl () {
+		double speed = comp.getCharacter().getSpeed();
+		return getxMotion() >= -speed && getxMotion() <= speed && getzMotion() >= -speed && getzMotion() <= speed; 
+	}
+	
 }

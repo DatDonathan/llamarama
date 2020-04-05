@@ -38,11 +38,12 @@ public class PlayerCharacter extends CharacterInstance {
 		Vector2D axis = input.getAxis(ControlConstants.MOVEMENT);
 		double speed = comp.getCharacter().getSpeed();
 		axis.normalize().multiply(speed);
-		
-		if (getxMotion() >= -speed && getxMotion() <= speed) {
-			setxMotion(axis.getX());
+		if (!comp.canMove()) {
+			axis.multiply(0);
 		}
-		if (getzMotion() >= -speed && getzMotion() <= speed) {
+		
+		if (canControl()) {
+			setxMotion(axis.getX());
 			setzMotion(axis.getY());
 		}
 		//Shoot

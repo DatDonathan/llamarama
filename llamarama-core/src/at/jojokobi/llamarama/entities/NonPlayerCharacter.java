@@ -74,14 +74,15 @@ public class NonPlayerCharacter extends CharacterInstance {
 			goal = null;
 		}
 		Vector3D motion = new Vector3D();
-		double speed = comp.getCharacter().getSpeed();
 		if (goal != null) {
 			motion = pathFinder.findMotion(goal, comp.getCharacter().getSpeed(), level, event.getDelta(), this, comp);
 		}
-		if (getxMotion() >= -speed && getxMotion() <= speed) {
-			setxMotion(motion.getX());
+		if (!comp.canMove()) {
+			motion.multiply(0);
 		}
-		if (getzMotion() >= -speed && getzMotion() <= speed) {
+		
+		if (canControl()) {
+			setxMotion(motion.getX());
 			setzMotion(motion.getZ());
 		}
 	}

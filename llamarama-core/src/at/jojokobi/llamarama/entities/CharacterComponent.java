@@ -101,6 +101,10 @@ public class CharacterComponent implements ObjectComponent {
 				setAbilityCooldown(getCharacter().getAbility().getCooldown());
 			}
 		}
+		//Knock out
+		if (isKnockedOut() && getKnockOutTimer() <= 0) {
+			setKnockedOut(false);
+		}
 		//Die
 //		if (getHp() <= 0) {
 //			object.delete(level);
@@ -139,6 +143,16 @@ public class CharacterComponent implements ObjectComponent {
 	@Override
 	public void renderBefore(GameObject object, List<RenderData> data, Camera cam, Level level) {
 		
+	}
+	
+	public void attemptKnockOut (double strength) {
+		if (!isKnockedOut()) {
+			double knockOutTimer = getKnockOutTimer() + strength;
+			if (knockOutTimer >= getCharacter().getKnockOutLimit()) {
+				setKnockedOut(true);
+			}
+			setKnockOutTimer(knockOutTimer);
+		}
 	}
 
 	@Override
@@ -187,6 +201,10 @@ public class CharacterComponent implements ObjectComponent {
 //		}
 	}
 	
+	public boolean canMove () {
+		return !isKnockedOut();
+	}
+	
 	public void revive () {
 		setHp(getCharacter().getMaxHp());
 		int i = 0;
@@ -205,7 +223,7 @@ public class CharacterComponent implements ObjectComponent {
 	}
 	
 	public boolean usingAbility () {
-		return getAbilityCooldown() <= 0 && useAbility.get() && getCharacter().getAbility() != null && isAlive();
+		return !isKnockedOut() && getAbilityCooldown() <= 0 && useAbility.get() && getCharacter().getAbility() != null && isAlive();
 	}
 
 	public Pair<WeaponType, Weapon> getCurrentWeapon () {
@@ -223,10 +241,14 @@ public class CharacterComponent implements ObjectComponent {
 	
 	public void attack (GameObject object, Level level) {
 		Pair<WeaponType, Weapon> weapon = getCurrentWeapon();
-		if (getCooldown() <= 0 && isAlive() && !usingAbility()) {
+		if (canAttack()) {
 			weapon.getValue().setBullets(weapon.getValue().getBullets() - weapon.getKey().getFireBehavior().shoot(object, this, weapon.getKey(), weapon.getValue(), level));
 			setCooldown(weapon.getKey().getFireDelay());
 		}
+	}
+	
+	public boolean canAttack () {
+		return !isKnockedOut() && getCooldown() <= 0 && isAlive() && !usingAbility();
 	}
 	
 	public void heal (int amount) {
@@ -356,7 +378,7 @@ public class CharacterComponent implements ObjectComponent {
 
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
-		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, useAbility, weapon, weapons, name);
+		return Arrays.asList(direction, character, hp, kills, cooldown, abilityCooldown, useAbility, knockedOut, knockOutTimer, weapon, weapons, name);
 	}
 	
 }
