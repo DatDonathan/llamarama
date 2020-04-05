@@ -4,7 +4,7 @@ import java.util.List;
 
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.util.Vector2D;
+import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.Weapon;
 
@@ -12,17 +12,14 @@ public class PunchBehavior implements FireBehavior {
 	
 	@Override
 	public int shoot(GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level) {
-		List<GameObject> targets = obj.getCollided(level);
+		List<GameObject> targets = obj.getObjectsInDirection(level, comp.getDirection().getMotion(), 1, GameObject.class);
 		for (GameObject target : targets) {
 			CharacterComponent ch = target.getComponent(CharacterComponent.class);
 			if (ch != null && target != obj) {
-				ch.damage(level, comp, type.getDamage(), DamageCause.HIT); 
-				if (!ch.isAlive()) {
-					comp.setKills(comp.getKills());
-				}
-				Vector2D motion = comp.getDirection().getMotion().multiply(900);
+				ch.damage(level, comp, type.getDamage(), DamageCause.PUNCH); 
+				Vector3D motion = comp.getDirection().getMotion().multiply(30);
 				target.setxMotion(motion.getX());
-				target.setzMotion(motion.getY());
+				target.setzMotion(motion.getZ());
 			}
 		}
 		return 0;
@@ -30,7 +27,7 @@ public class PunchBehavior implements FireBehavior {
 	
 	@Override
 	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
-		return obj.isColliding(target);
+		return obj.getObjectsInDirection(level, comp.getDirection().getMotion(), 1, GameObject.class).contains(target);
 	}
 
 }

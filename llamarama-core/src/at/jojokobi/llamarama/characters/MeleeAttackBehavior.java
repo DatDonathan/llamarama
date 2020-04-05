@@ -11,14 +11,11 @@ public class MeleeAttackBehavior implements FireBehavior{
 
 	@Override
 	public int shoot(GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level) {
-		List<GameObject> targets = obj.getCollided(level);
+		List<GameObject> targets = obj.getObjectsInDirection(level, comp.getDirection().getMotion(), 1, GameObject.class);
 		for (GameObject target : targets) {
 			CharacterComponent ch = target.getComponent(CharacterComponent.class);
 			if (target != obj) {
-				ch.damage(level, comp, type.getDamage(), DamageCause.PUNCH);
-				if (!ch.isAlive()) {
-					comp.setKills(comp.getKills());
-				}
+				ch.damage(level, comp, type.getDamage(), DamageCause.HIT);
 			}
 		}
 		return 0;
@@ -26,7 +23,7 @@ public class MeleeAttackBehavior implements FireBehavior{
 
 	@Override
 	public boolean willHit(GameObject obj, CharacterComponent comp, GameObject target, Level level) {
-		return obj.isColliding(target);
+		return obj.getObjectsInDirection(level, comp.getDirection().getMotion(), 1, GameObject.class).contains(target);
 	}
 
 }
