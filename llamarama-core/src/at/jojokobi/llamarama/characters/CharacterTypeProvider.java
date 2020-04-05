@@ -58,7 +58,7 @@ public class CharacterTypeProvider {
 		CharacterType corporal = new CharacterType();
 		corporal.setName("Corporal");
 		corporal.setMaxHp(70);
-		corporal.setSpeed(7.5);
+		corporal.setSpeed(8.5);
 		corporal.setKnockOutLimit(4.5);
 		corporal.addWeapon(new WeaponType(0.4, 18, 40, new SingleShotBehavior()));
 		corporal.addWeapon(new WeaponType(0.4, 35, 1, new MeleeAttackBehavior()));
