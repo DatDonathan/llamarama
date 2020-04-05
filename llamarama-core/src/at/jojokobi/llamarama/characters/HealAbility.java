@@ -17,7 +17,8 @@ public class HealAbility implements Ability {
 
 	@Override
 	public boolean use(Level level, GameObject object, double delta, CharacterComponent character) {
-		character.heal(15);
+		character.heal(30);
+		character.knockOut(5.0);
 		return true;
 	}
 
@@ -34,7 +35,7 @@ public class HealAbility implements Ability {
 
 	@Override
 	public double getCooldown() {
-		return 4.0;
+		return 9.0;
 	}
 
 }

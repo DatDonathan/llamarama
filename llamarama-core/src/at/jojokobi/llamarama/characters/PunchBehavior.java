@@ -17,7 +17,7 @@ public class PunchBehavior implements FireBehavior {
 			CharacterComponent ch = target.getComponent(CharacterComponent.class);
 			if (ch != null && target != obj) {
 				ch.damage(level, comp, type.getDamage(), DamageCause.PUNCH);
-				ch.attemptKnockOut(1.5);
+				ch.attemptKnockOut(2.5);
 				Vector3D motion = comp.getDirection().getMotion().multiply(30);
 				target.setxMotion(motion.getX());
 				target.setzMotion(motion.getZ());

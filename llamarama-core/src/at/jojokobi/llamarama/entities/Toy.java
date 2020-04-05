@@ -8,7 +8,7 @@ import at.jojokobi.llamarama.characters.DamageCause;
 
 public class Toy extends AbstractBullet {
 	
-	private double strength = 0.6;
+	private double strength = 1.8;
 	private double maxDst = 8.0;
 	private Vector3D start;
 

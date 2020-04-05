@@ -14,7 +14,7 @@ public class MeleeAttackBehavior implements FireBehavior{
 		List<GameObject> targets = obj.getObjectsInDirection(level, comp.getDirection().getMotion(), 1, GameObject.class);
 		for (GameObject target : targets) {
 			CharacterComponent ch = target.getComponent(CharacterComponent.class);
-			if (target != obj) {
+			if (ch != null && target != obj) {
 				ch.damage(level, comp, type.getDamage(), DamageCause.HIT);
 			}
 		}

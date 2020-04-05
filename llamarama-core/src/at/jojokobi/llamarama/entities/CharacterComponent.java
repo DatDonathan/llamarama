@@ -155,6 +155,11 @@ public class CharacterComponent implements ObjectComponent {
 			setKnockOutTimer(knockOutTimer);
 		}
 	}
+	
+	public void knockOut (double timeout) {
+		setKnockedOut(true);
+		setKnockOutTimer(timeout);
+	}
 
 	@Override
 	public void renderAfter(GameObject object, List<RenderData> data, Camera cam, Level level) {

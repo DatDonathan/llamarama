@@ -7,11 +7,11 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public class SwapWeaponTask implements CharacterTask {
 	
-	private long nextTime = System.currentTimeMillis();
+	private long nextTime = System.currentTimeMillis() + (int) (Math.random() * 8000) + 2000;
 
 	@Override
 	public boolean canApply(Level level, GameObject obj, CharacterComponent ch) {
-		return System.currentTimeMillis() <= nextTime;
+		return System.currentTimeMillis() >= nextTime;
 	}
 
 	@Override
