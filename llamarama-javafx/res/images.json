@@ -128,6 +128,12 @@
 		},
 		"bullet.toy": {
 			"path": "bullet/toy.png"
+		},
+		
+		"effect.knock_out_stars": {
+			"path": "effect/knock_out_stars.png",
+			"frameDuration": 0.03125,
+			"frames": 8
 		}
 	}
 }

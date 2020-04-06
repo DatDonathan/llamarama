@@ -20,6 +20,7 @@ import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.objects.properties.StringProperty;
 import at.jojokobi.donatengine.objects.properties.list.ObservableList;
 import at.jojokobi.donatengine.rendering.CanvasRenderData;
+import at.jojokobi.donatengine.rendering.ModelRenderData;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.rendering.RenderRect;
 import at.jojokobi.donatengine.rendering.RenderShape;
@@ -197,7 +198,10 @@ public class CharacterComponent implements ObjectComponent {
 		shapes.add(new RenderText(new Vector2D(-width/2 - 0.5, -height * 5), weapon.get() + 1 + "", new FixedStyle().reset().setFont(new Font("Consolas", 32))));
 		
 		data.add(new CanvasRenderData(new Position(object.getPositionVector().add(object.getSize().multiply(0.5)).add(0, object.getHeight()/2, 0), object.getArea()), shapes));
-		
+		if (isKnockedOut()) {
+			data.add(new ModelRenderData(new Position(object.getPositionVector().add(0, object.getHeight() + 1, 0), object.getArea()), "effect.knock_out_stars", object.getAnimationTimer()));
+		}
+	
 		if (usingAbility()) {
 			getCharacter().getAbility().render(level, object, this, data, cam);
 		}

@@ -163,7 +163,7 @@ public class CharacterTypeProvider {
 		triplets.setSpeed(11.25);
 		triplets.setKnockOutLimit(3.0);
 		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new TripletBehavior(3)));
-		triplets.addWeapon(new WeaponType(0.3, 4, 60, new ToyBehavior()));
+		triplets.addWeapon(new WeaponType(0.5, 4, 60, new ToyBehavior()));
 		triplets.setAbility(new HealAbility());
 		triplets.setWidth(1.5);
 		triplets.setHeight(1.5);

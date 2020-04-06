@@ -330,6 +330,13 @@
 			"faces": {
 				"front": "bullet.toy"
 			}
+		},
+		
+		"effect.knock_out_stars": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "effect.knock_out_stars"
+			}
 		}
 	}
 }

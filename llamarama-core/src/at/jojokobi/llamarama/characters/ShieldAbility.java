@@ -86,7 +86,7 @@ public class ShieldAbility implements Ability {
 
 	@Override
 	public double getCooldown() {
-		return 4.0;
+		return 3.0;
 	}
 
 }
