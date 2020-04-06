@@ -9,6 +9,7 @@ import at.jojokobi.llamarama.entities.Bullet;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.entities.Puddle;
+import at.jojokobi.llamarama.entities.Toy;
 import at.jojokobi.llamarama.entities.Weapon;
 import at.jojokobi.llamarama.gamemode.BattleRoyaleGameMode;
 import at.jojokobi.llamarama.gamemode.DebugMode;
@@ -37,6 +38,7 @@ public class Serializables {
 		BinarySerialization.getInstance().getIdClassFactory().addClass(Bullet.class);
 		BinarySerialization.getInstance().getIdClassFactory().addClass(Puddle.class);
 		BinarySerialization.getInstance().getIdClassFactory().addClass(Bomb.class);
+		BinarySerialization.getInstance().getIdClassFactory().addClass(Toy.class);
 		
 		BinarySerialization.getInstance().getIdClassFactory().addClass(NonPlayerCharacter.class);
 		BinarySerialization.getInstance().getIdClassFactory().addClass(PlayerCharacter.class);

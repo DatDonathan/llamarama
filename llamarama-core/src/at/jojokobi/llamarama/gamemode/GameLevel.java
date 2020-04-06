@@ -379,29 +379,31 @@ public class GameLevel extends Level{
 			LevelComponent.super.renderAfter(data, cam, level);
 			
 			Font font = new Font("Consolas", 16);
-			List<ScoreboardEntry> entries = gameMode.get().getScoreboardEntries(level, this);
-			
-			double width = 0;
-			double height = 4;
-			for (ScoreboardEntry entry : entries) {
-				Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
-				width = Math.max(width, dim.getX());
-				height += dim.getY();
+			if (gameMode.get() != null) {
+				List<ScoreboardEntry> entries = gameMode.get().getScoreboardEntries(level, this);
+				
+				double width = 0;
+				double height = 4;
+				for (ScoreboardEntry entry : entries) {
+					Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
+					width = Math.max(width, dim.getX());
+					height += dim.getY();
+				}
+				width += 30 + 30 + 2;
+				
+				//Scoreboard
+				List<RenderShape> shapes = new ArrayList<> ();
+				shapes.add(new RenderRect(new Vector2D(cam.getViewWidth() - width, 0), width, height, new FixedStyle().reset().setBorder(Color.TRANSPARENT).setFill(new Color(0.4, 0.4, 0.4, 0.5))));
+				double y = 2;
+				//Names
+				for (ScoreboardEntry entry : entries) {
+					Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
+					shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - width + 2, y), entry.getName(), new FixedStyle().reset().setFont(font)));
+					shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - 30, y), entry.getKills() + "", new FixedStyle().reset().setFont(font)));
+					y += dim.getY();
+				}
+				data.add(new ScreenCanvasRenderData(new Vector2D(0, 0), shapes));
 			}
-			width += 30 + 30 + 2;
-			
-			//Scoreboard
-			List<RenderShape> shapes = new ArrayList<> ();
-			shapes.add(new RenderRect(new Vector2D(cam.getViewWidth() - width, 0), width, height, new FixedStyle().reset().setBorder(Color.TRANSPARENT).setFill(new Color(0.4, 0.4, 0.4, 0.5))));
-			double y = 2;
-			//Names
-			for (ScoreboardEntry entry : entries) {
-				Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
-				shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - width + 2, y), entry.getName(), new FixedStyle().reset().setFont(font)));
-				shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - 30, y), entry.getKills() + "", new FixedStyle().reset().setFont(font)));
-				y += dim.getY();
-			}
-			data.add(new ScreenCanvasRenderData(new Vector2D(0, 0), shapes));
 		}
 		
 	}
