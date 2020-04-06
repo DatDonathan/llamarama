@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>llamarama</groupId>
 		<artifactId>llamarama</artifactId>
-		<version>{$llamrama.version}</version>
+		<version>${llamarama.version}</version>
 	</parent>
 	<artifactId>llamarama-core</artifactId>
 	<name>llamarama-core</name>

@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>llamarama</groupId>
 		<artifactId>llamarama</artifactId>
-		<version>{$llamrama.version}</version>
+		<version>${llamarama.version}</version>
 	</parent>
 	<artifactId>llamarama-javafx</artifactId>
 	<name>llamarama-javafx</name>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>llamarama</groupId>
 			<artifactId>llamarama-core</artifactId>
-			<version>{$llamrama.version}</version>
+			<version>${llamarama.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>llamarama</groupId>
 	<artifactId>llamarama</artifactId>
-	<version>{$llamrama.version}</version>
+	<version>${llamarama.version}</version>
 	<packaging>pom</packaging>
 	<properties>
 		<llamarama.version>0.0.1-SNAPSHOT</llamarama.version>
@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>donat-engine</groupId>
 			<artifactId>donat-engine</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${llamarama.engine.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net-util</groupId>
