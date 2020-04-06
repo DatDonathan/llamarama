@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import at.jojokobi.donatengine.serialization.BinarySerializer;
 import at.jojokobi.donatengine.serialization.SerializationWrapper;
+import at.jojokobi.donatengine.serialization.binary.BinarySerializer;
 
 public class CharacterTypeSerializer implements BinarySerializer<CharacterType>{
 

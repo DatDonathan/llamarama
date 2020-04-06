@@ -1,7 +1,7 @@
 package at.jojokobi.llamarama.items;
 
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.serialization.BinarySerializable;
+import at.jojokobi.donatengine.serialization.binary.BinarySerializable;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public interface Item extends BinarySerializable{

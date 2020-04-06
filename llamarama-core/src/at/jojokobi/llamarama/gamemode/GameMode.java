@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.level.Level;
-import at.jojokobi.donatengine.serialization.BinarySerializable;
+import at.jojokobi.donatengine.serialization.binary.BinarySerializable;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.maps.GameMap;

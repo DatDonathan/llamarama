@@ -1,6 +1,6 @@
 package at.jojokobi.llamarama;
 
-import at.jojokobi.donatengine.serialization.BinarySerialization;
+import at.jojokobi.donatengine.serialization.binary.BinarySerialization;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeSerializer;
 import at.jojokobi.llamarama.characters.Direction;
