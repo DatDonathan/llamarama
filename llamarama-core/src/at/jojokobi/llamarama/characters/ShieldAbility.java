@@ -77,7 +77,7 @@ public class ShieldAbility implements Ability {
 		default:
 			break;
 		}
-		data.add(new ModelRenderData(new Position(pos, object.getArea()), img));
+		data.add(new ModelRenderData(new Position(pos, object.getArea()), img, object.getAnimationTimer()));
 	}
 	
 	private List<Bullet> findBullets (Level level, GameObject object, CharacterComponent character) {

@@ -9,7 +9,7 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 public class MultiShotBehavior extends AbstractMultiShotBehavior {
 	
 	private int amount;
-	private double spread = 0.4;
+	private double spread = 0.3;
 	
 	public MultiShotBehavior(int amount, double speed) {
 		super(speed);
@@ -26,7 +26,7 @@ public class MultiShotBehavior extends AbstractMultiShotBehavior {
 
 	@Override
 	protected void spread(Vector3D pos, Vector3D motion, int number) {
-		motion.add(Math.random() * spread - spread/2, Math.random() * spread - spread/2, Math.random() * spread - spread/2);
+		motion.add(Math.random() * spread - spread/2, 0, Math.random() * spread - spread/2);
 	}
 
 	@Override

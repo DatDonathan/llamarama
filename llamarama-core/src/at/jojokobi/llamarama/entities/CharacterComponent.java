@@ -179,7 +179,7 @@ public class CharacterComponent implements ObjectComponent {
 		shapes.add(new RenderRect(new Vector2D(-width/2 + width * healthPercent, -height * 7), width * (1 - healthPercent), height, new FixedStyle().reset().setFill(new Color(0.5, 0, 0, 1))));
 		shapes.add(new RenderRect(new Vector2D(-width/2, -height * 7), width * healthPercent, height, new FixedStyle().reset().setFill(Color.RED)));
 		//Cooldown
-		double cooldownPercent = 1 - ((double)getCooldown()/getCurrentWeapon().getKey().getFireDelay());
+		double cooldownPercent = Math.min(1, Math.max(0, 1 - ((double)getCooldown()/getCurrentWeapon().getKey().getFireDelay())));
 		shapes.add(new RenderRect(new Vector2D(-width/2 + width * cooldownPercent, -height * 6), width * (1 - cooldownPercent), height, new FixedStyle().reset().setFill(new Color(0, 0.5, 0, 1))));
 		shapes.add(new RenderRect(new Vector2D(-width/2, -height * 6), width * cooldownPercent, height, new FixedStyle().reset().setFill(Color.GREEN)));
 		//Ability Cooldown
@@ -303,7 +303,7 @@ public class CharacterComponent implements ObjectComponent {
 		if (getSelectedWeapon() >= getWeapons().size()) {
 			weapon.set(0);
 		}
-		cooldown.set(getCurrentWeapon().getKey().getFireDelay());
+		cooldown.set(0.2);
 	}
 	
 	public Direction getDirection() {
