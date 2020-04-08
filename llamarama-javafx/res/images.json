@@ -129,6 +129,11 @@
 		"bullet.toy": {
 			"path": "bullet/toy.png"
 		},
+		"bullet.hook": {
+			"path": "bullet/hook.png",
+			"frameDuration": 0.128,
+			"frames": 8
+		},
 		
 		"effect.knock_out_stars": {
 			"path": "effect/knock_out_stars.png",

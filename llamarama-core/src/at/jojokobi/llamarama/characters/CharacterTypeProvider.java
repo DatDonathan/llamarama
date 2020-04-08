@@ -102,6 +102,7 @@ public class CharacterTypeProvider {
 		jeremy.setKnockOutLimit(4.0);
 		jeremy.addWeapon(new WeaponType(0.5, 4, 150, new MultiShotBehavior(8)));
 		jeremy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
+		jeremy.setAbility(new HookAbility());
 		jeremy.setWidth(1.5);
 		jeremy.setHeight(1.5);
 		jeremy.setLength(1.5);

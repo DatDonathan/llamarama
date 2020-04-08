@@ -331,6 +331,12 @@
 				"front": "bullet.toy"
 			}
 		},
+		"bullet.hook": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "bullet.hook"
+			}
+		},
 		
 		"effect.knock_out_stars": {
 			"type": "IMAGE",
