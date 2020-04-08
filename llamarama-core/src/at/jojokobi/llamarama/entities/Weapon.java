@@ -9,8 +9,8 @@ import java.util.List;
 import at.jojokobi.donatengine.objects.properties.IntProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableObject;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
-import at.jojokobi.donatengine.serialization.SerializationWrapper;
 import at.jojokobi.donatengine.serialization.binary.BinarySerializable;
+import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
 
 public class Weapon implements BinarySerializable, ObservableObject {
 	

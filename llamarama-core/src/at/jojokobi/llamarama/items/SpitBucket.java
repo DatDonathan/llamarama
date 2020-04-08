@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.serialization.SerializationWrapper;
+import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
 import at.jojokobi.donatengine.util.Pair;
 import at.jojokobi.llamarama.characters.WeaponType;
 import at.jojokobi.llamarama.entities.CharacterComponent;

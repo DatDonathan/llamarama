@@ -11,7 +11,7 @@ import java.util.Map;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
-import at.jojokobi.donatengine.serialization.SerializationWrapper;
+import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
