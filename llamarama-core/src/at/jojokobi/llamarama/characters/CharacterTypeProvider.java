@@ -82,6 +82,7 @@ public class CharacterTypeProvider {
 		speedy.setKnockOutLimit(4.0);
 		speedy.addWeapon(new WeaponType(1 / 12.0, 4, 50, new SingleShotBehavior()));
 		speedy.addWeapon(new WeaponType(3.5, 40, 5, new SingleShotBehavior(75)));
+		speedy.setAbility(new StationaryShieldAbility());
 		speedy.setWidth(1.5);
 		speedy.setHeight(1.5);
 		speedy.setLength(1.5);

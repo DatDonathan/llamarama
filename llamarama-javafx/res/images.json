@@ -91,6 +91,19 @@
 			"path": "ability/donut_right.png"
 		},
 		
+		"ability.stationary_shield.down": {
+			"path": "ability/stationary_shield_down.png"
+		},
+		"ability.stationary_shield.up": {
+			"path": "ability/stationary_shield_up.png"
+		},
+		"ability.stationary_shield.left": {
+			"path": "ability/stationary_shield_left.png"
+		},
+		"ability.stationary_shield.right": {
+			"path": "ability/stationary_shield_right.png"
+		},
+		
 		"item.healing_grass": {
 			"path": "item/heal_grass.png"
 		},

@@ -36,7 +36,7 @@ import at.jojokobi.llamarama.characters.DamageCause;
 import at.jojokobi.llamarama.characters.Direction;
 import at.jojokobi.llamarama.characters.WeaponType;
 
-public class CharacterComponent implements ObjectComponent {
+public class CharacterComponent implements ObjectComponent, Damagable {
 	
 	private EnumProperty<Direction> direction = new EnumProperty<Direction>(Direction.LEFT, Direction.class);
 	private ObjectProperty<CharacterType> character = new ObjectProperty<CharacterType>(null);
@@ -342,11 +342,11 @@ public class CharacterComponent implements ObjectComponent {
 		hp.set(t);
 	}
 
-	public Integer getHp() {
+	public int getHp() {
 		return hp.get();
 	}
 
-	public void setKills(Integer t) {
+	public void setKills(int t) {
 		kills.set(t);
 	}
 

@@ -244,6 +244,37 @@
 			}
 		},
 		
+		"ability.stationary_shield.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.stationary_shield.down"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 16
+		},
+		"ability.stationary_shield.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.stationary_shield.up"
+			},
+			"width": 64,
+			"height": 64,
+			"length": 16
+		},
+		"ability.stationary_shield.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.stationary_shield.left"
+			}
+		},
+		"ability.stationary_shield.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "ability.stationary_shield.right"
+			}
+		},
+		
 		"item.healing_grass": {
 			"type": "IMAGE",
 			"faces": {
