@@ -9,8 +9,8 @@ import at.jojokobi.donatengine.rendering.ModelRenderData;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Position;
 import at.jojokobi.donatengine.util.Vector3D;
-import at.jojokobi.llamarama.entities.Bullet;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.bullets.Bullet;
 
 public class ShieldAbility implements Ability {
 	
@@ -49,7 +49,7 @@ public class ShieldAbility implements Ability {
 
 	@Override
 	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
-		List<Bullet> bullets = object.getObjectsInDirection(level, character.getDirection().getMotion(), 128, Bullet.class);
+		List<Bullet> bullets = object.getObjectsInDirection(level, character.getDirection().toVector(), 128, Bullet.class);
 		return !bullets.isEmpty() && bullets.stream().allMatch(o -> o.getShooter() != character);
 	}
 
@@ -81,7 +81,7 @@ public class ShieldAbility implements Ability {
 	}
 	
 	private List<Bullet> findBullets (Level level, GameObject object, CharacterComponent character) {
-		return object.getObjectsInDirection(level, character.getDirection().getMotion(), 1, Bullet.class);
+		return object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Bullet.class);
 	}
 
 	@Override

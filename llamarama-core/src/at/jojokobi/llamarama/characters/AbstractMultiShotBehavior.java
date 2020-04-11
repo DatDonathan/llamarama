@@ -23,7 +23,7 @@ public abstract class AbstractMultiShotBehavior implements FireBehavior {
 		int used;
 		int amount = Math.min(determineAmount(comp), weapon.getBullets());
 		for (used = 0; used < amount; used++) {
-			Vector3D motion = comp.getDirection().getMotion();
+			Vector3D motion = comp.getDirection().toVector();
 			Vector3D pos = new Vector3D(obj.getX() + obj.getWidth()/2 - 0.25, obj.getY() + obj.getHeight()/2 - 0.25, obj.getZ() + obj.getLength()/2 - 0.25);
 			spread(pos, motion, used);
 			pos.add(obj.getWidth()/2 * Math.signum(motion.getX()), obj.getHeight()/2 * Math.signum(motion.getY()), obj.getLength()/2 * Math.signum(motion.getZ()));

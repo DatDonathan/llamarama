@@ -1,7 +1,8 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.DamageCause;
+import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public class Bullet extends AbstractBullet {
 //	

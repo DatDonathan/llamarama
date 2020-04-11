@@ -8,7 +8,7 @@ import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
-import at.jojokobi.llamarama.entities.Hook;
+import at.jojokobi.llamarama.entities.bullets.Hook;
 
 public class HookAbility implements Ability {
 
@@ -19,7 +19,7 @@ public class HookAbility implements Ability {
 
 	@Override
 	public boolean use(Level level, GameObject object, double delta, CharacterComponent character) {
-		Hook hook = new Hook(0, 0, 0, object.getArea(), object, character.getDirection().getMotion(), 37.5, 20);
+		Hook hook = new Hook(0, 0, 0, object.getArea(), object, character.getDirection().toVector(), 37.5, 20);
 		Vector3D pos = object.getPositionVector().add(object.getSize().multiply(0.5)).subtract(hook.getSize().multiply(0.5));
 		hook.setX(pos.getX());
 		hook.setY(pos.getY());

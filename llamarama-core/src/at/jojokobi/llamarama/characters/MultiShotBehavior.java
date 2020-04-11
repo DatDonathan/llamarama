@@ -3,8 +3,8 @@ package at.jojokobi.llamarama.characters;
 
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
-import at.jojokobi.llamarama.entities.Bullet;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.bullets.Bullet;
 
 public class MultiShotBehavior extends AbstractMultiShotBehavior {
 	

@@ -9,8 +9,11 @@ import at.jojokobi.donatengine.objects.properties.EnumProperty;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.llamarama.characters.DamageCause;
 import at.jojokobi.llamarama.characters.Direction;
+import at.jojokobi.llamarama.entities.bullets.BulletInteractor;
+import at.jojokobi.llamarama.entities.bullets.BulletInteractorComponent;
+import at.jojokobi.llamarama.entities.bullets.CollisionDamager;
 
-public class StationaryShield extends GameObject implements Damagable {
+public class StationaryShield extends GameObject implements Damagable, BulletInteractor {
 	
 	private int maxHp = 80;
 	private int hp;
@@ -19,6 +22,8 @@ public class StationaryShield extends GameObject implements Damagable {
 	public StationaryShield(double x, double y, double z, String area, Direction direction) {
 		super(x, y, z, area, "ability.stationary_shield.left");
 		this.hp = maxHp;
+		addComponent(new DamageableComponent(this));
+		addComponent(new BulletInteractorComponent(this));
 		this.direction.addListener((p, o , n) -> {
 			switch(n) {
 			case DOWN:
@@ -66,14 +71,14 @@ public class StationaryShield extends GameObject implements Damagable {
 	@Override
 	public void hostUpdate(Level level, UpdateEvent event) {
 		super.hostUpdate(level, event);
-		if (isAlive()) {
+		if (!isAlive()) {
 			delete(level);
 		}
 	}
 
 	@Override
 	public boolean isAlive() {
-		return hp <= 0;
+		return hp > 0;
 	}
 
 	@Override
@@ -96,6 +101,22 @@ public class StationaryShield extends GameObject implements Damagable {
 		List<ObservableProperty<?>> list = super.observableProperties();
 		list.add(direction);
 		return list;
+	}
+
+	@Override
+	public boolean block(CollisionDamager bullet) {
+		return false;
+	}
+
+	@Override
+	public boolean canBeDamaged(CollisionDamager bullet) {
+		System.out.println(Direction.fromVector(bullet.getMotion()) + "/" + direction.get().opposite());
+		return Direction.fromVector(bullet.getMotion()) == direction.get().opposite();
+	}
+
+	@Override
+	public void attemptKnockOut(double strength) {
+		
 	}
 	
 }

@@ -8,7 +8,7 @@ import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
-import at.jojokobi.llamarama.entities.Puddle;
+import at.jojokobi.llamarama.entities.bullets.Puddle;
 
 public class PuddleAbility implements Ability {
 
@@ -20,7 +20,7 @@ public class PuddleAbility implements Ability {
 	@Override
 	public boolean use(Level level, GameObject object, double delta, CharacterComponent character) {
 		Puddle puddle = new Puddle(0, 0, 0, object.getArea(), character, 15);
-		Vector3D pos = character.getDirection().getMotion();
+		Vector3D pos = character.getDirection().toVector();
 		pos.setX(pos.getX() * (puddle.getWidth()/2 + puddle.getWidth()/2));
 		pos.setZ(pos.getZ() * (puddle.getLength()/2 + puddle.getLength()/2));
 		pos.add(object.getPositionVector()).add(object.getSize().multiply(0.5)).add(puddle.getSize().multiply(-0.5));

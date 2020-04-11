@@ -1,10 +1,12 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.DamageCause;
+import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.DamageableComponent;
 
 public class Toy extends AbstractBullet {
 	
@@ -37,7 +39,7 @@ public class Toy extends AbstractBullet {
 	}
 
 	@Override
-	protected void damage(Level level, DamageCause cause, GameObject obj, CharacterComponent comp) {
+	protected void damage(Level level, DamageCause cause, GameObject obj, DamageableComponent comp) {
 		super.damage(level, cause, obj, comp);
 		comp.attemptKnockOut(strength);
 	}

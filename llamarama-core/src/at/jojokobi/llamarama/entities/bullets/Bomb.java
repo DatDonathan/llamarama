@@ -1,9 +1,11 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.DamageCause;
+import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.DamageableComponent;
 
 public class Bomb extends AbstractBullet {
 	
@@ -18,7 +20,7 @@ public class Bomb extends AbstractBullet {
 	}
 
 	@Override
-	protected void damage(Level level, DamageCause cause, GameObject obj, CharacterComponent comp) {
+	protected void damage(Level level, DamageCause cause, GameObject obj, DamageableComponent comp) {
 		Vector3D center = getPositionVector().add(getSize().multiply(0.5));
 		for (GameObject o : level.getObjectsInArea(center.getX() - radius, center.getY() - radius, center.getZ() - radius, radius * 2, radius * 2, radius * 2, getArea())) {
 			CharacterComponent c = o.getComponent(CharacterComponent.class);

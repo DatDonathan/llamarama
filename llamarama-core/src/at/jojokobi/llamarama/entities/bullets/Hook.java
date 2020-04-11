@@ -1,4 +1,4 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import java.util.HashSet;
 import java.util.Set;

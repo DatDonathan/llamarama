@@ -12,5 +12,7 @@ public interface Damagable {
 	public void heal (int amount);
 	
 	public void damage (Level level, CharacterComponent damager, int amount, DamageCause cause);
+	
+	public void attemptKnockOut (double strength);
 
 }

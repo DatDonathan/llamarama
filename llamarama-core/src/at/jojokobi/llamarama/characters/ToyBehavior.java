@@ -4,7 +4,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
-import at.jojokobi.llamarama.entities.Toy;
+import at.jojokobi.llamarama.entities.bullets.Toy;
 
 public class ToyBehavior extends AbstractMultiShotBehavior {
 	

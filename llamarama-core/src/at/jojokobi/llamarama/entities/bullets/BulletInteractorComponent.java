@@ -1,4 +1,4 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,35 +10,25 @@ import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.ObjectComponent;
 import at.jojokobi.donatengine.objects.properties.ObservableProperty;
 import at.jojokobi.donatengine.rendering.RenderData;
-import at.jojokobi.llamarama.characters.DamageCause;
 
-public class DamageableComponent implements ObjectComponent, Damagable {
+public class BulletInteractorComponent implements ObjectComponent, BulletInteractor {
 	
-	private Damagable delegate;
+	private BulletInteractor delegate;
 	
-	public DamageableComponent(Damagable delegate) {
+
+	public BulletInteractorComponent(BulletInteractor delegate) {
 		super();
 		this.delegate = delegate;
 	}
+	
+	@Override
+	public boolean block(CollisionDamager bullet) {
+		return delegate.block(bullet);
+	}
 
 	@Override
-	public boolean isAlive() {
-		return delegate.isAlive();
-	}
-	
-	@Override
-	public int getHp() {
-		return delegate.getHp();
-	}
-	
-	@Override
-	public void heal(int amount) {
-		delegate.heal(amount);
-	}
-	
-	@Override
-	public void damage(Level level, CharacterComponent damager, int amount, DamageCause cause) {
-		delegate.damage(level, damager, amount, cause);
+	public boolean canBeDamaged(CollisionDamager bullet) {
+		return delegate.canBeDamaged(bullet);
 	}
 
 	@Override
@@ -69,11 +59,6 @@ public class DamageableComponent implements ObjectComponent, Damagable {
 	@Override
 	public List<ObservableProperty<?>> observableProperties() {
 		return new ArrayList<ObservableProperty<?>>();
-	}
-
-	@Override
-	public void attemptKnockOut(double strength) {
-		delegate.attemptKnockOut(strength);
 	}
 
 }

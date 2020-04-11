@@ -19,7 +19,7 @@ public class RecoilBehavior implements FireBehavior{
 
 	@Override
 	public int shoot(GameObject obj, CharacterComponent comp, WeaponType type, Weapon weapon, Level level) {
-		Vector3D motion = comp.getDirection().getMotion().multiply(-comp.getCharacter().getSpeed() * (1 + strength));
+		Vector3D motion = comp.getDirection().toVector().multiply(-comp.getCharacter().getSpeed() * (1 + strength));
 		obj.setxMotion(motion.getX());
 		obj.setyMotion(motion.getY());
 		obj.setzMotion(motion.getZ());

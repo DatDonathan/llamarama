@@ -1,8 +1,9 @@
-package at.jojokobi.llamarama.entities;
+package at.jojokobi.llamarama.entities.bullets;
 
 import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.llamarama.characters.DamageCause;
+import at.jojokobi.llamarama.entities.CharacterComponent;
 
 public class Puddle extends CollisionDamager {
 	
