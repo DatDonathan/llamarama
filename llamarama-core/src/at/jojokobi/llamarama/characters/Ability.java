@@ -14,7 +14,7 @@ public interface Ability {
 	
 	public boolean use (Level level, GameObject object, double delta, CharacterComponent character);
 	
-	public boolean shouldUse (Level level, GameObject object, CharacterComponent character);
+	public double getUsePriority (Level level, GameObject object, CharacterComponent character);
 	
 	public void render (Level level, GameObject object, CharacterComponent character, List<RenderData> data, Camera cam);
 	

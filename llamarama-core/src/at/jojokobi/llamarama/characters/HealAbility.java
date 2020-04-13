@@ -23,8 +23,8 @@ public class HealAbility implements Ability {
 	}
 
 	@Override
-	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
-		return false;
+	public double getUsePriority(Level level, GameObject object, CharacterComponent character) {
+		return 1 - (double) character.getHp()/character.getCharacter().getMaxHp();
 	}
 
 	@Override

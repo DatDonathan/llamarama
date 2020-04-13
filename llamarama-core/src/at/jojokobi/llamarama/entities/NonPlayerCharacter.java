@@ -29,13 +29,16 @@ public class NonPlayerCharacter extends CharacterInstance {
 
 	public NonPlayerCharacter(double x, double y, double z, String area, CharacterType character, String name) {
 		super(x, y, z, area, character, name);
+		tasks.add(new UseAbilityTask(1.0));
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) >= 0.9, 32, true));
-		tasks.add(new UseAbilityTask());
+		tasks.add(new UseAbilityTask(0.9));
 		tasks.add(new AttackTask(o -> o != this && o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 32));
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) >= 0.7, 32, true));
 		tasks.add(new SwapWeaponTask());
+		tasks.add(new UseAbilityTask(0.7));
 		tasks.add(new FollowTask(o -> o != this && o.getComponent(CharacterComponent.class) != null && o.getComponent(CharacterComponent.class).isAlive(), 32, true));
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) > 0, 32, true));
+		tasks.add(new UseAbilityTask(0.1));
 		tasks.add(new RandomTask());
 	}
 	

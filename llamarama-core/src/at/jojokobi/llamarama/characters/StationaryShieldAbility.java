@@ -34,9 +34,9 @@ public class StationaryShieldAbility implements Ability{
 	}
 
 	@Override
-	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
+	public double getUsePriority(Level level, GameObject object, CharacterComponent character) {
 		List<AbstractBullet> bullets = object.getObjectsInDirection(level, character.getDirection().toVector(), 128, AbstractBullet.class);
-		return !bullets.isEmpty() && bullets.stream().allMatch(o -> o.getShooter() != character);
+		return !bullets.isEmpty() && bullets.stream().allMatch(o -> o.getShooter() != character) ? 1 : 0;
 	}
 
 	@Override

@@ -11,6 +11,8 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.bullets.Hook;
 
 public class HookAbility implements Ability {
+	
+	private double hookRange = 20;
 
 	@Override
 	public void update(Level level, GameObject object, double delta, CharacterComponent character) {
@@ -19,7 +21,7 @@ public class HookAbility implements Ability {
 
 	@Override
 	public boolean use(Level level, GameObject object, double delta, CharacterComponent character) {
-		Hook hook = new Hook(0, 0, 0, object.getArea(), object, character.getDirection().toVector(), 37.5, 20);
+		Hook hook = new Hook(0, 0, 0, object.getArea(), object, character.getDirection().toVector(), 37.5, hookRange);
 		Vector3D pos = object.getPositionVector().add(object.getSize().multiply(0.5)).subtract(hook.getSize().multiply(0.5));
 		hook.setX(pos.getX());
 		hook.setY(pos.getY());
@@ -29,8 +31,17 @@ public class HookAbility implements Ability {
 	}
 
 	@Override
-	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
-		return false;
+	public double getUsePriority(Level level, GameObject object, CharacterComponent character) {
+		double priority = 0.0;
+		for (GameObject obj : object.getObjectsInDirection(level, character.getDirection().toVector(), hookRange, GameObject.class)) {
+			if (obj.getComponent(CharacterComponent.class) != null) {
+				priority = Math.max(priority, 1.0);
+			}
+			else if (!obj.isSolid()) {
+				priority = Math.max(priority, 0.7);
+			}
+		}
+		return priority;
 	}
 
 	@Override

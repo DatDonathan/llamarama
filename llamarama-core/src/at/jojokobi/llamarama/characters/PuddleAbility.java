@@ -33,9 +33,8 @@ public class PuddleAbility implements Ability {
 	}
 
 	@Override
-	public boolean shouldUse(Level level, GameObject object, CharacterComponent character) {
-		//TODO Ability using for AIs
-		return false;
+	public double getUsePriority(Level level, GameObject object, CharacterComponent character) {
+		return 0.5;
 	}
 
 	@Override
