@@ -25,10 +25,10 @@ import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
+import at.jojokobi.donatengine.level.LevelBehavior;
+import at.jojokobi.donatengine.level.SingleplayerBehavior;
 import at.jojokobi.donatengine.net.ClientBehavior;
 import at.jojokobi.donatengine.net.HostBehavior;
-import at.jojokobi.donatengine.net.MultiplayerBehavior;
-import at.jojokobi.donatengine.net.SingleplayerBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.donatengine.style.Color;
@@ -82,7 +82,7 @@ public class MainMenuLevel extends Level{
 	private ServerClientFactory factory = TCPServerClientFactory.getInstance();
 	private String mainArea = "main";
 
-	public MainMenuLevel(MultiplayerBehavior behavior) {
+	public MainMenuLevel(LevelBehavior behavior) {
 		super(behavior);
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(40, 24, 24), true));
 		

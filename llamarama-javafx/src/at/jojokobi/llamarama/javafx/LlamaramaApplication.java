@@ -12,7 +12,7 @@ import at.jojokobi.donatengine.javafx.GameApplication;
 import at.jojokobi.donatengine.javafx.input.Axis;
 import at.jojokobi.donatengine.javafx.input.ButtonAxis;
 import at.jojokobi.donatengine.javafx.input.SceneInput;
-import at.jojokobi.donatengine.net.SingleplayerBehavior;
+import at.jojokobi.donatengine.level.SingleplayerBehavior;
 import at.jojokobi.donatengine.presence.DiscordGamePresence;
 import at.jojokobi.donatengine.rendering.GameView;
 import at.jojokobi.donatengine.serialization.binary.BinarySerialization;

@@ -31,7 +31,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelComponent;
-import at.jojokobi.donatengine.net.MultiplayerBehavior;
+import at.jojokobi.donatengine.level.LevelBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
 import at.jojokobi.donatengine.objects.properties.ObjectProperty;
@@ -414,7 +414,7 @@ public class GameLevel extends Level{
 	private String mainArea = "main";
 	
 	
-	public GameLevel(MultiplayerBehavior behavior, GameMode mode, String connectionString) {
+	public GameLevel(LevelBehavior behavior, GameMode mode, String connectionString) {
 		super(behavior);
 		
 		addComponent(new ChatComponent());
