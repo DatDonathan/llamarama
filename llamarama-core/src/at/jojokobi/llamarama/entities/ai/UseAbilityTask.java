@@ -16,7 +16,7 @@ public class UseAbilityTask implements CharacterTask {
 
 	@Override
 	public boolean canApply(Level level, GameObject obj, CharacterComponent ch) {
-		return ch.getCharacter().getAbility() != null && minPriority <= ch.getCharacter().getAbility().getUsePriority(level, obj, ch);
+		return ch.getCharacter().getAbility() != null && ch.getAbilityCooldown() <= 0 && minPriority <= ch.getCharacter().getAbility().getUsePriority(level, obj, ch);
 	}
 
 	@Override
