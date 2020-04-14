@@ -67,6 +67,7 @@ public class LlamaramaApplication extends GameApplication {
 	protected Game createGame(AudioSystem system, Input input, GameView view) {
 		GameLogic logic = new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior()));
 		SerializationWrapper serialization = new BinarySerializationWrapper(BinarySerialization.getInstance().getIdClassFactory());
+		view.setTitle("Llamarama - worlds first tactical llama shooter");
 		Game game = new Game(logic, input, system, serialization, view);
 		game.getGamePresenceHandler().addPlatform(new DiscordGamePresence("663770162188779521", ""));
 		return game;
