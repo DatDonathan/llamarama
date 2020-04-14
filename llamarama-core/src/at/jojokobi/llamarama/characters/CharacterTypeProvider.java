@@ -196,7 +196,7 @@ public class CharacterTypeProvider {
 		paparazzi.setMaxHp(40);
 		paparazzi.setSpeed(5.5);
 		paparazzi.setKnockOutLimit(2.5);
-		paparazzi.addWeapon(new WeaponType(1, 10, 50, new ZapBehavior()));
+		paparazzi.addWeapon(new WeaponType(1, 6, 50, new ZapBehavior()));
 		paparazzi.setWidth(1);
 		paparazzi.setHeight(1);
 		paparazzi.setLength(1);

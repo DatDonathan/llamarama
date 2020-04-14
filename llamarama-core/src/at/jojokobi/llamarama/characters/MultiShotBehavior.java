@@ -9,7 +9,7 @@ import at.jojokobi.llamarama.entities.bullets.Bullet;
 public class MultiShotBehavior extends AbstractMultiShotBehavior {
 	
 	private int amount;
-	private double spread = 0.3;
+	private double spread = 0.2;
 	
 	public MultiShotBehavior(int amount, double speed) {
 		super(speed);
