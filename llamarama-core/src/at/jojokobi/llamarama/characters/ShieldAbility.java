@@ -1,5 +1,6 @@
 package at.jojokobi.llamarama.characters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import at.jojokobi.donatengine.level.Level;
@@ -10,7 +11,9 @@ import at.jojokobi.donatengine.rendering.RenderData;
 import at.jojokobi.donatengine.util.Position;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.entities.CharacterComponent;
+import at.jojokobi.llamarama.entities.bullets.AbstractBullet;
 import at.jojokobi.llamarama.entities.bullets.Bullet;
+import at.jojokobi.llamarama.entities.bullets.Zap;
 
 public class ShieldAbility implements Ability {
 	
@@ -31,8 +34,8 @@ public class ShieldAbility implements Ability {
 	@Override
 	public boolean use(Level level, GameObject object, double delta, CharacterComponent character) {
 		boolean used = false;
-		List<Bullet> bullets = findBullets(level, object, character);
-		for (Bullet bullet : bullets) {
+		List<AbstractBullet> bullets = findBullets(level, object, character);
+		for (AbstractBullet bullet : bullets) {
 			if (bullet.getShooter() != character) {
 //				bullet.delete(level);
 //			}
@@ -49,7 +52,9 @@ public class ShieldAbility implements Ability {
 
 	@Override
 	public double getUsePriority(Level level, GameObject object, CharacterComponent character) {
-		List<Bullet> bullets = object.getObjectsInDirection(level, character.getDirection().toVector(), 128, Bullet.class);
+		List<AbstractBullet> bullets = new ArrayList<>();
+		bullets.addAll(object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Bullet.class));
+		bullets.addAll(object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Zap.class));
 		return !bullets.isEmpty() && bullets.stream().allMatch(o -> o.getShooter() != character) ? 1 : 0;
 	}
 
@@ -80,8 +85,11 @@ public class ShieldAbility implements Ability {
 		data.add(new ModelRenderData(new Position(pos, object.getArea()), img, object.getAnimationTimer()));
 	}
 	
-	private List<Bullet> findBullets (Level level, GameObject object, CharacterComponent character) {
-		return object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Bullet.class);
+	private List<AbstractBullet> findBullets (Level level, GameObject object, CharacterComponent character) {
+		List<AbstractBullet> bullets = new ArrayList<>();
+		bullets.addAll(object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Bullet.class));
+		bullets.addAll(object.getObjectsInDirection(level, character.getDirection().toVector(), 1, Zap.class));
+		return bullets;
 	}
 
 	@Override
