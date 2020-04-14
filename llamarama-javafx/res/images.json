@@ -78,6 +78,19 @@
 			"path": "character/triplets_right.png"
 		},
 		
+		"character.paparazzi.down": {
+			"path": "character/paparazzi_down.png"
+		},
+		"character.paparazzi.up": {
+			"path": "character/paparazzi_up.png"
+		},
+		"character.paparazzi.left": {
+			"path": "character/paparazzi_left.png"
+		},
+		"character.paparazzi.right": {
+			"path": "character/paparazzi_right.png"
+		},
+		
 		"ability.donut_shield.down": {
 			"path": "ability/donut_down.png"
 		},
@@ -146,6 +159,9 @@
 			"path": "bullet/hook.png",
 			"frameDuration": 0.128,
 			"frames": 8
+		},
+		"bullet.zap": {
+			"path": "bullet/zap.png"
 		},
 		
 		"effect.knock_out_stars": {

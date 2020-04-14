@@ -219,6 +219,31 @@
 			"length": 64
 		},
 		
+		"character.paparazzi.down": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.paparazzi.down"
+			}
+		},
+		"character.paparazzi.up": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.paparazzi.up"
+			}
+		},
+		"character.paparazzi.left": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.paparazzi.left"
+			}
+		},
+		"character.paparazzi.right": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "character.paparazzi.right"
+			}
+		},
+		
 		"ability.donut_shield.down": {
 			"type": "IMAGE",
 			"faces": {
@@ -366,6 +391,12 @@
 			"type": "IMAGE",
 			"faces": {
 				"front": "bullet.hook"
+			}
+		},
+		"bullet.zap": {
+			"type": "IMAGE",
+			"faces": {
+				"front": "bullet.zap"
 			}
 		},
 		

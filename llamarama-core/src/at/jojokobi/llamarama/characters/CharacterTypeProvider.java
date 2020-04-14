@@ -4,44 +4,55 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class CharacterTypeProvider {
 
-	/*public static final Image CORPORAL_RIGHT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "corporal_right.png"));
-	public static final Image CORPORAL_LEFT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "corporal_left.png"));
-	public static final Image CORPORAL_UP = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "corporal_up.png"));
-	public static final Image CORPORAL_DOWN = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "corporal_down.png"));
-
-	public static final Image SPEEDY_RIGHT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "speedy_right.png"));
-	public static final Image SPEEDY_LEFT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "speedy_left.png"));
-	public static final Image SPEEDY_UP = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "speedy_up.png"));
-	public static final Image SPEEDY_DOWN = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "speedy_down.png"));
-
-	public static final Image JEREMY_RIGHT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "jeremy_right.png"));
-	public static final Image JEREMY_LEFT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "jeremy_left.png"));
-	public static final Image JEREMY_UP = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "jeremy_up.png"));
-	public static final Image JEREMY_DOWN = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "jeremy_down.png"));
-
-	public static final Image OFFICER_RIGHT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "officer_right.png"));
-	public static final Image OFFICER_LEFT = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "officer_left.png"));
-	public static final Image OFFICER_UP = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "officer_up.png"));
-	public static final Image OFFICER_DOWN = new Image(
-			CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.IMAGE_PATH + "officer_down.png"));*/
+	/*
+	 * public static final Image CORPORAL_RIGHT = new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "corporal_right.png")); public static final Image CORPORAL_LEFT
+	 * = new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "corporal_left.png")); public static final Image CORPORAL_UP =
+	 * new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "corporal_up.png")); public static final Image CORPORAL_DOWN =
+	 * new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "corporal_down.png"));
+	 * 
+	 * public static final Image SPEEDY_RIGHT = new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "speedy_right.png")); public static final Image SPEEDY_LEFT =
+	 * new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "speedy_left.png")); public static final Image SPEEDY_UP = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "speedy_up.png")); public static final Image SPEEDY_DOWN = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "speedy_down.png"));
+	 * 
+	 * public static final Image JEREMY_RIGHT = new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "jeremy_right.png")); public static final Image JEREMY_LEFT =
+	 * new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "jeremy_left.png")); public static final Image JEREMY_UP = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "jeremy_up.png")); public static final Image JEREMY_DOWN = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "jeremy_down.png"));
+	 * 
+	 * public static final Image OFFICER_RIGHT = new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "officer_right.png")); public static final Image OFFICER_LEFT =
+	 * new Image(
+	 * CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "officer_left.png")); public static final Image OFFICER_UP = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "officer_up.png")); public static final Image OFFICER_DOWN = new
+	 * Image( CharacterTypeProvider.class.getResourceAsStream(LlamaramaApplication.
+	 * IMAGE_PATH + "officer_down.png"));
+	 */
 
 	private static Map<String, CharacterType> characterTypes;
 
@@ -122,7 +133,7 @@ public class CharacterTypeProvider {
 		officer.setMaxHp(120);
 		officer.setSpeed(7.5);
 		officer.setKnockOutLimit(4.5);
-		officer.addWeapon(new WeaponType(1/3.0, 5, 120, new SingleShotBehavior()));
+		officer.addWeapon(new WeaponType(1 / 3.0, 5, 120, new SingleShotBehavior()));
 		officer.addWeapon(new WeaponType(0.2, 20, 1, new PunchBehavior()));
 		officer.setAbility(new ShieldAbility());
 		officer.setWidth(1.5);
@@ -136,7 +147,7 @@ public class CharacterTypeProvider {
 		officer.getModels().put(Direction.RIGHT, "character.officer.right");
 		officer.getModels().put(Direction.LEFT, "character.officer.left");
 		types.put("Officer", officer);
-		
+
 		// Ivan
 		CharacterType ivan = new CharacterType();
 		ivan.setName("Ivan");
@@ -157,14 +168,14 @@ public class CharacterTypeProvider {
 		ivan.getModels().put(Direction.RIGHT, "character.ivan.right");
 		ivan.getModels().put(Direction.LEFT, "character.ivan.left");
 		types.put("Ivan", ivan);
-		
-		//Triplets
+
+		// Triplets
 		CharacterType triplets = new CharacterType();
 		triplets.setName("Triplets");
 		triplets.setMaxHp(60);
 		triplets.setSpeed(11.25);
 		triplets.setKnockOutLimit(3.0);
-		triplets.addWeapon(new WeaponType(7/12.0, 10, 50, new TripletBehavior(3)));
+		triplets.addWeapon(new WeaponType(7 / 12.0, 10, 50, new TripletBehavior(3)));
 		triplets.addWeapon(new WeaponType(0.5, 4, 60, new ToyBehavior()));
 		triplets.setAbility(new HealAbility());
 		triplets.setWidth(1.5);
@@ -178,6 +189,25 @@ public class CharacterTypeProvider {
 		triplets.getModels().put(Direction.RIGHT, "character.triplets.right");
 		triplets.getModels().put(Direction.LEFT, "character.triplets.left");
 		types.put("Triplets", triplets);
+
+		// Paprazzi
+		CharacterType paparazzi = new CharacterType();
+		paparazzi.setName("Paparazzi");
+		paparazzi.setMaxHp(40);
+		paparazzi.setSpeed(5.5);
+		paparazzi.setKnockOutLimit(2.5);
+		paparazzi.addWeapon(new WeaponType(1, 10, 50, new ZapBehavior()));
+		paparazzi.setWidth(1);
+		paparazzi.setHeight(1);
+		paparazzi.setLength(1);
+		paparazzi.setxOffset(0);
+		paparazzi.setyOffset(0);
+		paparazzi.setzOffset(0);
+		paparazzi.getModels().put(Direction.UP, "character.paparazzi.up");
+		paparazzi.getModels().put(Direction.DOWN, "character.paparazzi.down");
+		paparazzi.getModels().put(Direction.RIGHT, "character.paparazzi.right");
+		paparazzi.getModels().put(Direction.LEFT, "character.paparazzi.left");
+		types.put("Paparazzi", paparazzi);
 
 		return types;
 	}
