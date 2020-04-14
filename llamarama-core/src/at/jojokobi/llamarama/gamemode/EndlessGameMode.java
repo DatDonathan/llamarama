@@ -48,10 +48,7 @@ public class EndlessGameMode implements GameMode {
 
 	@Override
 	public void startGame(Level level, GameComponent comp) {
-		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
-			obj.getX();
-			//TODO spread players
-		}
+		
 	}
 
 	@Override
@@ -101,7 +98,7 @@ public class EndlessGameMode implements GameMode {
 	
 	@Override
 	public String getName() {
-		return "Endless";
+		return "Endless Mode";
 	}
 	
 	@Override

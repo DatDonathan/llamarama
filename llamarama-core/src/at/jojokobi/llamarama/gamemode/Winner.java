@@ -7,5 +7,7 @@ public interface Winner {
 	public String getName ();
 	
 	public Color getColor ();
+	
+	public int getKills ();
 
 }

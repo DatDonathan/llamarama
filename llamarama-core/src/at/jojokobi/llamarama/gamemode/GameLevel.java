@@ -293,8 +293,9 @@ public class GameLevel extends Level{
 			characterChoices.get().clear();
 		}
 		
-		private void endMatch (Level level, Game game) {			
-			level.getComponent(ChatComponent.class).postMessage(gameMode.get().determineWinner(level, this).getName() + " won the game!", 5000);
+		private void endMatch (Level level, Game game) {	
+			Winner winner = gameMode.get().determineWinner(level, this);
+			level.getComponent(ChatComponent.class).postMessage(winner.getName() + " won the game with " + winner.getKills() + " kills!", 5000);
 			gameMode.get().endGame(level, this);
 			initGame(level, game);
 		}

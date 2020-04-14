@@ -30,8 +30,9 @@ public class EnemyCharacter extends CharacterInstance{
 		tasks.add(new AttackTask(o -> o != this && o.getComponent(DamageableComponent.class) != null && o.getComponent(DamageableComponent.class).isAlive() && !(o instanceof EnemyCharacter), 32)); //TODO remove instanceof
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) >= 0.7, 32, true));
 		tasks.add(new SwapWeaponTask());
-		tasks.add(new UseAbilityTask(0.7));
+		tasks.add(new FollowTask(o -> o != this && o.getComponent(DamageableComponent.class) != null && o.getComponent(DamageableComponent.class).isAlive() && !(o instanceof EnemyCharacter), 32, true)); //TODO remove instanceof
 		tasks.add(new FollowTask(o -> o.getComponent(ItemComponent.class) != null && o.getComponent(ItemComponent.class).getItem().getUsePriority(getComponent(CharacterComponent.class), this) > 0, 32, true));
+		tasks.add(new UseAbilityTask(0.7));
 		tasks.add(new UseAbilityTask(0.1));
 		tasks.add(new RandomTask());
 		addComponent(new AIComponent(new AdvancedPathFinder(), tasks, (object, motion) -> {

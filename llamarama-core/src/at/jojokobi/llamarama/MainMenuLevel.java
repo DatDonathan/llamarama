@@ -42,6 +42,7 @@ import at.jojokobi.llamarama.gamemode.DebugMode;
 import at.jojokobi.llamarama.gamemode.EndlessGameMode;
 import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.llamarama.gamemode.GameMode;
+import at.jojokobi.llamarama.gamemode.InvasionGameMode;
 import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
@@ -173,7 +174,7 @@ public class MainMenuLevel extends Level{
 			VBox box = new VBox();
 			box.setWidthDimension(new PercentualDimension(1));
 			
-			List<GameMode> modes = Arrays.asList(new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60), new DebugMode());
+			List<GameMode> modes = Arrays.asList(new InvasionGameMode(), new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60), new DebugMode());
 			for (GameMode mode : modes) {
 				Button button = new Button(mode.getName());
 				button.setWidthDimension(new PercentualDimension(0.3));

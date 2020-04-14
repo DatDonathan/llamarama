@@ -21,5 +21,10 @@ public class SingleWinner implements Winner {
 	public Color getColor() {
 		return Color.BLACK;
 	}
+
+	@Override
+	public int getKills() {
+		return character.getKills();
+	}
 	
 }
