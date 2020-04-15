@@ -1,9 +1,12 @@
 package at.jojokobi.llamarama.savegame;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import at.jojokobi.donatengine.serialization.structured.ObjectLoader;
@@ -16,7 +19,7 @@ public class LocalUserDao implements UserDao {
 
 	@Override
 	public void add(GameUser user) {
-		File userFile = new File(userFolder, getFilename(user));
+		File userFile = new File(userFolder, getFilename(user.getUsername()));
 		if (!userFile.exists()) {
 			try (OutputStream out = new FileOutputStream(userFile)) {
 				userLoader.save(out, user);
@@ -32,7 +35,7 @@ public class LocalUserDao implements UserDao {
 
 	@Override
 	public void update(GameUser user) {
-		File userFile = new File(userFolder, getFilename(user));
+		File userFile = new File(userFolder, getFilename(user.getUsername()));
 		try (OutputStream out = new FileOutputStream(userFile)) {
 			userLoader.save(out, user);
 		} catch (IOException e) {
@@ -43,18 +46,33 @@ public class LocalUserDao implements UserDao {
 
 	@Override
 	public GameUser get(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		File userFile = new File(userFolder, getFilename(username));
+		try (InputStream in = new FileInputStream(userFile)) {
+			return userLoader.load(in, GameUser.class).create();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public List<GameUser> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GameUser> users = new ArrayList<GameUser>();
+		for (File file : userFolder.listFiles()) {
+			if (file.isFile()) {
+				try (InputStream in = new FileInputStream(file)) {
+					users.add(userLoader.load(in, GameUser.class).create());
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		return users;
 	}
 	
-	private String getFilename (GameUser user) {
-		return user.getUsername() + "." + fileExtension;
+	private String getFilename (String username) {
+		return username + "." + fileExtension;
 	}
 	
 }
