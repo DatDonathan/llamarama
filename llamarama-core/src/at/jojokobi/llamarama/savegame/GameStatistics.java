@@ -3,6 +3,8 @@ package at.jojokobi.llamarama.savegame;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.jojokobi.donatengine.serialization.structured.SerializedData;
+import at.jojokobi.donatengine.serialization.structured.StructuredSerializable;
 import at.jojokobi.donatengine.util.Pair;
 
 public class GameStatistics {
@@ -30,4 +32,24 @@ public class GameStatistics {
 		}
 	}
 
+	public static class StatEntry implements StructuredSerializable{
+		
+		public StatCategory category;
+		public boolean online;
+		public GameStatistic statistic;
+		@Override
+		public void serialize(SerializedData data) {
+			data.put("category", category);
+			data.put("online", online);
+			data.put("statistic", statistic);
+		}
+		@Override
+		public void deserialize(SerializedData data) {
+			category = data.getEnum("category", StatCategory.class);
+			online = data.getBoolean("online");
+			statistic = data.getObject("statistic", GameStatistic.class);
+		}
+		
+	}
+	
 }
