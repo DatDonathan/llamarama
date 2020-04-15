@@ -9,7 +9,7 @@ import at.jojokobi.llamarama.entities.bullets.Bullet;
 public class MultiShotBehavior extends AbstractMultiShotBehavior {
 	
 	private int amount;
-	private double spread = 0.2;
+	private double spread = 0.4;
 	
 	public MultiShotBehavior(int amount, double speed) {
 		super(speed);
@@ -26,6 +26,11 @@ public class MultiShotBehavior extends AbstractMultiShotBehavior {
 
 	@Override
 	protected void spread(Vector3D pos, Vector3D motion, int number) {
+//		double rotation = Math.toRadians((ThreadLocalRandom.current().nextGaussian() - 0.5) * 2 * spread);
+//		System.out.println(Math.toDegrees(rotation));
+//		double x = motion.getX();
+//		motion.setX(x * Math.cos(rotation) + motion.getZ() * Math.sin(rotation));
+//		motion.setZ(x * Math.sin(rotation) + motion.getZ() * Math.cos(rotation));
 		motion.add(Math.random() * spread - spread/2, 0, Math.random() * spread - spread/2);
 	}
 
