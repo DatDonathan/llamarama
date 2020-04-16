@@ -44,6 +44,7 @@ import at.jojokobi.llamarama.gamemode.GameLevel;
 import at.jojokobi.llamarama.gamemode.GameMode;
 import at.jojokobi.llamarama.gamemode.InvasionGameMode;
 import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
+import at.jojokobi.llamarama.savegame.GameState;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
 import at.jojokobi.netutil.client.Client;
@@ -82,9 +83,12 @@ public class MainMenuLevel extends Level{
 	
 	private ServerClientFactory factory = TCPServerClientFactory.getInstance();
 	private String mainArea = "main";
+	
+	private GameState state;
 
-	public MainMenuLevel(LevelBehavior behavior) {
+	public MainMenuLevel(LevelBehavior behavior, GameState state) {
 		super(behavior);
+		this.state = state;
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(40, 24, 24), true));
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
@@ -102,7 +106,7 @@ public class MainMenuLevel extends Level{
 			//Buttons
 			Button singleplayer = new Button("Singleplayer");
 			singleplayer.setWidthDimension(new PercentualDimension(0.3));
-			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), d, "")))));
+			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), d, state, "")))));
 			singleplayer.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 			singleplayer.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
 			//Host
@@ -140,7 +144,7 @@ public class MainMenuLevel extends Level{
 //				} catch (MalformedURLException e1) {
 //					e1.printStackTrace();
 //				}
-				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), d, ip), server);
+				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), d, state, ip), server);
 			})));
 			//IP input
 			TextField ip = new TextField();
@@ -160,7 +164,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior(), null, client.getServerInetAddress() + ""), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), null, state, client.getServerInetAddress() + ""), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -200,16 +204,21 @@ public class MainMenuLevel extends Level{
 		}
 		camera.setArea(mainArea);
 	}
-
+	
 	@Override
-	public void start(StartEvent event) {
-		super.start(event);
+	public void init() {
+		super.init();
 		Camera camera = getCamera();
 		camera.setRotationX(-90);
 		getGuiSystem().showGUI(MAIN_MENU_GUI, null, getClientId());
 		camera.setX(20);
 		camera.setY(24);
 		camera.setZ(12);
+	}
+
+	@Override
+	public void start(StartEvent event) {
+		super.start(event);
 		
 		GamePresence presence = new GamePresence();
 		presence.setDetails("In menu");
@@ -224,7 +233,7 @@ public class MainMenuLevel extends Level{
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			event.getGame().changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), null, client.getServerInetAddress() + ""), client));
+			event.getGame().changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), null, state, client.getServerInetAddress() + ""), client));
 		}, null);
 	}
 

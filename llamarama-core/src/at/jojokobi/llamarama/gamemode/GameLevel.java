@@ -59,6 +59,7 @@ import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.maps.GameMap;
+import at.jojokobi.llamarama.savegame.GameState;
 
 public class GameLevel extends Level{
 	
@@ -210,6 +211,7 @@ public class GameLevel extends Level{
 		private List<GameEffect> gameEffects;
 		
 		private ObjectProperty<GameMode> gameMode = new ObjectProperty<>(null);
+		private GameState state;
 		private Vector3D startPos;
 		private String startArea;
 		private GameMap currentMap;
@@ -218,10 +220,11 @@ public class GameLevel extends Level{
 		private String connectionString;
 		private UUID partyId = UUID.randomUUID();
 
-		public GameComponent(GameMode gameMode, String connectionString, Vector3D startPos, String startArea) {
+		public GameComponent(GameMode gameMode, String connectionString, GameState state, Vector3D startPos, String startArea) {
 			super();
 			this.gameMode.set(gameMode);
 			this.connectionString = connectionString;
+			this.state = state;
 			this.startPos = startPos;
 			this.startArea = startArea;
 		}
@@ -254,7 +257,7 @@ public class GameLevel extends Level{
 		
 		private void startMatch (Level level, Game game) {
 			GamePresence presence = new GamePresence();
-			presence.setState("In Match");
+			presence.setState("In Match as " + state.getCurrentUser());
 			presence.setDetails(gameMode.get().getName());
 			presence.setPartySize(connectedClients.size());
 			presence.setPartyMax(gameMode.get().getMaxPlayers());
@@ -415,12 +418,12 @@ public class GameLevel extends Level{
 	private String mainArea = "main";
 	
 	
-	public GameLevel(LevelBehavior behavior, GameMode mode, String connectionString) {
+	public GameLevel(LevelBehavior behavior, GameMode mode, GameState state, String connectionString) {
 		super(behavior);
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
-		GameComponent comp = new GameComponent(mode, connectionString, new Vector3D(0, 0, 0), mainArea);
+		GameComponent comp = new GameComponent(mode, connectionString, state, new Vector3D(0, 0, 0), mainArea);
 		addComponent(comp);
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();
@@ -513,11 +516,10 @@ public class GameLevel extends Level{
 	}
 	
 	@Override
-	public void start(StartEvent event) {
-		super.start(event);
+	public void init() {
+		super.init();
 		Camera camera = getCamera();
 		camera.setRotationX(-90);
-		//camera.getAttributes().add("retro3d");
 	}
 	
 }

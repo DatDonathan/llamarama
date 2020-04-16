@@ -63,4 +63,32 @@ public class GameStatistic implements Cloneable, StructuredSerializable {
 		highscore = data.getInt("highscore");
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + deaths;
+		result = prime * result + highscore;
+		result = prime * result + kills;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GameStatistic other = (GameStatistic) obj;
+		if (deaths != other.deaths)
+			return false;
+		if (highscore != other.highscore)
+			return false;
+		if (kills != other.kills)
+			return false;
+		return true;
+	}
+
 }

@@ -1,5 +1,6 @@
 package at.jojokobi.llamarama.javafx;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -18,9 +19,12 @@ import at.jojokobi.donatengine.rendering.GameView;
 import at.jojokobi.donatengine.serialization.binary.BinarySerialization;
 import at.jojokobi.donatengine.serialization.binary.BinarySerializationWrapper;
 import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
+import at.jojokobi.donatengine.serialization.structured.XMLObjectLoader;
 import at.jojokobi.llamarama.ControlConstants;
-import at.jojokobi.llamarama.MainMenuLevel;
+import at.jojokobi.llamarama.SelectUserLevel;
 import at.jojokobi.llamarama.Serializables;
+import at.jojokobi.llamarama.savegame.GameState;
+import at.jojokobi.llamarama.savegame.LocalUserDao;
 import javafx.scene.input.KeyCode;
 
 public class LlamaramaApplication extends GameApplication {
@@ -65,7 +69,9 @@ public class LlamaramaApplication extends GameApplication {
 
 	@Override
 	protected Game createGame(AudioSystem system, Input input, GameView view) {
-		GameLogic logic = new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior()));
+		File userFolder = new File("./users");
+		userFolder.mkdirs();
+		GameLogic logic = new SimpleGameLogic(new SelectUserLevel(new SingleplayerBehavior(), new GameState(new LocalUserDao(userFolder, "xml", new XMLObjectLoader()))));
 		SerializationWrapper serialization = new BinarySerializationWrapper(BinarySerialization.getInstance().getIdClassFactory());
 		view.setTitle("Llamarama - worlds first tactical llama shooter");
 		Game game = new Game(logic, input, system, serialization, view);
