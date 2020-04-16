@@ -1,6 +1,9 @@
 package at.jojokobi.llamarama.savegame;
 
-public class GameStatistic implements Cloneable {
+import at.jojokobi.donatengine.serialization.structured.SerializedData;
+import at.jojokobi.donatengine.serialization.structured.StructuredSerializable;
+
+public class GameStatistic implements Cloneable, StructuredSerializable {
 	
 	private int kills;
 	private int deaths;
@@ -44,6 +47,20 @@ public class GameStatistic implements Cloneable {
 	@Override
 	public GameStatistic clone() {
 		return new GameStatistic(kills, deaths, highscore);
+	}
+
+	@Override
+	public void serialize(SerializedData data) {
+		data.put("kills", kills);
+		data.put("deaths", deaths);
+		data.put("highscore", highscore);
+	}
+
+	@Override
+	public void deserialize(SerializedData data) {
+		kills = data.getInt("kills");
+		deaths = data.getInt("deaths");
+		highscore = data.getInt("highscore");
 	}
 
 }

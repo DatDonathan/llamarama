@@ -1,13 +1,15 @@
 package at.jojokobi.llamarama.savegame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import at.jojokobi.donatengine.serialization.structured.SerializedData;
 import at.jojokobi.donatengine.serialization.structured.StructuredSerializable;
 import at.jojokobi.donatengine.util.Pair;
 
-public class GameStatistics {
+public class GameStatistics implements StructuredSerializable{
 	
 	private Map<Pair<StatCategory, Boolean>, GameStatistic> stats = new HashMap<>();
 	
@@ -32,11 +34,40 @@ public class GameStatistics {
 		}
 	}
 
+	@Override
+	public void serialize(SerializedData data) {
+		List<StatEntry> entries = new ArrayList<>();
+		for (var e : stats.entrySet()) {
+			entries.add(new StatEntry(e.getKey().getKey(), e.getKey().getValue(), e.getValue()));
+		}
+		data.put("stats", entries);
+	}
+
+	@Override
+	public void deserialize(SerializedData data) {
+		List<StatEntry> entires = data.getList("stats", StatEntry.class);
+		for (StatEntry entry : entires) {
+			stats.put(new Pair<>(entry.category, entry.online),  entry.statistic);
+		}
+	}
+
 	public static class StatEntry implements StructuredSerializable{
 		
 		public StatCategory category;
 		public boolean online;
 		public GameStatistic statistic;
+		
+		
+		public StatEntry() {
+			this(null, false, null);
+		}
+		
+		public StatEntry(StatCategory category, boolean online, GameStatistic statistic) {
+			super();
+			this.category = category;
+			this.online = online;
+			this.statistic = statistic;
+		}
 		@Override
 		public void serialize(SerializedData data) {
 			data.put("category", category);
