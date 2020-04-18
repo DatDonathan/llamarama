@@ -102,6 +102,7 @@ public class SelectUserLevel extends Level {
 	}
 	
 	private void styleButton (Button button) {
+		button.setWidthDimension(new PercentualDimension(0.3));
 		button.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 		button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
 		button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));

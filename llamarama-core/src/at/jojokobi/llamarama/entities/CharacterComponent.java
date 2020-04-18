@@ -303,11 +303,12 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 	}
 	
 	public void swapWeapon () {
-		weapon.increment(1);
-		if (getSelectedWeapon() >= getWeapons().size()) {
-			weapon.set(0);
+		if (getCooldown() <= 0) {
+			weapon.increment(1);
+			if (getSelectedWeapon() >= getWeapons().size()) {
+				weapon.set(0);
+			}
 		}
-		cooldown.set(0.2);
 	}
 	
 	public Direction getDirection() {

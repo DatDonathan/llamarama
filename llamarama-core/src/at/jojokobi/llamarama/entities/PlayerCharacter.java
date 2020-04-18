@@ -20,8 +20,6 @@ import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 
 public class PlayerCharacter extends CharacterInstance {
-	
-	private double swapCooldown = 0.0;
 
 	public PlayerCharacter(double x, double y, double z, String area, long client, CharacterType character, String name) {
 		super(x, y, z, area, character, name);
@@ -56,9 +54,8 @@ public class PlayerCharacter extends CharacterInstance {
 			comp.attack(this, level);
 		}
 		//Swap Weapon
-		if (input.getButton(ControlConstants.SWAP_WEAPON) && swapCooldown <= 0) {
+		if (input.isPressed(ControlConstants.SWAP_WEAPON)) {
 			comp.swapWeapon();
-			swapCooldown = 0.25;
 		}
 		//Use ability
 		if (input.getButton(ControlConstants.USE_ABILITY)) {
@@ -67,7 +64,6 @@ public class PlayerCharacter extends CharacterInstance {
 		else {
 			comp.setUseAbility(false);
 		}
-		swapCooldown -= event.getDelta();
 	}
 	
 	@Override
