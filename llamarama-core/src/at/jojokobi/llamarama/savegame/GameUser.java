@@ -39,8 +39,8 @@ public class GameUser implements StructuredSerializable {
 
 	@Override
 	public void deserialize(SerializedData data) {
-		username = data.getString(username);
-		statistics = data.getObject(username, GameStatistics.class);
+		username = data.getString("username");
+		statistics = data.getObject("statistics", GameStatistics.class);
 	}
 
 	@Override
