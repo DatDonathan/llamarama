@@ -26,5 +26,15 @@ public class SingleWinner implements Winner {
 	public int getKills() {
 		return character.getKills();
 	}
+
+	@Override
+	public int getDeaths() {
+		return 0;
+	}
+
+	@Override
+	public int getScore() {
+		return getKills();
+	}
 	
 }

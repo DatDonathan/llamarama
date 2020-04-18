@@ -12,6 +12,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
@@ -20,6 +21,7 @@ import at.jojokobi.llamarama.items.HealingGrass;
 import at.jojokobi.llamarama.items.SpitBucket;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import at.jojokobi.llamarama.maps.GameMap;
+import at.jojokobi.llamarama.savegame.StatCategory;
 
 public class EndlessGameMode implements GameMode {
 	
@@ -60,7 +62,6 @@ public class EndlessGameMode implements GameMode {
 				ch.revive();
 				obj.setX(bounds.getPos().getX() + Math.random() * bounds.getSize().getX());
 				obj.setZ(bounds.getPos().getZ() + Math.random() * bounds.getSize().getZ());
-				ch.setKills(ch.getKills() - 1);
 			}
 		}
 	}
@@ -76,9 +77,9 @@ public class EndlessGameMode implements GameMode {
 		objs.sort((l, r) ->  {
 			CharacterComponent cl = l.getComponent(CharacterComponent.class);
 			CharacterComponent cr = r.getComponent(CharacterComponent.class);
-			return Integer.compare(cr.getKills() , cl.getKills());
+			return Integer.compare(cr.getKills() - cr.getDeaths() , cl.getKills() - cl.getDeaths());
 		});
-		return new SingleWinner(objs.get(0).getComponent(CharacterComponent.class));
+		return new EndlessWinner(objs.get(0).getComponent(CharacterComponent.class));
 	}
 
 	@Override
@@ -118,10 +119,16 @@ public class EndlessGameMode implements GameMode {
 		List<ScoreboardEntry> entries = new ArrayList<ScoreboardEntry>();
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
-			entries.add(new SingleScoreboardEntry(ch));
+			PlayerComponent pl = obj.getComponent(PlayerComponent.class);
+			entries.add(new EndlessScoreboardEntry(ch, pl == null ? -1 : pl.getClient()));
 		}
 		entries.sort((l, r) -> Integer.compare(r.getKills(), l.getKills())); 
 		return entries;
+	}
+	
+	@Override
+	public StatCategory getCategory() {
+		return StatCategory.ENDLESS;
 	}
 
 }

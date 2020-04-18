@@ -9,5 +9,9 @@ public interface Winner {
 	public Color getColor ();
 	
 	public int getKills ();
+	
+	public int getDeaths();
+	
+	public int getScore();
 
 }

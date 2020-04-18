@@ -44,6 +44,7 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 	private DoubleProperty cooldown = new DoubleProperty(0);
 	private DoubleProperty abilityCooldown = new DoubleProperty(0);
 	private IntProperty kills = new IntProperty(0);
+	private IntProperty deaths = new IntProperty(0);
 	private StringProperty name = new StringProperty("");
 	private BooleanProperty useAbility = new BooleanProperty(false);
 	private BooleanProperty knockedOut = new BooleanProperty(false);
@@ -52,6 +53,8 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 	private IntProperty weapon = new IntProperty(0);
 	private ObservableObjectProperty<ObservableList<Weapon>> weapons = new ObservableObjectProperty<ObservableList<Weapon>>(new ObservableList<>());
 
+	
+	
 	public CharacterComponent(CharacterType character, String name) {
 		super();
 		this.character.set(character);
@@ -193,7 +196,7 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 		shapes.add(new RenderRect(new Vector2D(-width/2, -height * 4), width * bulletsPercent, height, new FixedStyle().reset().setFill(new Color(0.2, 0.2, 1, 1))));
 		//Name
 		shapes.add(new RenderText(new Vector2D(-width/2, -height * 11), getName(), new FixedStyle().reset().setFont(new Font("Consolas", 12))));
-		shapes.add(new RenderText(new Vector2D(-width/2, -height * 9), "Kills: " + getKills(), new FixedStyle().reset().setFont(new Font("Consolas", 12))));
+		shapes.add(new RenderText(new Vector2D(-width/2, -height * 9), "Score: " + (getKills() - getDeaths()), new FixedStyle().reset().setFont(new Font("Consolas", 12))));
 		//Weapon
 		shapes.add(new RenderText(new Vector2D(-width/2 - 0.5, -height * 5), weapon.get() + 1 + "", new FixedStyle().reset().setFont(new Font("Consolas", 32))));
 		
@@ -266,9 +269,11 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 	}
 	
 	public void damage (Level level, CharacterComponent damager, int amount, DamageCause cause) {
+		boolean oldAlive = isAlive();
 		setHp(Math.max(getHp() - amount, 0));
-		if (!isAlive()) {
+		if (oldAlive && !isAlive()) {
 			damager.setKills(damager.getKills() + 1);
+			setDeaths(getDeaths() + 1);
 			ChatComponent chat = level.getComponent(ChatComponent.class);
 			if (chat != null) {
 				String message = "";
@@ -385,6 +390,14 @@ public class CharacterComponent implements ObjectComponent, Damagable {
 	
 	public ObjectProperty<CharacterType> characterProperty () {
 		return character;
+	}
+
+	public int getDeaths() {
+		return deaths.get();
+	}
+
+	public void setDeaths(int deaths) {
+		this.deaths.set(deaths);
 	}
 
 	@Override

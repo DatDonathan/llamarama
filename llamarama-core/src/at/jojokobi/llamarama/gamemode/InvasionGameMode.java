@@ -21,6 +21,7 @@ import at.jojokobi.llamarama.items.HealingGrass;
 import at.jojokobi.llamarama.items.SpitBucket;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import at.jojokobi.llamarama.maps.GameMap;
+import at.jojokobi.llamarama.savegame.StatCategory;
 
 public class InvasionGameMode implements GameMode{
 	
@@ -90,7 +91,8 @@ public class InvasionGameMode implements GameMode{
 		List<ScoreboardEntry> entries = new ArrayList<ScoreboardEntry>();
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
-			entries.add(new SingleScoreboardEntry(ch));
+			PlayerComponent pl = obj.getComponent(PlayerComponent.class);
+			entries.add(new SingleScoreboardEntry(ch, pl == null ? -1 : pl.getClient()));
 		}
 		entries.sort((l, r) -> Integer.compare(r.getKills(), l.getKills())); 
 		return entries;
@@ -131,6 +133,11 @@ public class InvasionGameMode implements GameMode{
 	@Override
 	public String getName() {
 		return "Invasion Mode";
+	}
+	
+	@Override
+	public StatCategory getCategory() {
+		return StatCategory.INVASION;
 	}
 
 }

@@ -106,7 +106,7 @@ public class MainMenuLevel extends Level{
 			//Buttons
 			Button singleplayer = new Button("Singleplayer");
 			singleplayer.setWidthDimension(new PercentualDimension(0.3));
-			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), d, state, "")))));
+			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), "", false, d, state)))));
 			singleplayer.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
 			singleplayer.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
 			//Host
@@ -144,7 +144,7 @@ public class MainMenuLevel extends Level{
 //				} catch (MalformedURLException e1) {
 //					e1.printStackTrace();
 //				}
-				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), d, state, ip), server);
+				return new SimpleServerGameLogic(new GameLevel(new HostBehavior(true), ip, true, d, state), server);
 			})));
 			//IP input
 			TextField ip = new TextField();
@@ -164,7 +164,7 @@ public class MainMenuLevel extends Level{
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
-				return new ClientGameLogic(new GameLevel(new ClientBehavior(), null, state, client.getServerInetAddress() + ""), client);
+				return new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + "", true, null, state), client);
 			})); 
 			
 			box.addChild(singleplayer);
@@ -233,7 +233,7 @@ public class MainMenuLevel extends Level{
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			event.getGame().changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), null, state, client.getServerInetAddress() + ""), client));
+			event.getGame().changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + "", true, null, state), client));
 		}, null);
 	}
 

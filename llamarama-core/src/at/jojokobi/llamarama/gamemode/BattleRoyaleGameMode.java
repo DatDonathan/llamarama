@@ -11,6 +11,7 @@ import java.util.Map;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.TileMapParser;
 import at.jojokobi.donatengine.objects.GameObject;
+import at.jojokobi.donatengine.objects.PlayerComponent;
 import at.jojokobi.donatengine.serialization.binary.SerializationWrapper;
 import at.jojokobi.llamarama.entities.CharacterComponent;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
@@ -20,6 +21,7 @@ import at.jojokobi.llamarama.items.HealingGrass;
 import at.jojokobi.llamarama.items.SpitBucket;
 import at.jojokobi.llamarama.maps.CSVLoadedMap;
 import at.jojokobi.llamarama.maps.GameMap;
+import at.jojokobi.llamarama.savegame.StatCategory;
 
 public class BattleRoyaleGameMode implements GameMode {
 	
@@ -115,11 +117,17 @@ public class BattleRoyaleGameMode implements GameMode {
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
 			if (ch.isAlive()) {
-				entries.add(new SingleScoreboardEntry(ch));
+				PlayerComponent pl = obj.getComponent(PlayerComponent.class);
+				entries.add(new SingleScoreboardEntry(ch, pl == null ? -1 : pl.getClient()));
 			}
 		}
 		entries.sort((l, r) -> Integer.compare(r.getKills(), l.getKills())); 
 		return entries;
+	}
+
+	@Override
+	public StatCategory getCategory() {
+		return StatCategory.DEATH_MATCH;
 	}
 
 }

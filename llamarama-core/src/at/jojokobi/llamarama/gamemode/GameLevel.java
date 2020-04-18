@@ -60,6 +60,9 @@ import at.jojokobi.llamarama.entities.NonPlayerCharacter;
 import at.jojokobi.llamarama.entities.PlayerCharacter;
 import at.jojokobi.llamarama.maps.GameMap;
 import at.jojokobi.llamarama.savegame.GameState;
+import at.jojokobi.llamarama.savegame.GameStatistic;
+import at.jojokobi.llamarama.savegame.GameUser;
+import at.jojokobi.llamarama.savegame.StatCategory;
 
 public class GameLevel extends Level{
 	
@@ -218,12 +221,14 @@ public class GameLevel extends Level{
 		private double time;
 		private boolean running = false;
 		private String connectionString;
+		private boolean online;
 		private UUID partyId = UUID.randomUUID();
 
-		public GameComponent(GameMode gameMode, String connectionString, GameState state, Vector3D startPos, String startArea) {
+		public GameComponent(GameMode gameMode, String connectionString, boolean online, GameState state, Vector3D startPos, String startArea) {
 			super();
 			this.gameMode.set(gameMode);
 			this.connectionString = connectionString;
+			this.online = online;
 			this.state = state;
 			this.startPos = startPos;
 			this.startArea = startArea;
@@ -299,6 +304,19 @@ public class GameLevel extends Level{
 		private void endMatch (Level level, Game game) {	
 			Winner winner = gameMode.get().determineWinner(level, this);
 			level.getComponent(ChatComponent.class).postMessage(winner.getName() + " won the game with " + winner.getKills() + " kills!", 5000);
+			//Set score
+			GameUser user = state.loadCurrentUser();
+			for (ScoreboardEntry entry : gameMode.get().getScoreboardEntries(level, this)) {
+				if (entry.isUser(user, level)) {
+					GameStatistic stat = user.getStatistics().getStat(new StatCategory[] {gameMode.get().getCategory()}, online);
+					stat.setDeaths(stat.getDeaths() + entry.getDeaths());
+					stat.setKills(stat.getKills() + entry.getKills());
+					stat.setHighscore(Math.max(stat.getHighscore(), entry.getScore()));
+					user.getStatistics().putStat(stat, gameMode.get().getCategory(), online);
+					state.getUserDao().update(user);
+					break;
+				}
+			}
 			gameMode.get().endGame(level, this);
 			initGame(level, game);
 		}
@@ -403,7 +421,7 @@ public class GameLevel extends Level{
 				for (ScoreboardEntry entry : entries) {
 					Vector2D dim = GamePlatform.getFontSystem().calculateTextDimensions(entry.getName(), font);
 					shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - width + 2, y), entry.getName(), new FixedStyle().reset().setFont(font)));
-					shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - 30, y), entry.getKills() + "", new FixedStyle().reset().setFont(font)));
+					shapes.add(new RenderText(new Vector2D(cam.getViewWidth() - 30, y), entry.getScore() + "", new FixedStyle().reset().setFont(font)));
 					y += dim.getY();
 				}
 				data.add(new ScreenCanvasRenderData(new Vector2D(0, 0), shapes));
@@ -418,12 +436,12 @@ public class GameLevel extends Level{
 	private String mainArea = "main";
 	
 	
-	public GameLevel(LevelBehavior behavior, GameMode mode, GameState state, String connectionString) {
+	public GameLevel(LevelBehavior behavior, String connectionString, boolean online, GameMode mode, GameState state) {
 		super(behavior);
 		
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
-		GameComponent comp = new GameComponent(mode, connectionString, state, new Vector3D(0, 0, 0), mainArea);
+		GameComponent comp = new GameComponent(mode, connectionString, online, state, new Vector3D(0, 0, 0), mainArea);
 		addComponent(comp);
 		
 		DynamicGUIFactory fact = new DynamicGUIFactory();

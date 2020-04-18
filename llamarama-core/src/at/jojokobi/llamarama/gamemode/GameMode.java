@@ -8,6 +8,7 @@ import at.jojokobi.donatengine.serialization.binary.BinarySerializable;
 import at.jojokobi.llamarama.gamemode.GameLevel.GameComponent;
 import at.jojokobi.llamarama.gamemode.GameLevel.PlayerInformation;
 import at.jojokobi.llamarama.maps.GameMap;
+import at.jojokobi.llamarama.savegame.StatCategory;
 
 public interface GameMode extends BinarySerializable {
 
@@ -32,5 +33,7 @@ public interface GameMode extends BinarySerializable {
 	public List<GameMap> getPossibleMaps ();
 	
 	public String getName();
+	
+	public StatCategory getCategory ();
 	
 }
