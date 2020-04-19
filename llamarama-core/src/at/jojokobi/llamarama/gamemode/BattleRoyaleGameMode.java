@@ -112,11 +112,11 @@ public class BattleRoyaleGameMode implements GameMode {
 	}
 
 	@Override
-	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp) {
+	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp, boolean all) {
 		List<ScoreboardEntry> entries = new ArrayList<ScoreboardEntry>();
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);
-			if (ch.isAlive()) {
+			if (all || ch.isAlive()) {
 				PlayerComponent pl = obj.getComponent(PlayerComponent.class);
 				entries.add(new SingleScoreboardEntry(ch, pl == null ? -1 : pl.getClient()));
 			}

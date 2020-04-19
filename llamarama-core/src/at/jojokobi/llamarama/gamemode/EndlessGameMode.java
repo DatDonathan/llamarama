@@ -115,7 +115,7 @@ public class EndlessGameMode implements GameMode {
 	}
 	
 	@Override
-	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp) {
+	public List<ScoreboardEntry> getScoreboardEntries(Level level, GameComponent comp, boolean all) {
 		List<ScoreboardEntry> entries = new ArrayList<ScoreboardEntry>();
 		for (GameObject obj : level.getObjectsWithComponent(CharacterComponent.class)) {
 			CharacterComponent ch = obj.getComponent(CharacterComponent.class);

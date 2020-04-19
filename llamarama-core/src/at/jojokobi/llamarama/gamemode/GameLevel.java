@@ -305,16 +305,18 @@ public class GameLevel extends Level{
 			Winner winner = gameMode.get().determineWinner(level, this);
 			level.getComponent(ChatComponent.class).postMessage(winner.getName() + " won the game with " + winner.getKills() + " kills!", 5000);
 			//Set score
-			GameUser user = state.loadCurrentUser();
-			for (ScoreboardEntry entry : gameMode.get().getScoreboardEntries(level, this)) {
-				if (entry.isUser(user, level)) {
-					GameStatistic stat = user.getStatistics().getStat(new StatCategory[] {gameMode.get().getCategory()}, online);
-					stat.setDeaths(stat.getDeaths() + entry.getDeaths());
-					stat.setKills(stat.getKills() + entry.getKills());
-					stat.setHighscore(Math.max(stat.getHighscore(), entry.getScore()));
-					user.getStatistics().putStat(stat, gameMode.get().getCategory(), online);
-					state.getUserDao().update(user);
-					break;
+			if (gameMode.get().getCategory() != null) {
+				GameUser user = state.loadCurrentUser();
+				for (ScoreboardEntry entry : gameMode.get().getScoreboardEntries(level, this, true)) {
+					if (entry.isUser(user, level)) {
+						GameStatistic stat = user.getStatistics().getStat(new StatCategory[] {gameMode.get().getCategory()}, online);
+						stat.setDeaths(stat.getDeaths() + entry.getDeaths());
+						stat.setKills(stat.getKills() + entry.getKills());
+						stat.setHighscore(Math.max(stat.getHighscore(), entry.getScore()));
+						user.getStatistics().putStat(stat, gameMode.get().getCategory(), online);
+						state.getUserDao().update(user);
+						break;
+					}
 				}
 			}
 			gameMode.get().endGame(level, this);
@@ -402,7 +404,7 @@ public class GameLevel extends Level{
 			
 			Font font = new Font("Consolas", 16);
 			if (gameMode.get() != null) {
-				List<ScoreboardEntry> entries = gameMode.get().getScoreboardEntries(level, this);
+				List<ScoreboardEntry> entries = gameMode.get().getScoreboardEntries(level, this, false);
 				
 				double width = 0;
 				double height = 4;
