@@ -456,7 +456,7 @@ public class GameLevel extends Level{
 			box.setHeightDimension(new PercentualDimension(1));
 			//Nickname Field
 			TextField nickname = new TextField();
-			nickname.setText("Nickname");
+			nickname.setText(state.getCurrentUser());
 			nickname.setWidthDimension(new PercentualDimension(1));
 			nickname.addStyle(s -> true, new FixedStyle().setBorderRadius(5.0).setFont(new Font("Consolas", 24)));
 			//Character Buttons
