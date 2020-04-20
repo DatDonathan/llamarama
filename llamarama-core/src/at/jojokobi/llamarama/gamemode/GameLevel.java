@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import at.jojokobi.donatengine.Game;
+import at.jojokobi.donatengine.SimpleGameLogic;
 import at.jojokobi.donatengine.event.StartEvent;
 import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
@@ -20,10 +21,12 @@ import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
 import at.jojokobi.donatengine.gui.SimpleGUISystem;
 import at.jojokobi.donatengine.gui.SimpleGUIType;
+import at.jojokobi.donatengine.gui.actions.ChangeLogicAction;
 import at.jojokobi.donatengine.gui.actions.GUIAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
 import at.jojokobi.donatengine.gui.nodes.ListView;
+import at.jojokobi.donatengine.gui.nodes.Text;
 import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.level.ChatComponent;
@@ -31,6 +34,7 @@ import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelArea;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
 import at.jojokobi.donatengine.level.LevelComponent;
+import at.jojokobi.donatengine.level.SingleplayerBehavior;
 import at.jojokobi.donatengine.level.LevelBehavior;
 import at.jojokobi.donatengine.objects.Camera;
 import at.jojokobi.donatengine.objects.GameObject;
@@ -53,6 +57,8 @@ import at.jojokobi.donatengine.style.FixedStyle;
 import at.jojokobi.donatengine.style.Font;
 import at.jojokobi.donatengine.util.Vector2D;
 import at.jojokobi.donatengine.util.Vector3D;
+import at.jojokobi.llamarama.ControlConstants;
+import at.jojokobi.llamarama.MainMenuLevel;
 import at.jojokobi.llamarama.characters.CharacterType;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.CharacterComponent;
@@ -260,7 +266,7 @@ public class GameLevel extends Level{
 			}
 		}
 		
-		private void startMatch (Level level, Game game) {
+		void startMatch (Level level, Game game) {
 			GamePresence presence = new GamePresence();
 			presence.setState("In Match as " + state.getCurrentUser());
 			presence.setDetails(gameMode.get().getName());
@@ -301,7 +307,7 @@ public class GameLevel extends Level{
 			characterChoices.get().clear();
 		}
 		
-		private void endMatch (Level level, Game game) {	
+		void endMatch (Level level, Game game) {	
 			Winner winner = gameMode.get().determineWinner(level, this);
 			level.getComponent(ChatComponent.class).postMessage(winner.getName() + " won the game with " + winner.getKills() + " kills!", 5000);
 			//Set score
@@ -434,13 +440,14 @@ public class GameLevel extends Level{
 	
 	public static final String SELECT_CHARACTER_GUI = "select_character";
 	public static final String LIST_CHARACTERS_GUI = "list_characters";
+	public static final String PAUSE_MENU_GUI = "pause_menu";
 	
 	private String mainArea = "main";
-	
+	private GameState state;
 	
 	public GameLevel(LevelBehavior behavior, String connectionString, boolean online, GameMode mode, GameState state) {
 		super(behavior);
-		
+		this.state = state;
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
 		GameComponent comp = new GameComponent(mode, connectionString, online, state, new Vector3D(0, 0, 0), mainArea);
@@ -514,7 +521,28 @@ public class GameLevel extends Level{
 			
 			return new SimpleGUI(box, LIST_CHARACTERS_GUI, data, client);
 		}));
+		fact.registerGUI(PAUSE_MENU_GUI, new SimpleGUIType<>(Object.class, (data, client) -> {
+			VBox box = new VBox ();
+			box.setWidthDimension(new PercentualDimension(1));
+			
+			//Title
+			Text title = new Text("Menu");
+			title.addStyle(s -> true, new FixedStyle().setFontColor(Color.BLACK).setFont(new Font("Consolas", 72)).setMarginTop(40.0).setMarginBottom(200.0));
+			box.addChild(title);
+			//Buttons
+			Button returnButton = new Button("Return to Main Menu");
+			returnButton.setOnAction(() -> new ChangeLogicAction(() -> new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior(), state))));
+			styleButton(returnButton);
+			
+			return new SimpleGUI(box, PAUSE_MENU_GUI, data, client);
+		}));
 		initGuiSystem(new SimpleGUISystem(fact));
+	}
+	
+	private void styleButton (Button button) {
+		button.setWidthDimension(new PercentualDimension(0.3));
+		button.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
+		button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
 	}
 
 	@Override
@@ -533,6 +561,14 @@ public class GameLevel extends Level{
 				getCamera().setRotationX(getCamera().getRotationX() - 60 * event.getDelta());
 			}
 		}*/
+		//TODO Open GUI on ESC
+		if (event.getInput().getInput().getButton(ControlConstants.PAUSE)) {
+			GameComponent comp = getComponent(GameComponent.class);
+			if (comp.isRunning()) {
+				getComponent(GameComponent.class).endMatch(this, event.getGame());
+			}
+			event.getGame().changeLogic(new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior(), state)));
+		}
 	}
 	
 	@Override

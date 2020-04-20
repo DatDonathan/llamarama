@@ -128,7 +128,7 @@ public class EndlessGameMode implements GameMode {
 	
 	@Override
 	public StatCategory getCategory() {
-		return StatCategory.ENDLESS;
+		return StatCategory.ON_TIME;
 	}
 
 }

@@ -12,6 +12,7 @@ import at.jojokobi.donatengine.GameLogic;
 import at.jojokobi.donatengine.SimpleGameLogic;
 import at.jojokobi.donatengine.SimpleServerGameLogic;
 import at.jojokobi.donatengine.event.StartEvent;
+import at.jojokobi.donatengine.event.UpdateEvent;
 import at.jojokobi.donatengine.gui.DynamicGUIFactory;
 import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
@@ -251,6 +252,14 @@ public class MainMenuLevel extends Level{
 				});
 				buttonBox.addChild(button);
 			}
+			
+			Button returnButton = new Button("Return");
+			styleButton(returnButton);
+			returnButton.addStyle(s -> true, new FixedStyle().setMarginTop(50.0));
+			returnButton.setWidthDimension(new PercentualDimension(1.0));
+			returnButton.setOnAction(() -> new ChangeGUIAction(MAIN_MENU_GUI, null));
+			buttonBox.addChild(returnButton);
+			
 			box.addChild(textBox);
 			box.addChild(buttonBox);
 
@@ -308,6 +317,11 @@ public class MainMenuLevel extends Level{
 			}
 			event.getGame().changeLogic(new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + "", true, null, state), client));
 		}, null);
+	}
+	
+	@Override
+	public void update(UpdateEvent event) {
+		super.update(event);
 	}
 
 }
