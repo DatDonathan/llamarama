@@ -21,6 +21,10 @@ public class GameStatistic implements Cloneable, StructuredSerializable {
 		this.highscore = highscore;
 	}
 
+	public double getKillDeathRatio () {
+		return (double) kills/deaths;
+	}
+	
 	public int getKills() {
 		return kills;
 	}

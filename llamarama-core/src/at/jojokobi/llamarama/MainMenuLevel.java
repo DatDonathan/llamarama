@@ -20,13 +20,14 @@ import at.jojokobi.donatengine.gui.SimpleGUIType;
 import at.jojokobi.donatengine.gui.actions.ChangeGUIAction;
 import at.jojokobi.donatengine.gui.actions.ChangeLogicAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
+import at.jojokobi.donatengine.gui.nodes.HBox;
 import at.jojokobi.donatengine.gui.nodes.Text;
 import at.jojokobi.donatengine.gui.nodes.TextField;
 import at.jojokobi.donatengine.gui.nodes.VBox;
 import at.jojokobi.donatengine.level.Level;
 import at.jojokobi.donatengine.level.LevelBoundsComponent;
-import at.jojokobi.donatengine.level.LevelBehavior;
 import at.jojokobi.donatengine.level.SingleplayerBehavior;
+import at.jojokobi.donatengine.level.LevelBehavior;
 import at.jojokobi.donatengine.net.ClientBehavior;
 import at.jojokobi.donatengine.net.HostBehavior;
 import at.jojokobi.donatengine.objects.Camera;
@@ -45,6 +46,9 @@ import at.jojokobi.llamarama.gamemode.GameMode;
 import at.jojokobi.llamarama.gamemode.InvasionGameMode;
 import at.jojokobi.llamarama.maps.LlamaramaTileMapParser;
 import at.jojokobi.llamarama.savegame.GameState;
+import at.jojokobi.llamarama.savegame.GameStatistic;
+import at.jojokobi.llamarama.savegame.GameUser;
+import at.jojokobi.llamarama.savegame.StatCategory;
 import at.jojokobi.netutil.ServerClientFactory;
 import at.jojokobi.netutil.TCPServerClientFactory;
 import at.jojokobi.netutil.client.Client;
@@ -54,6 +58,7 @@ public class MainMenuLevel extends Level{
 	
 	public static final String MAIN_MENU_GUI = "main_menu";
 	public static final String SELECT_GAME_GUI = "select_game";
+	public static final String STATISTICS_GUI = "statistics";
 	
 	public static final int[][][] PARK_TILEMAP = 
 		{{{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
@@ -106,14 +111,11 @@ public class MainMenuLevel extends Level{
 			//Buttons
 			Button singleplayer = new Button("Singleplayer");
 			singleplayer.setWidthDimension(new PercentualDimension(0.3));
-			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), "", false, d, state)))));
-			singleplayer.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
-			singleplayer.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
+			singleplayer.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(m -> new SimpleGameLogic(new GameLevel(new SingleplayerBehavior(), "", false, m, state)))));
+			styleButton(singleplayer);
 			//Host
 			Button hostGame = new Button("Host Game");
-			hostGame.setWidthDimension(new PercentualDimension(0.3));
-			hostGame.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
-			hostGame.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
+			styleButton(hostGame);
 			hostGame.setOnAction(() -> new ChangeGUIAction(SELECT_GAME_GUI, new SelectGameData(d -> {
 				Server server = null;
 				try {
@@ -153,9 +155,7 @@ public class MainMenuLevel extends Level{
 
 			//Join
 			Button joinGame = new Button("Join Game");
-			joinGame.setWidthDimension(new PercentualDimension(0.3));
-			joinGame.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
-			joinGame.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
+			styleButton(joinGame);
 			joinGame.setOnAction(() -> new ChangeLogicAction(() -> {
 				Client client = null;
 				try {
@@ -166,11 +166,16 @@ public class MainMenuLevel extends Level{
 				}
 				return new ClientGameLogic(new GameLevel(new ClientBehavior(), client.getServerInetAddress() + "", true, null, state), client);
 			})); 
+			//Statistics
+			Button statistics = new Button("Statistics");
+			styleButton(statistics);
+			statistics.setOnAction(() -> new ChangeGUIAction(STATISTICS_GUI, state.loadCurrentUser()));
 			
 			box.addChild(singleplayer);
 			box.addChild(hostGame);
 			box.addChild(ip);
 			box.addChild(joinGame);
+			box.addChild(statistics);
 			
 			return new SimpleGUI(box, MAIN_MENU_GUI, null, clientId);
 		}));
@@ -181,15 +186,83 @@ public class MainMenuLevel extends Level{
 			List<GameMode> modes = Arrays.asList(new InvasionGameMode(), new BattleRoyaleGameMode(16, 60), new EndlessGameMode(8, 60), new DebugMode());
 			for (GameMode mode : modes) {
 				Button button = new Button(mode.getName());
-				button.setWidthDimension(new PercentualDimension(0.3));
-				button.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
-				button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
+				styleButton(button);
 				button.setOnAction(() -> new ChangeLogicAction(() -> d.getLogicSupplier().apply(mode)));
 				box.addChild(button);
 			}
 			return new SimpleGUI(box, SELECT_GAME_GUI, d, id);
 		}));
+		fact.registerGUI(STATISTICS_GUI, new SimpleGUIType<>(GameUser.class, (user, id) -> {
+			HBox box = new HBox();
+			box.setWidthDimension(new PercentualDimension(1.0));
+			box.addStyle(s -> true, new FixedStyle().setPadding(20));
+			//Texts
+			VBox textBox = new VBox();
+			textBox.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setBorderStrength(2.0));
+			textBox.setWidthDimension(new PercentualDimension(0.5));
+			textBox.setHeightDimension(new PercentualDimension(1));
+			
+			Text username = new Text(user.getUsername());
+			username.addStyle(s -> true, new FixedStyle().setFont(new Font("Consolas", 32)).setMarginBottom(50.0));
+			
+			Text kills = new Text("Kills: ");
+			kills.addStyle(s -> true, new FixedStyle().setFont(new Font("Consolas", 32)));
+			Text deaths = new Text("Deaths: ");
+			deaths.addStyle(s -> true, new FixedStyle().setFont(new Font("Consolas", 32)));
+			Text highscore = new Text("Highscore: ");
+			highscore.addStyle(s -> true, new FixedStyle().setFont(new Font("Consolas", 32)));
+			Text kdr = new Text("Kill Death Ratio: ");
+			kdr.addStyle(s -> true, new FixedStyle().setFont(new Font("Consolas", 32)));
+			textBox.addChild(username);
+			textBox.addChild(kills);
+			textBox.addChild(deaths);
+			textBox.addChild(kdr);
+			textBox.addChild(highscore);
+			//Categories
+			VBox buttonBox = new VBox();
+			buttonBox.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setBorderStrength(2.0));
+			buttonBox.setWidthDimension(new PercentualDimension(0.5));
+			buttonBox.setHeightDimension(new PercentualDimension(1));
+			
+			Button allButton = new Button("All");
+			styleButton(allButton);
+			allButton.setWidthDimension(new PercentualDimension(1));
+			allButton.setOnAction(() -> {
+				GameStatistic stat = user.getStatistics().getStat(StatCategory.values(), true, false);
+				kills.setText("Kills: " + stat.getKills());
+				deaths.setText("Deaths: " + stat.getDeaths());
+				kdr.setText(String.format("Kill Death Ratio: %.3f", stat.getKillDeathRatio()));
+				highscore.setText("Highscore: " + stat.getHighscore());
+				return null;
+			});
+			buttonBox.addChild(allButton);
+			
+			for (StatCategory category : StatCategory.values()) {
+				Button button = new Button(category.toString());
+				styleButton(button);
+				button.setWidthDimension(new PercentualDimension(1));
+				button.setOnAction(() -> {
+					GameStatistic stat = user.getStatistics().getStat(new StatCategory[] {category}, true, false);
+					kills.setText("Kills: " + stat.getKills());
+					deaths.setText("Deaths: " + stat.getDeaths());
+					kdr.setText(String.format("Kill Death Ratio: %.3f", stat.getKillDeathRatio()));
+					highscore.setText("Highscore: " + stat.getHighscore());
+					return null;
+				});
+				buttonBox.addChild(button);
+			}
+			box.addChild(textBox);
+			box.addChild(buttonBox);
+
+			return new SimpleGUI(box, STATISTICS_GUI, user, id);
+		}));
 		initGuiSystem(new SimpleGUISystem(fact));
+	}
+	
+	private void styleButton (Button button) {
+		button.setWidthDimension(new PercentualDimension(0.3));
+		button.addStyle(s -> true, new FixedStyle().setFill(Color.CYAN).setBorder(Color.BLUE).setPadding(10).setFontColor(Color.BLACK).setFont(new Font("Consolas", 24)).setMargin(5.0));
+		button.addStyle(s -> s.isHovered(), new FixedStyle().setFill(Color.BLUE));
 	}
 
 	@Override
