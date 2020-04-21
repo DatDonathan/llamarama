@@ -252,6 +252,7 @@ public class MainMenuLevel extends Level{
 				});
 				buttonBox.addChild(button);
 			}
+			allButton.fire();
 			
 			Button returnButton = new Button("Return");
 			styleButton(returnButton);

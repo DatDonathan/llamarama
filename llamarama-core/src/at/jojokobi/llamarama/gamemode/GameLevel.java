@@ -21,7 +21,6 @@ import at.jojokobi.donatengine.gui.PercentualDimension;
 import at.jojokobi.donatengine.gui.SimpleGUI;
 import at.jojokobi.donatengine.gui.SimpleGUISystem;
 import at.jojokobi.donatengine.gui.SimpleGUIType;
-import at.jojokobi.donatengine.gui.actions.ChangeLogicAction;
 import at.jojokobi.donatengine.gui.actions.GUIAction;
 import at.jojokobi.donatengine.gui.nodes.Button;
 import at.jojokobi.donatengine.gui.nodes.HFlowBox;
@@ -114,6 +113,34 @@ public class GameLevel extends Level{
 		@Override
 		public boolean executeOnClient() {
 			return false;
+		}
+		
+	}
+	
+	public static class LeaveGameAction implements GUIAction {
+
+		@Override
+		public void serialize(DataOutput buffer, SerializationWrapper serialization) throws IOException {
+			
+		}
+
+		@Override
+		public void deserialize(DataInput buffer, SerializationWrapper serialization) throws IOException {
+			
+		}
+
+		@Override
+		public void perform(Level level, Game game, long id, GUISystem system) {
+			GameComponent comp = level.getComponent(GameComponent.class);
+			if (comp.isRunning()) {
+				comp.endMatch(level, game);
+			}
+			game.changeLogic(new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior(), comp.state)));
+		}
+
+		@Override
+		public boolean executeOnClient() {
+			return true;
 		}
 		
 	}
@@ -443,11 +470,9 @@ public class GameLevel extends Level{
 	public static final String PAUSE_MENU_GUI = "pause_menu";
 	
 	private String mainArea = "main";
-	private GameState state;
 	
 	public GameLevel(LevelBehavior behavior, String connectionString, boolean online, GameMode mode, GameState state) {
 		super(behavior);
-		this.state = state;
 		addComponent(new ChatComponent());
 		addComponent(new LevelBoundsComponent(new Vector3D(), new Vector3D(128, 64, 128), true));
 		GameComponent comp = new GameComponent(mode, connectionString, online, state, new Vector3D(0, 0, 0), mainArea);
@@ -531,8 +556,9 @@ public class GameLevel extends Level{
 			box.addChild(title);
 			//Buttons
 			Button returnButton = new Button("Return to Main Menu");
-			returnButton.setOnAction(() -> new ChangeLogicAction(() -> new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior(), state))));
+			returnButton.setOnAction(() -> new LeaveGameAction());
 			styleButton(returnButton);
+			box.addChild(returnButton);
 			
 			return new SimpleGUI(box, PAUSE_MENU_GUI, data, client);
 		}));
@@ -562,12 +588,19 @@ public class GameLevel extends Level{
 			}
 		}*/
 		//TODO Open GUI on ESC
-		if (event.getInput().getInput().getButton(ControlConstants.PAUSE)) {
-			GameComponent comp = getComponent(GameComponent.class);
-			if (comp.isRunning()) {
-				getComponent(GameComponent.class).endMatch(this, event.getGame());
+		for (var p : event.getInput().getInputs()) {
+			if (p.getValue().isPressed(ControlConstants.PAUSE)) {
+				if (getGuiSystem().getGUIs().entrySet().stream().allMatch(e -> !p.getKey().equals(e.getValue().getClient()) || !PAUSE_MENU_GUI.equals(e.getValue().getType()))) {
+					getGuiSystem().showGUI(PAUSE_MENU_GUI, null, p.getKey());
+				}
+				else {
+					for (var e : getGuiSystem().getGUIs().entrySet()) {
+						if (p.getKey().equals(e.getValue().getClient()) && PAUSE_MENU_GUI.equals(e.getValue().getType())) {
+							getGuiSystem().removeGUI(e.getKey());
+						}
+					}
+				}
 			}
-			event.getGame().changeLogic(new SimpleGameLogic(new MainMenuLevel(new SingleplayerBehavior(), state)));
 		}
 	}
 	
