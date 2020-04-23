@@ -36,6 +36,7 @@ import at.jojokobi.donatengine.presence.GamePresence;
 import at.jojokobi.donatengine.style.Color;
 import at.jojokobi.donatengine.style.FixedStyle;
 import at.jojokobi.donatengine.style.Font;
+import at.jojokobi.donatengine.util.Pair;
 import at.jojokobi.donatengine.util.Vector3D;
 import at.jojokobi.llamarama.characters.CharacterTypeProvider;
 import at.jojokobi.llamarama.entities.NonPlayerCharacter;
@@ -225,25 +226,19 @@ public class MainMenuLevel extends Level{
 			buttonBox.setWidthDimension(new PercentualDimension(0.5));
 			buttonBox.setHeightDimension(new PercentualDimension(1));
 			
-			Button allButton = new Button("All");
-			styleButton(allButton);
-			allButton.setWidthDimension(new PercentualDimension(1));
-			allButton.setOnAction(() -> {
-				GameStatistic stat = user.getStatistics().getStat(StatCategory.values(), true, false);
-				kills.setText("Kills: " + stat.getKills());
-				deaths.setText("Deaths: " + stat.getDeaths());
-				kdr.setText(String.format("Kill Death Ratio: %.3f", stat.getKillDeathRatio()));
-				highscore.setText("Highscore: " + stat.getHighscore());
-				return null;
-			});
-			buttonBox.addChild(allButton);
-			
+			List<Pair<String, StatCategory[]>> categories = new ArrayList<>();
+			categories.add(new Pair<>("All", StatCategory.values()));
+			categories.add(new Pair<>("All Versus", new StatCategory[] {StatCategory.DEATH_MATCH, StatCategory.ON_TIME}));
 			for (StatCategory category : StatCategory.values()) {
-				Button button = new Button(category.toString());
+				categories.add(new Pair<>(category.getName(), new StatCategory[] {category}));
+			}
+			
+			for (var category : categories) {
+				Button button = new Button(category.getKey());
 				styleButton(button);
 				button.setWidthDimension(new PercentualDimension(1));
 				button.setOnAction(() -> {
-					GameStatistic stat = user.getStatistics().getStat(new StatCategory[] {category}, true, false);
+					GameStatistic stat = user.getStatistics().getStat(category.getValue(), true, false);
 					kills.setText("Kills: " + stat.getKills());
 					deaths.setText("Deaths: " + stat.getDeaths());
 					kdr.setText(String.format("Kill Death Ratio: %.3f", stat.getKillDeathRatio()));
@@ -252,7 +247,7 @@ public class MainMenuLevel extends Level{
 				});
 				buttonBox.addChild(button);
 			}
-			allButton.fire();
+			buttonBox.getChildren().get(0).fire();
 			
 			Button returnButton = new Button("Return");
 			styleButton(returnButton);
