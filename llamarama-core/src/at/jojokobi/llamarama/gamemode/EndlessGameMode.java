@@ -122,7 +122,7 @@ public class EndlessGameMode implements GameMode {
 			PlayerComponent pl = obj.getComponent(PlayerComponent.class);
 			entries.add(new EndlessScoreboardEntry(ch, pl == null ? -1 : pl.getClient()));
 		}
-		entries.sort((l, r) -> Integer.compare(r.getKills(), l.getKills())); 
+		entries.sort((l, r) -> Integer.compare(r.getKills() - r.getDeaths(), l.getKills() - l.getKills())); 
 		return entries;
 	}
 	
